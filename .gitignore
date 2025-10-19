@@ -1,0 +1,24 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# User uploads
+uploads/
+
+# Database files
+DB/
+
+# IDE/editor folders
+.vscode/
+
+# Log files
+*.log
+
+# Skip server2.js as requested
+ca-firm-backend/server2.js
+
+# OS generated files
+.DS_Store
+Thumbs.db

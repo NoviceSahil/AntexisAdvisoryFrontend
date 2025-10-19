@@ -1,0 +1,36 @@
+.service-detail h2 {
+    margin-top: 10px;
+    text-align: center;
+    background-color: #f8f9fa; 
+    font-size: 2rem;
+    color: #7f3c23; /* Primary color */
+    margin-bottom: 40px;
+}
+
+
+
+.service-detail p {
+    font-size: 1rem;
+    text-align: justify;
+    margin-left: 40px;
+    margin-right: 40px;
+    color: #333; /* Dark text color */
+}
+
+.mt-5{
+        margin-top: 50px !important;
+    }
+    .service-icon {
+        color: #7f3c23;
+        font-size: 2.5rem;
+        margin-bottom: rem;
+    }
+    
+    .service-detail {
+        text-align: center;
+        margin-top: 70px;
+        padding: 2rem;
+    }
+    .service-icon i {
+        margin-right: 20px; /* Adds space to the right of each icon */
+    }

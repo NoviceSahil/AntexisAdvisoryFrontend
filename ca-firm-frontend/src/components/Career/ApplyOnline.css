@@ -1,0 +1,144 @@
+.career-container {
+    max-width: 1200px;
+    margin: 6.25rem auto;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #f5f7fa  0%, #c3cfe2  100%);
+    border-radius: 1rem;
+  }
+
+  .career-title{
+    color:#7f3c23;
+  }
+  
+  .apply-form-section {
+    color:#7f3c23;
+    display: flex;
+    margin-top: 30px;
+    gap: 20px;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  
+  .one_third {
+    flex: 1;
+    width: 31%;
+    min-width: 200px;
+  }
+  
+  .one_half {
+    flex: 1;
+    width: 48%;
+    min-width: 300px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.8rem;
+    color: #b06a50;
+    border: 2px solid #e1e1e1;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  textarea {
+    height: 100px;
+  }
+  
+  @media (max-width: 768px) {
+    .apply-form-section {
+      flex-direction: column;
+    }
+    
+    .one_third, 
+    .one_half {
+      width: 100%;
+    }
+  }
+  
+  input[type="submit"] {
+    background-color: #7f3c23;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    width: 300px;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #b06a50;
+  }
+  
+  .custom-paragraph {
+    text-align: center;
+    color:#7f3c23;
+  }
+  
+  /* Replace the existing blue colors (#0651a0, #043c7c) with the new color scheme */
+
+.source-link {
+  color: #b06a50;
+  border: 1px solid #b06a50;
+}
+
+.source-link:hover {
+  background: #7f3c23;
+  color: white;
+}
+
+.author-info i, .date-info i {
+  color: #b06a50;
+}
+
+.key-points li:before {
+  color: #b06a50;
+}
+
+.cta-button {
+  background-color: #b06a50;
+}
+
+.cta-button:hover {
+  background-color: #7f3c23;
+}
+
+.blog-text::-webkit-scrollbar-thumb {
+  background-color: #b06a50;
+}
+
+.role-badge {
+  background-color: #b06a50;
+}
+
+select option:checked,
+select option:hover,
+select option:focus {
+    background-color: #b06a50 !important;
+    color: white !important;
+}
+
+select:focus {
+    border-color: #b06a50;
+    outline-color: #b06a50;
+    box-shadow: 0 0 0 2px rgba(176, 106, 80, 0.2);
+}
+
+/* For Firefox */
+select {
+    scrollbar-color: #b06a50 #f0f0f0;
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+select::-webkit-scrollbar-thumb {
+    background-color: #b06a50;
+    border-radius: 4px;
+}

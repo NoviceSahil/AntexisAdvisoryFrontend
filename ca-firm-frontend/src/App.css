@@ -1,0 +1,54 @@
+body {
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.container {
+  padding: 1.25rem;
+}
+
+.btn-custom {
+  background-color: #7f3c23;
+  color: white; 
+  transition: background-color 0.3s, transform 0.3s; 
+}
+
+.btn-custom:hover {
+  background-color: #7f3c23;
+  transform: scale(1.05);
+}
+
+.service-card {
+  border: 1px solid #dee2e6; 
+  border-radius: 0.625rem; 
+  padding: 0.9375rem; 
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-0.625rem); 
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.2); 
+}
+
+input, textarea {
+  margin-bottom: 0.625rem;
+}
+
+button[type="submit"] {
+  background-color: #7f3c23;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background-color:brown  ; 
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn ease 1s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
