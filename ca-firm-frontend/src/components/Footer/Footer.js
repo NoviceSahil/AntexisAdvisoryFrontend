@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin, FaArrowUp } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.pageYOffset > 300) {
+                setShowScrollTop(true);
+            } else {
+                setShowScrollTop(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return (
         <div className="site-primary-footer-wrap">
             <Container className="footer-container">
@@ -23,7 +45,7 @@ const Footer = () => {
                         <aside className="footer-widget-area widget-area" aria-label="Footer Widget 2">
                             <h4 className="widget-title">Follow Us</h4>
                             <div className="footer-social-inner-wrap">
-                                <a href="www.facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer" style={{ color: '#557dbc' }}>
+                                <a href="www.linkedin.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer" style={{ color: '#557dbc' }}>
                                     <FaLinkedin />
                                 </a>
                                 {/* <a href="www.x.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer" style={{ color: '#7acdee' }}>
@@ -81,7 +103,7 @@ const Footer = () => {
                             <div className="ast-footer-copyright">
                                 <p>
                                     <span style={{ fontSize: '10pt', color:'#fff'}}>
-                                        Copyright © 2024
+                                        Copyright © 2025
                                         <span style={{ color: '#fff' }}>
                                             {' '}
                                             <a style={{ color: '#fff' }} href="https://www.ankitgaba.com/">Ankita &amp; Co.</a>
@@ -92,6 +114,17 @@ const Footer = () => {
                     </div>
                 </Container>
             </div>
+
+            {/* Scroll to Top Button */}
+            {showScrollTop && (
+                <button 
+                    className="scroll-to-top"
+                    onClick={scrollToTop}
+                    aria-label="Scroll to top"
+                >
+                    <FaArrowUp />
+                </button>
+            )}
         </div> 
     );
 };

@@ -6,6 +6,7 @@ import {AuditIcon1, BookIcon3, BusinessIcon2, Tax4, Transfer5, Finance6, Warning
 import axios from 'axios';
 import { useEffect, useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/api';
 
 
 const Home = () => {
@@ -72,7 +73,7 @@ const Home = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/blogs');
+                const response = await axios.get(API_ENDPOINTS.BLOGS);
                 setBlogs(response.data);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
@@ -106,7 +107,7 @@ const Home = () => {
                         <div className="blog-icon">
                             {blog.image_url ? (
                                 <img 
-                                    src={`http://localhost:5000/uploads/blog-images/${blog.image_url}`}
+                                    src={`${API_ENDPOINTS.BLOG_IMAGES}/${blog.image_url}`}
                                     alt={blog.title}
                                     className="blog-thumbnail"
                                 />

@@ -40,3 +40,56 @@
 .team-member-position {
     color: #555; 
 }
+
+/* Mobile responsiveness for Team */
+@media (max-width: 768px) {
+    .team-section {
+        padding: 1.5rem 1rem;
+        margin-top: 80px;
+    }
+    
+    .team-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .team-card {
+        width: calc(100% - 1rem);
+        margin: 0.75rem 0.5rem;
+        padding: 1rem;
+    }
+    
+    .team-member-name {
+        font-size: 1.1rem;
+    }
+    
+    .team-member-position {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-section {
+        padding: 1rem 0.5rem;
+        margin-top: 70px;
+    }
+    
+    .team-title {
+        font-size: 1.7rem;
+        margin-bottom: 1rem;
+    }
+    
+    .team-card {
+        width: calc(100% - 0.5rem);
+        margin: 0.5rem 0.25rem;
+        padding: 0.75rem;
+    }
+    
+    .team-member-name {
+        font-size: 1rem;
+    }
+    
+    .team-member-position {
+        font-size: 0.85rem;
+    }
+}

@@ -1,6 +1,12 @@
 body {
   background-color: #f8f9fa;
   color: #343a40;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: all 0.3s ease;
 }
 
 .container {
@@ -51,4 +57,144 @@ button[type="submit"]:hover {
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Enhanced touch interactions */
+.touch-feedback {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.touch-feedback:active {
+  transform: scale(0.98);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced mobile UX animations and effects */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem 0.25rem;
+  }
+  
+  .service-card {
+    padding: 0.75rem !important;
+    margin: 8px 0 !important;
+  }
+  
+  .btn-custom {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  input, textarea {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ensure proper spacing for mobile layouts */
+@media (max-width: 768px) {
+  .fade-in {
+    animation-duration: 0.8s;
+  }
+}
+
+/* Ensure main content is below fixed navbar */
+main, .main-content {
+  margin-top: 120px; /* Adjust based on navbar height */
+}
+
+/* Container improvements for mobile */
+.container-fluid {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  main, .main-content {
+    margin-top: 100px;
+  }
+  
+  /* Ensure page titles are visible below navbar */
+  h1, h2, .section-title, .all-heading, .services-title, .career-title {
+    scroll-margin-top: 100px;
+  }
+  
+  .container-fluid {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+  
+  /* Mobile touch optimization */
+  button, .btn, .nav-link, .cta-button {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  a, button, input, select, textarea {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .btn, button, .nav-link, .service-card {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  body {
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%;
+  }
 }

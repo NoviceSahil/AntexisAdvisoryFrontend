@@ -1,3 +1,10 @@
+// Polyfill for Object.hasOwn (for Node.js < 16.9.0)
+if (!Object.hasOwn) {
+  Object.hasOwn = function(obj, prop) {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+  };
+}
+
 const express = require('express');
 const app = express();
 

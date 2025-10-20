@@ -22,3 +22,7 @@ ca-firm-backend/server2.js
 # OS generated files
 .DS_Store
 Thumbs.db
+ca-firm-frontend/API_CONFIGURATION.md
+ca-firm-frontend/DEPLOYMENT_GUIDE.md
+ca-firm-frontend/MOBILE_IMPROVEMENTS.md
+ca-firm-frontend/FOOTER_IMPROVEMENTS.md

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './BlogPage.css';
+import { API_ENDPOINTS } from '../../config/api';
 
 const BlogPage = () => {
     const { id } = useParams();
@@ -10,7 +11,7 @@ const BlogPage = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/blogs/${id}`);
+                const response = await axios.get(API_ENDPOINTS.BLOG_BY_ID(id));
                 setBlog(response.data);
             } catch (error) {
                 console.error('Error fetching blog:', error);
@@ -29,7 +30,7 @@ const BlogPage = () => {
                     <div className="blog-image-container">
                         {blog.image_url && (
                             <img 
-                                src={`http://localhost:5000/uploads/blog-images/${blog.image_url}`}
+                                src={`${API_ENDPOINTS.BLOG_IMAGES}/${blog.image_url}`}
                                 alt={blog.title}
                                 className="blog-image"
                             />
@@ -45,7 +46,7 @@ const BlogPage = () => {
                         </div>
                         {blog.document_url && (
                             <a 
-                                href={`http://localhost:5000/uploads/blog-documents/${blog.document_url}`}
+                                href={`${API_ENDPOINTS.BLOG_DOCUMENTS}/${blog.document_url}`}
                                 className="document-link"
                                 target="_blank"
                                 rel="noopener noreferrer"

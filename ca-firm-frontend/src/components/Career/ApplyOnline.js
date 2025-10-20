@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './ApplyOnline.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS, MULTIPART_CONFIG } from '../../config/api';
 
 
 const ApplyOnline = ({ setIsSubmitted }) => {
@@ -45,12 +46,7 @@ const ApplyOnline = ({ setIsSubmitted }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/apply', formData,
-      {
-      headers: {
-        'Content-Type': 'multipart/form-data', 
-      },
-    });
+      const response = await axios.post(API_ENDPOINTS.APPLY, formData, MULTIPART_CONFIG);
       
       setIsSubmitted(true);
       console.log(response.data);

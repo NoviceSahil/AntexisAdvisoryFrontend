@@ -134,24 +134,62 @@
   @media (max-width: 768px) {
     .contact-container {
       padding: 4rem 1rem;
+      padding-top: 120px;
+      animation: slideUp 0.8s ease-out;
     }
     
     .all-heading {
       font-size: 2rem;
+      margin-top: 20px;
     }
     
     .contact-form {
       padding: 1.5rem;
+      animation: slideUp 0.6s ease-out 0.3s both;
+    }
+    
+    .form-control:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(127, 60, 35, 0.15);
+    }
+    
+    .btn-custom {
+      touch-action: manipulation;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-custom:active {
+      transform: scale(0.98);
     }
   }
   
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  input[type="date"],
-  select,
-  textarea {
-    
-    color: #b06a50 !important;
-    
+  /* Enhanced mobile UX for contact form */
+@media (max-width: 768px) {
+  .contact-container {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .contact-form {
+    animation: slideUp 0.6s ease-out 0.3s both;
+  }
+  
+  .form-control:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(127, 60, 35, 0.15);
+  }
+  
+  .form-control:active {
+    transform: scale(1.02);
+  }
+  
+  .btn-custom {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  
+    .btn-custom:active {
+      transform: scale(0.98);
+    }
   }

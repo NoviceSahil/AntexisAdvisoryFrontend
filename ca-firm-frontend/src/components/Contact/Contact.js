@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Contact.css';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../../config/api';
 
 const Contact = ({setIsSubmitted}) => {
     const [name, setName] = useState('');
@@ -13,7 +14,7 @@ const Contact = ({setIsSubmitted}) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
-            const response= await axios.post('/api/contact', {name,email,subject,message });
+            const response= await axios.post(API_ENDPOINTS.CONTACT, {name,email,subject,message });
             setIsSubmitted(true);
             console.log({ response });
             navigate('/contact-success');
