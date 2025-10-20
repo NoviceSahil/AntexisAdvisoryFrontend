@@ -134,11 +134,13 @@
   @media (max-width: 768px) {
     .contact-container {
       padding: 4rem 1rem;
+      padding-top: 120px;
       animation: slideUp 0.8s ease-out;
     }
     
     .all-heading {
       font-size: 2rem;
+      margin-top: 20px;
     }
     
     .contact-form {
