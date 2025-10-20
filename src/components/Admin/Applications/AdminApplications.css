@@ -1,0 +1,27 @@
+.admin-applications {
+    margin-top: 80px;
+    padding: 20px;
+}
+
+.admin-applications h2 {
+    margin-bottom: 20px;
+}
+
+.admin-applications table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-applications th,
+.admin-applications td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.admin-applications th {
+    background-color: #f2f2f2;
+}
+
+.admin-applications tr:hover {
+    background-color: #f1f1f1;
+}

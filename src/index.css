@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Global responsive container */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure all containers are responsive */
+.container, .container-fluid {
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Fix any potential horizontal overflow */
+@media (max-width: 768px) {
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .col, .col-md-6, .col-lg-4, .col-sm-12 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Fix tables on mobile */
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  /* Ensure text doesn't overflow */
+  .text-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Enhanced mobile scroll behavior */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Better button spacing for touch */
+  .btn + .btn {
+    margin-left: 0.5rem;
+  }
+  
+  /* Improved card animations */
+  .card, .service-card, .blog-card {
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+}
