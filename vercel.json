@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd ca-firm-frontend && npm install && npm run build",
+  "outputDirectory": "ca-firm-frontend/build",
+  "framework": "create-react-app",
+  "installCommand": "cd ca-firm-frontend && npm install"
+}
