@@ -10,14 +10,14 @@ uploads/
 # Database files
 DB/
 
-# Backend folder - frontend only repo
-ca-firm-backend/
-
 # IDE/editor folders
 .vscode/
 
 # Log files
 *.log
+
+# Skip server2.js as requested
+ca-firm-backend/server2.js
 
 # OS generated files
 .DS_Store
