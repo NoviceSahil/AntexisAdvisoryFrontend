@@ -3,7 +3,7 @@
     text-align: center;
     background-color: #f8f9fa; 
     font-size: 2rem;
-    color: #7f3c23; /* Primary color */
+    color: #4682B4; /* Primary color */
     margin-bottom: 40px;
 }
 
@@ -21,7 +21,7 @@
         margin-top: 50px !important;
     }
     .service-icon {
-        color: #7f3c23;
+        color: #4682B4;
         font-size: 2.5rem;
         margin-bottom: rem;
     }

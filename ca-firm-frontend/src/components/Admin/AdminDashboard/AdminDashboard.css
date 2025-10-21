@@ -6,7 +6,7 @@
   }
   
   .dashboard-header {
-    background-color: #7f3c23;
+    background-color: #4682B4;
     text-align: center;
     color: white;
     padding: 1.25rem;
@@ -28,7 +28,7 @@
   }
   
   .dashboard-section h2 {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
     color: white;
     margin: 0;
     padding: 0.9375rem;
@@ -57,7 +57,7 @@
   }
   
   .dashboard-table a {
-    color: #b06a50;
+    color: #5a9fd4;
     text-decoration: none;
   }
   
@@ -84,7 +84,7 @@
   }
   
   .export-button {
-    background-color: #7f3c23;
+    background-color: #4682B4;
     color: white;
     padding:0.0625rem;
     border: none;
@@ -94,7 +94,7 @@
   }
   
   .export-button:hover {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
   }
   
   .delete-button {
@@ -127,7 +127,7 @@
 }
 
 .add-button {
-  background-color: #7f3c23;
+  background-color: #4682B4;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -139,7 +139,7 @@
 }
 
 .add-button:hover {
-  background-color: #852f10;
+  background-color: #6ca6d8;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

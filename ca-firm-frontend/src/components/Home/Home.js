@@ -19,49 +19,49 @@ const Home = () => {
             id: 1,
             title: "Audit and Assurance",
             link: "/service/audit-and-assurance/",
-            icon: <AuditIcon1 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <AuditIcon1 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 2,
             title: "Business Advisory & Internal Audit",
             link: "/service/business-advisory-internal-audit/",
-            icon: <BusinessIcon2 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <BusinessIcon2 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 3,
             title: "Book Keeping and Outsourcing",
             link: "/service/book-keeping-and-outsourcing/",
-            icon: <BookIcon3 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <BookIcon3 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 4,
             title: "Goods & Services Tax (GST)",
             link: "/service/good-services-tax/",
-            icon: <Tax4 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <Tax4 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 5,
             title: "Transfer Pricing",
             link: "/service/transfer-pricing/",
-            icon: <Transfer5 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <Transfer5 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 6,
             title: "Corporate Financial Advisory",
             link: "/service/corporate-financial-advisory/",
-            icon: <Finance6 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />,
+            icon: <Finance6 style={{ width: '40px', height: '40px', color: '#4682B4' }} />,
         },
         {
             id: 7,
             title: "Risk Advisory",
             link: "/service/risk-advisory/",
-            icon: <Warning7 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />
+            icon: <Warning7 style={{ width: '40px', height: '40px', color: '#4682B4' }} />
         },
         {
             id: 8,
             title: "Corporate Law & Secretarial Support",
             link: "/service/corporate-law-secretarial-support/",
-            icon: <Law8 style={{ width: '40px', height: '40px', color: '#8d6e63' }} />,
+            icon: <Law8 style={{ width: '40px', height: '40px', color: '#4682B4' }} />,
             image: "/path/to/legal-support-image.jpg" 
         },
     ];
@@ -88,11 +88,27 @@ const Home = () => {
     
 
     return (
+        <div className="home-wrapper">
+            {/* Hero Section */}
+            <section className="hero-banner fade-in-up">
+                <div className="hero-content">
+                    <h1 className="hero-title">Excellence in Financial Consulting</h1>
+                    <p className="hero-subtitle">
+                        Trusted advisors navigating the complexities of today's business landscape 
+                        with integrity, expertise, and innovation
+                    </p>
+                    <div className="hero-buttons">
+                        <a href="/contact" className="btn-custom btn-primary-custom">Get Started</a>
+                        <a href="/services" className="btn-custom btn-primary-custom">Our Services</a>
+                    </div>
+                </div>
+            </section>
+
         <Container className="home-container">
-           <div className="content-grid">
+           <div className="content-grid fade-in-up">
     <div className="combined-section">
     <div className="articles-corner">
-    <h2 className="section-title">
+    <h2 className="section-title-small">
         <i className="fas fa-newspaper"></i> Latest Updates
     </h2>
     <div className="blogs-container">
@@ -133,7 +149,7 @@ const Home = () => {
 
 
         
-        <div className="about-content">
+        <div className="about-content" id="about-us">
             <h1 className="section-title">About Us</h1>
             <p className="about-text">
                 Our core strength lies in our exceptional execution capabilities, accessibility, and approachability with clients.
@@ -147,20 +163,40 @@ const Home = () => {
                 <li>Extensive industry knowledge for sound business advice.</li>
                 <li>Complete transparency in our processes.</li>
             </ul>
-            <div className="cta-section">
+            {/* <div className="cta-section">
                 <a className="cta-button" href="/contact">Contact Us</a>
-            </div>
+            </div> */}
         </div>
     </div>
 </div>
+{/* Statistics Section */}
+            <section className="stats-section fade-in-up">
+                <div className="stats-container">
+                    <div className="stat-item">
+                        <span className="stat-number">8+</span>
+                        <span className="stat-label">Years of Excellence</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-number">250+</span>
+                        <span className="stat-label">Clients Served</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-number">98%</span>
+                        <span className="stat-label">Client Satisfaction</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-number">25+</span>
+                        <span className="stat-label">Expert Professionals</span>
+                    </div>
+                </div>
+            </section>
 
-            <div className="services-section mt-5">
+            <div className="services-section mt-5 fade-in-up">
                 <h2 className="services-title text-center">Our Services</h2>
                 <div className="services-list">
-                    {services.map(service => (
-                        <div key={service.id} className="service-card">
+                    {services.map((service, index) => (
+                        <div key={service.id} className="service-card service-card-animate" style={{ animationDelay: `${index * 0.1}s` }}>
                             {service.icon} 
-                            {/* <img src={service.image} alt={service.title} className="service-image" /> */}
                             <h5 className="service-title">
                                 <a href={service.link} className="link--external">{service.title}</a>
                             </h5>
@@ -169,6 +205,7 @@ const Home = () => {
                 </div>
             </div>
         </Container>
+        </div>
     );
 };
 

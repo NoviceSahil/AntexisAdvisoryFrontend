@@ -11,7 +11,7 @@
 }
 
 .status-badge.active {
-  background-color: #7f3c23;
+  background-color: #4682B4;
   color: white;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .show-button {
-  background-color: #7f3c23;
+  background-color: #4682B4;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
@@ -43,7 +43,7 @@
 }
 
 .show-button:hover {
-  background-color: #b06a50;
+  background-color: #5a9fd4;
   transform: translateY(-2px);
 }
 
@@ -53,13 +53,13 @@
 }
 
 .download-link {
-  color: #7f3c23;
+  color: #4682B4;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .download-link:hover {
-  color: #b06a50;
+  color: #5a9fd4;
   text-decoration: underline;
 }
 

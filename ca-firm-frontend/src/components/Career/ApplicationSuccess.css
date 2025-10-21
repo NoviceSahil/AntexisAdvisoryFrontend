@@ -11,7 +11,7 @@
   
   .success-message {
     font-size: 2.5rem;
-    color: #7f3c23;
+    color: #4682B4;
     margin-bottom: 1rem;
     animation: fadeInDown 0.5s ease-out;
   }
@@ -31,7 +31,7 @@
   }
   
   .home-link {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
     color: white;
     padding: 0.8rem 1.5rem;
     text-decoration: none;
@@ -42,7 +42,7 @@
   }
   
   .home-link:hover {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
   }
   
   @keyframes fadeInDown {

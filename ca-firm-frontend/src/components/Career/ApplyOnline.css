@@ -7,11 +7,11 @@
   }
 
   .career-title{
-    color:#7f3c23;
+    color:#4682B4;
   }
   
   .apply-form-section {
-    color:#7f3c23;
+    color:#4682B4;
     display: flex;
     margin-top: 30px;
     gap: 20px;
@@ -46,7 +46,7 @@
   textarea {
     width: 100%;
     padding: 0.8rem;
-    color: #b06a50;
+    color: #5a9fd4;
     border: 2px solid #e1e1e1;
     border-radius: 0.5rem;
     font-size: 0.9rem;
@@ -61,8 +61,8 @@
   input[type="date"]:focus,
   select:focus,
   textarea:focus {
-    border-color: #7f3c23;
-    box-shadow: 0 0 0 3px rgba(127, 60, 35, 0.1);
+    border-color: #4682B4;
+    box-shadow: 0 0 0 3px rgba(70, 130, 180, 0.1);
     transform: translateY(-2px);
   }
 
@@ -239,7 +239,7 @@
   }
   
   input[type="submit"] {
-    background-color: #7f3c23;
+    background-color: #4682B4;
     color: white;
     padding: 0.625rem 1.25rem;
     border: none;
@@ -253,9 +253,9 @@
   }
   
   input[type="submit"]:hover {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(127, 60, 35, 0.3);
+    box-shadow: 0 4px 15px rgba(70, 130, 180, 0.3);
   }
   
   input[type="submit"]:active {
@@ -264,66 +264,66 @@
   
   .custom-paragraph {
     text-align: center;
-    color:#7f3c23;
+    color:#4682B4;
   }
   
-  /* Replace the existing blue colors (#0651a0, #043c7c) with the new color scheme */
+  /* Replace the existing blue colors (#4682B4, #043c7c) with the new color scheme */
 
 .source-link {
-  color: #b06a50;
-  border: 1px solid #b06a50;
+  color: #5a9fd4;
+  border: 1px solid #5a9fd4;
 }
 
 .source-link:hover {
-  background: #7f3c23;
+  background: #4682B4;
   color: white;
 }
 
 .author-info i, .date-info i {
-  color: #b06a50;
+  color: #5a9fd4;
 }
 
 .key-points li:before {
-  color: #b06a50;
+  color: #5a9fd4;
 }
 
 .cta-button {
-  background-color: #b06a50;
+  background-color: #5a9fd4;
 }
 
 .cta-button:hover {
-  background-color: #7f3c23;
+  background-color: #4682B4;
 }
 
 .blog-text::-webkit-scrollbar-thumb {
-  background-color: #b06a50;
+  background-color: #5a9fd4;
 }
 
 .role-badge {
-  background-color: #b06a50;
+  background-color: #5a9fd4;
 }
 
 select option:checked,
 select option:hover,
 select option:focus {
-    background-color: #b06a50 !important;
+    background-color: #5a9fd4 !important;
     color: white !important;
 }
 
 select:focus {
-    border-color: #b06a50;
-    outline-color: #b06a50;
+    border-color: #5a9fd4;
+    outline-color: #5a9fd4;
     box-shadow: 0 0 0 2px rgba(176, 106, 80, 0.2);
 }
 
 /* For Firefox */
 select {
-    scrollbar-color: #b06a50 #f0f0f0;
+    scrollbar-color: #5a9fd4 #f0f0f0;
 }
 
 /* For Webkit browsers (Chrome, Safari) */
 select::-webkit-scrollbar-thumb {
-    background-color: #b06a50;
+    background-color: #5a9fd4;
     border-radius: 4px;
 }
 

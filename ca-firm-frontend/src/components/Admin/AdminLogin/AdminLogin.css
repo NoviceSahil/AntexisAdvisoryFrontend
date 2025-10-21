@@ -24,7 +24,7 @@
 }
 
 .admin-login-title {
-  color: #7f3c23;
+  color: #4682B4;
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -52,7 +52,7 @@
 }
 
 .input-group input:focus {
-  border-color: #7f3c23;
+  border-color: #4682B4;
   box-shadow: 0 0 0 4px rgba(6, 81, 160, 0.1);
   outline: none;
 }
@@ -73,7 +73,7 @@
 .input-group input:not(:placeholder-shown) + label {
   top: 0;
   font-size: 0.875rem;
-  color: #b06a50;
+  color: #5a9fd4;
 }
 .logout-button {
   position: absolute;
@@ -82,7 +82,7 @@
   width: 6.75rem;
   display: block;
   padding: 0.5rem 1rem;
-  background: linear-gradient(to right, #b06a50, #7f3c23);
+  background: linear-gradient(to right, #5a9fd4, #4682B4);
   color: white !important;
   text-decoration: none;
   font-size: 0.8rem;
@@ -99,7 +99,7 @@
 .logout-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(to right, #7f3c23, #b06a50);
+  background: linear-gradient(to right, #4682B4, #5a9fd4);
 }
 
 .logout-button:active {

@@ -94,9 +94,8 @@ function App() {
                         <Route path="/contact-success" element={<ContactSuccess />} />
                     </Route>
                 </Routes>
-
+                <Footer />
             </Router>
-            <Footer />
         </ErrorBoundary>
     );
 }

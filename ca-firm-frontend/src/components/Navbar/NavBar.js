@@ -52,28 +52,23 @@ const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
             <Navbar.Brand href="/" className="navbar-title" onClick={handleNavLinkClick}>
                 <div className="brand-container"> 
                     <img src={caIcon} alt="CA Icon" className="ca-icon" />
-                    Antexis Advisory 
+                    Antexis Advisory LLP
                 </div>
             </Navbar.Brand>
+            
+            
+            
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <div className="contact-info">
+                {/* Contact info for mobile - shown in collapse menu */}
+                <div className="contact-info-mobile">
                     <div className="contact-card">
-                        <a href="mailto:info@example.com" className="contact-item">
-                            <FaEnvelope /> Email: ankitaarora949@gmail.com</a>
-                        <span> | </span>
-                            <FaPhone /> Phone: +91 9671647839
+                        <a href="mailto:office@antexisadvisory.com" className="contact-item">
+                            <FaEnvelope className="contact-icon" />
+                            <span className="contact-text">office@antexisadvisory.com</span>
+                        </a>
                     </div>
                 </div>
-
-{/* <div className="admin-login">
-      {(sessionStorage.getItem('isAdmin') === 'true' || 
-        sessionStorage.getItem('isSuperAdmin') === 'true') ? (
-        <button onClick={handleLogout} className="logout-button">Logout</button>
-      ) : (
-        <a href="/admin/login" className="admin-login-link">AdminLogin</a>
-      )}
-    </div> */}
 
                 <div className="tabs-container">
                     <Nav className="me-auto">
@@ -101,6 +96,15 @@ const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
                         <Nav.Link href="/contact" onClick={handleNavLinkClick}>CONTACT US</Nav.Link>
                     </Nav>
                 </div>
+                {/* Contact card positioned outside collapse for desktop */}
+            <div className="contact-info-desktop">
+                <div className="contact-card">
+                    <a href="mailto:office@antexisadvisory.com" className="contact-item">
+                        <FaEnvelope className="contact-icon" />
+                        <span className="contact-text">office@antexisadvisory.com</span>
+                    </a>
+                </div>
+            </div>
             </Navbar.Collapse>
         </Navbar>
     );

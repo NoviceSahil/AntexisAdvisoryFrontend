@@ -12,7 +12,7 @@
 }
 
 .blog-content h1 {
-    color: #7f3c23;
+    color: #4682B4;
     font-size: 2.8rem;
     margin-bottom: 2rem;
     font-weight: 800;
@@ -29,7 +29,7 @@
     transform: translateX(-50%);
     width: 100px;
     height: 3px;
-    background: #7f3c23;
+    background: #4682B4;
 }
 
 .blog-layout {
@@ -86,19 +86,19 @@
     align-items: center;
     gap: 0.8rem;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #7f3c23, #852f10);
+    background: linear-gradient(135deg, #4682B4, #6ca6d8);
     color: white;
     text-decoration: none;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(127, 60, 35, 0.2);
+    box-shadow: 0 4px 15px rgba(70, 130, 180, 0.2);
 }
 
 .document-link:hover {
-    background: linear-gradient(135deg, #852f10, #7f3c23);
+    background: linear-gradient(135deg, #6ca6d8, #4682B4);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(127, 60, 35, 0.3);
+    box-shadow: 0 6px 20px rgba(70, 130, 180, 0.3);
 }
 
 @media (max-width: 768px) {

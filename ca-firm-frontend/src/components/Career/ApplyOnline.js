@@ -127,7 +127,7 @@ const ApplyOnline = ({ setIsSubmitted }) => {
               </select>
             </p>
           </div>
-          <div className="custom-paragraph">
+          <div className="custom-paragraph mt-4">
             <p>Upload your Resume: <input type="file" name="resume" onChange={handleFileChange} accept=".jpg,.png,.jpeg,.pdf" required /></p>
           </div>
         </div>
@@ -142,7 +142,7 @@ const ApplyOnline = ({ setIsSubmitted }) => {
     DOWNLOAD CANDIDATE PROFILE FORM
   </a>
 </p> */}
-<p className="custom-paragraph">For any other inquiries please mail at: ankitagaba@gmail.com</p>
+<p className="custom-paragraph">For any other inquiries please mail at: <a href="mailto:office@antexisadvisory.com">office@antexisadvisory.com</a></p>
 
         <p className="custom-paragraph"><input type="submit" value="Send" /></p>
       </form>
