@@ -27,6 +27,7 @@ import ContactSuccess from './components/Contact/ContactSuccess';
 import SuperAdminDashboard from './components/Admin/SuperAdmin/SuperAdminDashboard';
 import ProtectedAdminRoute from './components/ProtectedRoute/ProtectedAdminRoute';
 import BlogPage from './components/BlogPage/BlogPage';
+import WhatsAppWidget from './components/WhatsAppWidget/WhatsAppWidget';
 
 function App() {
     const [isApplyOnlineSubmitted, setIsApplyOnlineSubmitted] = useState(false);
@@ -95,6 +96,7 @@ function App() {
                     </Route>
                 </Routes>
                 <Footer />
+                <WhatsAppWidget />
             </Router>
         </ErrorBoundary>
     );
