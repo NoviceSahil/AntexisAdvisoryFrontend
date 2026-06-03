@@ -9,18 +9,10 @@ const PHONE = '+91 98765 43210';
 const EMAIL = 'office@antexisadvisory.com';
 const HOURS = 'Mon–Sat · 9am–6pm';
 
-const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
+const NavBar = () => {
     const navigate = useNavigate();
     const navbarRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
-
-    const handleLogout = () => {
-        sessionStorage.removeItem('isAdmin');
-        sessionStorage.removeItem('isSuperAdmin');
-        setIsAdmin(false);
-        setIsSuperAdmin(false);
-        navigate('/');
-    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
