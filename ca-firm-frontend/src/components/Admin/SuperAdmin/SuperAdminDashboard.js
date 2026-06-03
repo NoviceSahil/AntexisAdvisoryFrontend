@@ -3,6 +3,7 @@ import axios from "axios";
 import './SuperAdminDashboard.css';
 import * as XLSX from 'xlsx';
 import AdminModal from '../Modal/AdminModal'
+import EstimatorOptionsManager from '../EstimatorOptionsManager';
 
 const SuperAdminDashboard = () => {
   const [applications, setApplications] = useState([]);
@@ -36,7 +37,7 @@ const SuperAdminDashboard = () => {
         axios.get('http://localhost:5000/api/applications/all'),
         axios.get('http://localhost:5000/api/contact-submissions/all'),
         axios.get('http://localhost:5000/api/admin-users'),
-        axios.get('http://localhost:5000/api/blogs/all')  // Add this line
+        axios.get('http://localhost:5000/api/blogs/all')  
       ]);
       
       setApplications(appsRes.data);
@@ -275,6 +276,12 @@ const SuperAdminDashboard = () => {
   )}
 </div>
 
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>Estimator Dropdown Values</h2>
+        </div>
+        <EstimatorOptionsManager />
+      </div>
 
       <div className="dashboard-section">
         <div className="section-header">

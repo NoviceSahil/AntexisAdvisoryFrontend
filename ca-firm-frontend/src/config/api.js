@@ -16,6 +16,13 @@ export const API_ENDPOINTS = {
   BLOGS: `${API_BASE_URL}/api/blogs`,
   BLOG_BY_ID: (id) => `${API_BASE_URL}/api/blogs/${id}`,
   
+  // Estimator endpoints
+  ESTIMATOR_OPTIONS: `${API_BASE_URL}/api/estimator-options`,
+  ADMIN_ESTIMATOR_OPTIONS: `${API_BASE_URL}/api/admin/estimator-options`,
+  ADMIN_CREATE_ESTIMATOR_OPTION: `${API_BASE_URL}/api/admin/estimator-options`,
+  ADMIN_UPDATE_ESTIMATOR_OPTION: (id) => `${API_BASE_URL}/api/admin/estimator-options/${id}`,
+  ADMIN_DELETE_ESTIMATOR_OPTION: (id) => `${API_BASE_URL}/api/admin/estimator-options/${id}`,
+  
   // Admin endpoints
   ADMIN_LOGIN: `${API_BASE_URL}/api/admin/login`,
   ADMIN_APPLICATIONS: `${API_BASE_URL}/api/admin/applications`,

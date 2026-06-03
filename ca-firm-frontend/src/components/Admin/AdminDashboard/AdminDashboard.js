@@ -3,6 +3,7 @@ import axios from 'axios';
 import './AdminDashboard.css';
 import * as XLSX from 'xlsx';
 import Modal from '../Modal/Modal';
+import EstimatorOptionsManager from '../EstimatorOptionsManager';
 
 const AdminDashboard = () => {
   const [applications, setApplications] = useState([]);
@@ -363,6 +364,13 @@ const handleEditBlog = async () => {
 
 
         </div>
+
+      <div className="dashboard-section">
+        <div className="section-header">
+          <h2>Estimator Dropdown Values</h2>
+        </div>
+        <EstimatorOptionsManager />
+      </div>
 
 
         <h2>Job Applications</h2>

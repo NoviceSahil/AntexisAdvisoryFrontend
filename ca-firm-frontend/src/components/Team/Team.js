@@ -5,43 +5,48 @@ const Team = () => {
     const teamMembers = [
         {
             id: 1,
-            name: "John Doe",
-            position: "Senior Partner",
-            // image: "/path/to/john.jpg", // Replace with actual image path
+            name: 'John Doe',
+            position: 'Senior Partner',
         },
         {
             id: 2,
-            name: "Jane Smith",
-            position: "Manager",
-            // image: "/path/to/jane.jpg", // Replace with actual image path
+            name: 'Jane Smith',
+            position: 'Manager',
         },
         {
             id: 3,
-            name: "Michael Brown",
-            position: "Consultant",
-            // image: "/path/to/michael.jpg", // Replace with actual image path
+            name: 'Michael Brown',
+            position: 'Consultant',
         },
         {
             id: 4,
-            name: "Emily Davis",
-            position: "Accountant",
-            // image: "/path/to/emily.jpg", // Replace with actual image path
+            name: 'Emily Davis',
+            position: 'Accountant',
         },
     ];
 
+    const initials = (name) => name.split(' ').map((part) => part[0]).join('');
+
     return (
-        <div className="team-section">
-            <h2 className="team-title">Meet Our Team</h2>
-            <div className="team-list">
-                {teamMembers.map(member => (
-                    <div key={member.id} className="team-card">
-                        <img src={member.image} alt={member.name} className="team-image" />
-                        <h5 className="team-member-name">{member.name}</h5>
-                        <p className="team-member-position">{member.position}</p>
-                    </div>
+        <main className="team-page">
+            <section className="team-hero">
+                <div className="team-hero-copy">
+                    <span className="eyebrow">Leadership & Expertise</span>
+                    <h1>Experienced professionals guiding every financial decision.</h1>
+                    <p>Meet the team that delivers audit, compliance, taxation, and corporate advisory with precision.</p>
+                </div>
+            </section>
+
+            <section className="team-grid">
+                {teamMembers.map((member) => (
+                    <article key={member.id} className="team-card">
+                        <div className="team-avatar">{initials(member.name)}</div>
+                        <h3>{member.name}</h3>
+                        <p>{member.position}</p>
+                    </article>
                 ))}
-            </div>
-        </div>
+            </section>
+        </main>
     );
 };
 

@@ -71,7 +71,7 @@
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    background: linear-gradient(135deg, #2553d3 0%, #12478c 100%);
     color: white;
     padding: 16px;
     display: flex;
@@ -181,7 +181,7 @@
 
 .whatsapp-btn {
     width: 100%;
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    background: linear-gradient(135deg, #254ed3 0%, #124b8c 100%);
     color: white;
     border: none;
     padding: 12px 16px;

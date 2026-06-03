@@ -2,9 +2,12 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './NavBar.css';
 import caIcon from '../../assets/icai.png';
-import { FaEnvelope, FaPhone } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaClock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
+const PHONE = '+91 98765 43210';
+const EMAIL = 'office@antexisadvisory.com';
+const HOURS = 'Mon–Sat · 9am–6pm';
 
 const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
     const navigate = useNavigate();
@@ -19,7 +22,6 @@ const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
         navigate('/');
     };
 
-    // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (navbarRef.current && !navbarRef.current.contains(event.target) && expanded) {
@@ -36,77 +38,61 @@ const NavBar = ({ setIsAdmin, setIsSuperAdmin }) => {
         };
     }, [expanded]);
 
-    // Close menu when a link is clicked
+
     const handleNavLinkClick = () => {
         setExpanded(false);
     };
-    
-    return (
-        <Navbar 
-            expand="lg" 
-            className="navbar-custom" 
-            ref={navbarRef}
-            expanded={expanded}
-            onToggle={setExpanded}
-        >
-            <Navbar.Brand href="/" className="navbar-title" onClick={handleNavLinkClick}>
-                <div className="brand-container"> 
-                    <img src={caIcon} alt="CA Icon" className="ca-icon" />
-                    Antexis Advisory LLP
-                </div>
-            </Navbar.Brand>
-            
-            
-            
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                {/* Contact info for mobile - shown in collapse menu */}
-                <div className="contact-info-mobile">
-                    <div className="contact-card">
-                        <a href="mailto:office@antexisadvisory.com" className="contact-item">
-                            <FaEnvelope className="contact-icon" />
-                            <span className="contact-text">office@antexisadvisory.com</span>
-                        </a>
-                    </div>
-                </div>
 
-                <div className="tabs-container">
-                    <Nav className="me-auto">
-                        <Nav.Link href="/" onClick={handleNavLinkClick}>HOME</Nav.Link>
-                        {/* <NavDropdown title="ABOUT US" id="about-dropdown">
-                            {/* <NavDropdown.Item href="/about">About Us</NavDropdown.Item> }
-                            <NavDropdown.Item href="/team">Team</NavDropdown.Item>
-                            <NavDropdown.Item href="/affiliation">Affiliation</NavDropdown.Item>
-                        </NavDropdown> */}
-                        <NavDropdown title="SERVICES" id="services-dropdown">
-                            <NavDropdown.Item href="/service/audit-and-assurance" onClick={handleNavLinkClick}>Audit and Assurance</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/business-advisory-internal-audit" onClick={handleNavLinkClick}>Business Advisory & Internal Audit</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/book-keeping-and-outsourcing" onClick={handleNavLinkClick}>Book Keeping and Outsourcing</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/good-services-tax" onClick={handleNavLinkClick}>Goods & Services Tax (GST)</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/transfer-pricing" onClick={handleNavLinkClick}>Transfer Pricing</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/corporate-financial-advisory" onClick={handleNavLinkClick}>Corporate Financial Advisory</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/risk-advisory" onClick={handleNavLinkClick}>Risk Advisory</NavDropdown.Item>
-                            <NavDropdown.Item href="/service/corporate-law-secretarial-support" onClick={handleNavLinkClick}>Corporate Law & Secretarial Support</NavDropdown.Item>
-                        </NavDropdown>
-                        {/* <Nav.Link href="/industries">Industries</Nav.Link> */}
-                        <NavDropdown title="CAREER" id="services-dropdown">
-                        <NavDropdown.Item href="/apply-online" onClick={handleNavLinkClick}>Apply Online</NavDropdown.Item>
-                        </NavDropdown>
-                        
-                        <Nav.Link href="/contact" onClick={handleNavLinkClick}>CONTACT US</Nav.Link>
-                    </Nav>
-                </div>
-                {/* Contact card positioned outside collapse for desktop */}
-            <div className="contact-info-desktop">
-                <div className="contact-card">
-                    <a href="mailto:office@antexisadvisory.com" className="contact-item">
-                        <FaEnvelope className="contact-icon" />
-                        <span className="contact-text">office@antexisadvisory.com</span>
+    return (
+        <header className="site-header" ref={navbarRef}>
+            <div className="top-bar">
+                <div className="top-bar-content">
+                    <a href={`tel:${PHONE.replace(/\s+/g, '')}`} className="top-link" aria-label="Call us">
+                        <FaPhone className="top-icon" /> {PHONE}
                     </a>
+                    <a href={`mailto:${EMAIL}`} className="top-link" aria-label="Email us">
+                        <FaEnvelope className="top-icon" /> {EMAIL}
+                    </a>
+                    <span className="top-link" aria-label="Office hours">
+                        <FaClock className="top-icon" /> {HOURS}
+                    </span>
                 </div>
             </div>
-            </Navbar.Collapse>
-        </Navbar>
+            <Navbar expand="lg" className="navbar-custom" expanded={expanded} onToggle={setExpanded}>
+                <Navbar.Brand href="/" className="navbar-title" onClick={handleNavLinkClick}>
+                    <div className="brand-container">
+                        <img src={caIcon} alt="Antexis Advisory logo" className="ca-icon" />
+                        <div>
+                            <span className="brand-name">Antexis Advisory LLP</span>
+                            <span className="brand-tagline">Trusted Chartered Accountants</span>
+                        </div>
+                    </div>
+                </Navbar.Brand>
+
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav" className="navbar-collapse-custom">
+                    <Nav className="nav-links">
+                        <Nav.Link href="/" onClick={handleNavLinkClick}>Home</Nav.Link>
+                        <NavDropdown title="Services" id="services-dropdown">
+                            <NavDropdown.Item href="/service/audit-and-assurance" onClick={handleNavLinkClick}>Audit &amp; Assurance</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/business-advisory-internal-audit" onClick={handleNavLinkClick}>Business Advisory</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/book-keeping-and-outsourcing" onClick={handleNavLinkClick}>Book Keeping</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/good-services-tax" onClick={handleNavLinkClick}>GST Compliance</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/transfer-pricing" onClick={handleNavLinkClick}>Transfer Pricing</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/corporate-financial-advisory" onClick={handleNavLinkClick}>Financial Advisory</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/risk-advisory" onClick={handleNavLinkClick}>Risk Advisory</NavDropdown.Item>
+                            <NavDropdown.Item href="/service/corporate-law-secretarial-support" onClick={handleNavLinkClick}>Corporate Law</NavDropdown.Item>
+                        </NavDropdown>
+                        <Nav.Link href="/team" onClick={handleNavLinkClick}>Team</Nav.Link>
+                        <Nav.Link href="/contact" onClick={handleNavLinkClick}>Contact</Nav.Link>
+                        <Nav.Link href="/apply-online" onClick={handleNavLinkClick}>Careers</Nav.Link>
+                    </Nav>
+                    <div className="navbar-actions">
+                        <a href="/contact" className="button button-primary" onClick={handleNavLinkClick}>Book Consultation</a>
+                    </div>
+                </Navbar.Collapse>
+            </Navbar>
+        </header>
     );
 };
 

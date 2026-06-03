@@ -162,9 +162,9 @@ html {
 }
 
 /* Ensure main content is below fixed navbar */
-main, .main-content {
-  margin-top: 120px; /* Adjust based on navbar height */
-}
+/* main, .main-content {
+  margin-top: 120px; /* Adjust based on navbar height 
+} */
 
 /* Container improvements for mobile */
 .container-fluid {

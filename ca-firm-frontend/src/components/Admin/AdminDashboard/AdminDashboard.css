@@ -143,3 +143,91 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.estimator-options-manager {
+  padding: 1rem;
+}
+
+.estimator-options-manager .dashboard-table {
+  margin-bottom: 1rem;
+}
+
+.estimator-options-manager .dashboard-table th,
+.estimator-options-manager .dashboard-table td {
+  padding: 0.75rem;
+}
+
+.estimator-options-manager .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.estimator-options-manager label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #333;
+}
+
+.estimator-options-manager input[type="text"],
+.estimator-options-manager input[type="number"],
+.estimator-options-manager select {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  margin-top: 0.4rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.35rem;
+  background: #fafafa;
+}
+
+.estimator-options-manager .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.estimator-options-manager .button:hover {
+  transform: translateY(-1px);
+}
+
+.estimator-options-manager .button-primary {
+  background-color: #4682b4;
+  color: white;
+}
+
+.estimator-options-manager .button-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.estimator-options-manager .button-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.estimator-options-manager .button-danger:hover {
+  background-color: #c82333;
+}
+
+.estimator-options-manager .error-message {
+  color: #a94442;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.85rem 1rem;
+  border-radius: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .estimator-options-manager .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
