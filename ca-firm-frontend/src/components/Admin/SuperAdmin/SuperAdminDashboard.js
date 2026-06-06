@@ -1,4 +1,4 @@
-import React, { useState, useEffect, navigate } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './SuperAdminDashboard.css';
 import * as XLSX from 'xlsx';
@@ -11,11 +11,7 @@ const SuperAdminDashboard = () => {
   const [adminUsers, setAdminUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  const [newUserData, setNewUserData] = useState({
-    username: '',
-    password: '',
-    role: 'admin'
-  });
+  // admin user creation state handled in modal; avoid unused local state
  // Add this state for blog management
  const [blogs, setBlogs] = useState([]);
  const [showBlogModal, setShowBlogModal] = useState(false);
@@ -71,14 +67,14 @@ const SuperAdminDashboard = () => {
   
   const handleAddUser = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/admin-users', {
+      await axios.post('http://localhost:5000/api/admin-users', {
         username: userData.username,
         password: userData.password,
         role: userData.role
       });
       await fetchAllData(); // Refresh the list after adding
       setShowModal(false);
-      setNewUserData({ username: '', password: '', role: 'admin' });
+      // modal manages its own input state; nothing to reset here
     } catch (error) {
       console.error('Error adding user:', error);
       alert('Failed to add user');

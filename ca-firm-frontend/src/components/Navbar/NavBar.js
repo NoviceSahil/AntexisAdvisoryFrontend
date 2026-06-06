@@ -3,14 +3,12 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './NavBar.css';
 import caIcon from '../../assets/icai.png';
 import { FaEnvelope, FaPhone, FaClock } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
 const PHONE = '+91 98765 43210';
 const EMAIL = 'office@antexisadvisory.com';
 const HOURS = 'Mon–Sat · 9am–6pm';
 
 const NavBar = () => {
-    const navigate = useNavigate();
     const navbarRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
 
