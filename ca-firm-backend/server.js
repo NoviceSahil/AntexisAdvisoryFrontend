@@ -92,12 +92,14 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-runStartupTasks()
-    .catch((error) => {
-        logger.error('Startup tasks failed', { error: error.message, stack: error.stack });
-    })
-    .finally(() => {
-        app.listen(port, () => {
-            logger.info(`Server running on port ${port}`);
-        });
-    });
+// Bind the port immediately - don't make Render's deploy health check wait
+// on the database. Startup tasks (migrations + admin bootstrap) retry in
+// the background; routes that need the schema will just 500 until they
+// succeed, same as they would on any transient DB outage.
+app.listen(port, () => {
+    logger.info(`Server running on port ${port}`);
+});
+
+runStartupTasks().catch((error) => {
+    logger.error('Startup tasks failed', { error: error.message, stack: error.stack });
+});

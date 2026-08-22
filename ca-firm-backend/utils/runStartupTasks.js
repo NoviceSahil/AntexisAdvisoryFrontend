@@ -42,10 +42,13 @@ async function runOnce() {
     await bootstrapAdmin();
 }
 
-// Retries with a short delay - covers a transient DNS/network hiccup in the
-// first moments after a fresh container boots, which would otherwise
-// silently skip schema setup for the rest of that process's lifetime.
-async function runStartupTasks(attempts = 5, delayMs = 3000) {
+// Retries with a delay - covers cases where a freshly-created database's
+// internal hostname takes a while to become resolvable (observed lasting
+// longer than a few seconds on a brand new Render Postgres instance),
+// which would otherwise silently skip schema setup for the rest of that
+// process's lifetime. Runs in the background (see server.js), so a long
+// window here doesn't delay the app from binding its port.
+async function runStartupTasks(attempts = 15, delayMs = 10000) {
     for (let attempt = 1; attempt <= attempts; attempt++) {
         try {
             await runOnce();
