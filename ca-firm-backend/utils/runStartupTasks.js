@@ -1,0 +1,45 @@
+// Runs schema migrations and the first-admin bootstrap on every process
+// start, using the app's own shared pool. This exists because Render's
+// free tier has no shell access and blocks external DB connections (only
+// the running app, inside Render's network, can reach the database) and
+// no Pre-Deploy Command (paid-tier only) - so "on every boot" is the only
+// hook available. Safe to run repeatedly: the migrations use
+// CREATE TABLE/INDEX IF NOT EXISTS, the compliance seed only inserts into
+// an empty table, and the admin bootstrap only inserts when admin_users is
+// empty.
+
+const fs = require('fs');
+const path = require('path');
+const bcrypt = require('bcrypt');
+const pool = require('../config/db');
+const logger = require('./logger');
+
+async function runMigrationFile(relativePath) {
+    const filePath = path.join(__dirname, '..', relativePath);
+    const sql = fs.readFileSync(filePath, 'utf8');
+    await pool.query(sql);
+}
+
+async function bootstrapAdmin() {
+    const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM admin_users');
+    if (rows[0].count > 0) return;
+
+    const username = process.env.ADMIN_BOOTSTRAP_USERNAME;
+    const password = process.env.ADMIN_BOOTSTRAP_PASSWORD;
+    if (!username || !password) return;
+
+    const hashed = await bcrypt.hash(password, 12);
+    await pool.query(
+        'INSERT INTO admin_users (username, password, role) VALUES ($1, $2, $3)',
+        [username, hashed, 'superadmin']
+    );
+    logger.info(`Bootstrap superadmin account created: ${username}`);
+}
+
+async function runStartupTasks() {
+    await runMigrationFile('migrations/000_full_schema.sql');
+    await runMigrationFile('migrations/001_compliance_dates.sql');
+    await bootstrapAdmin();
+}
+
+module.exports = runStartupTasks;

@@ -9,6 +9,7 @@ const path = require('path');
 const fs = require('fs');
 
 const logger = require('./utils/logger');
+const runStartupTasks = require('./utils/runStartupTasks');
 const adminRoutes = require('./routes/admin');
 const blogRoutes = require('./routes/blogs');
 const applicationRoutes = require('./routes/applications');
@@ -91,6 +92,12 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(port, () => {
-    logger.info(`Server running on port ${port}`);
-});
+runStartupTasks()
+    .catch((error) => {
+        logger.error('Startup tasks failed', { error: error.message, stack: error.stack });
+    })
+    .finally(() => {
+        app.listen(port, () => {
+            logger.info(`Server running on port ${port}`);
+        });
+    });
