@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './SuperAdminDashboard.css';
 import * as XLSX from 'xlsx';
-import AdminModal from '../Modal/AdminModal'
-import EstimatorOptionsManager from '../EstimatorOptionsManager';
+import AdminModal from '../Modal/AdminModal';
+import AdminShell from '../AdminShell';
+import { API_ENDPOINTS, API_CONFIG, MULTIPART_CONFIG } from '../../../config/api';
+
+const NAV_ITEMS = [
+  { href: '#blogs', label: 'Blogs' },
+  { href: '#applications', label: 'Applications' },
+  { href: '#contacts', label: 'Contacts' },
+  { href: '#users', label: 'Admin users' },
+  { href: '#analytics', label: 'Analytics' }
+];
 
 const SuperAdminDashboard = () => {
   const [applications, setApplications] = useState([]);
@@ -11,84 +19,84 @@ const SuperAdminDashboard = () => {
   const [adminUsers, setAdminUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  // admin user creation state handled in modal; avoid unused local state
- // Add this state for blog management
- const [blogs, setBlogs] = useState([]);
- const [showBlogModal, setShowBlogModal] = useState(false);
- const [blogData, setBlogData] = useState({
-   title: '',
-   content: '',
-   author: '',
-   image: null,
-   document: null
- });
+  const [blogs, setBlogs] = useState([]);
+  const [showBlogModal, setShowBlogModal] = useState(false);
+  const [blogData, setBlogData] = useState({
+    title: '',
+    content: '',
+    author: '',
+    image: null,
+    document: null
+  });
+
   useEffect(() => {
     fetchAllData();
   }, []);
-  
 
   const fetchAllData = async () => {
     try {
       const [appsRes, contactRes, adminRes, blogsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/applications/all'),
-        axios.get('http://localhost:5000/api/contact-submissions/all'),
-        axios.get('http://localhost:5000/api/admin-users'),
-        axios.get('http://localhost:5000/api/blogs/all')  
+        axios.get(API_ENDPOINTS.ADMIN_APPLICATIONS_ALL, API_CONFIG),
+        axios.get(API_ENDPOINTS.ADMIN_CONTACTS_ALL, API_CONFIG),
+        axios.get(API_ENDPOINTS.SUPER_ADMIN_USERS, API_CONFIG),
+        axios.get(API_ENDPOINTS.ADMIN_BLOGS_ALL, API_CONFIG)
       ]);
-      
+
       setApplications(appsRes.data);
       setContactSubmissions(contactRes.data);
       setAdminUsers(adminRes.data);
-      setBlogs(blogsRes.data);  // Add this line
+      setBlogs(blogsRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  
-  
-  
+
   const [visitorStats, setVisitorStats] = useState({
     totalVisits: 0,
     uniqueVisitors: 0,
     dailyStats: []
   });
-  
+
   useEffect(() => {
     const fetchVisitorStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/visitor-stats');
-        setVisitorStats(response.data);
+        const response = await axios.get(API_ENDPOINTS.ADMIN_VISITOR_STATS, API_CONFIG);
+        const rows = response.data || [];
+        setVisitorStats({
+          totalVisits: rows.reduce((sum, r) => sum + Number(r.total_visits || 0), 0),
+          uniqueVisitors: rows.reduce((sum, r) => sum + Number(r.unique_visitors || 0), 0),
+          dailyStats: rows
+        });
       } catch (error) {
         console.error('Error fetching visitor stats:', error);
       }
     };
     fetchVisitorStats();
   }, []);
-  
+
   const handleAddUser = async (userData) => {
     try {
-      await axios.post('http://localhost:5000/api/admin-users', {
+      await axios.post(API_ENDPOINTS.SUPER_ADMIN_CREATE_USER, {
         username: userData.username,
         password: userData.password,
         role: userData.role
-      });
-      await fetchAllData(); // Refresh the list after adding
+      }, API_CONFIG);
+      await fetchAllData();
       setShowModal(false);
-      // modal manages its own input state; nothing to reset here
     } catch (error) {
       console.error('Error adding user:', error);
-      alert('Failed to add user');
+      alert(error.response?.data?.error || 'Failed to add user');
     }
   };
 
   const handleUpdateUser = async (id, userData) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin-users/${id}`, {
+      await axios.put(API_ENDPOINTS.SUPER_ADMIN_UPDATE_USER(id), {
         username: userData.username,
         password: userData.password,
         role: userData.role
-      });
-      await fetchAllData(); // Refresh the list after updating
+      }, API_CONFIG);
+      await fetchAllData();
       setShowModal(false);
       setEditingUser(null);
     } catch (error) {
@@ -96,11 +104,11 @@ const SuperAdminDashboard = () => {
       alert('Failed to update user');
     }
   };
-  
+
   const handleDeleteUser = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin-users/${id}`);
+        await axios.delete(API_ENDPOINTS.SUPER_ADMIN_DELETE_USER(id), API_CONFIG);
         fetchAllData();
       } catch (error) {
         console.error('Error deleting user:', error);
@@ -108,21 +116,37 @@ const SuperAdminDashboard = () => {
     }
   };
 
-  const toggleVisibility = async (id, type, currentStatus) => {
+  const toggleApplicationVisibility = async (id, currentStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/${type}/${id}/visibility`, {
-        isActive: !currentStatus
-      });
-      await fetchAllData(); // Refresh data after toggling
+      await axios.put(API_ENDPOINTS.ADMIN_APPLICATION_STATUS(id), { isActive: !currentStatus }, API_CONFIG);
+      await fetchAllData();
     } catch (error) {
-      console.error('Error toggling visibility:', error);
+      console.error('Error toggling application visibility:', error);
     }
   };
 
-  const handleDelete = async (id, type) => {
+  const toggleContactVisibility = async (id, currentStatus) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_CONTACT_STATUS(id), { isActive: !currentStatus }, API_CONFIG);
+      await fetchAllData();
+    } catch (error) {
+      console.error('Error toggling contact visibility:', error);
+    }
+  };
+
+  const toggleBlogVisibility = async (id, currentStatus) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_BLOG_VISIBILITY(id), { isActive: !currentStatus }, API_CONFIG);
+      await fetchAllData();
+    } catch (error) {
+      console.error('Error toggling blog visibility:', error);
+    }
+  };
+
+  const handleDeleteBlog = async (id) => {
     if (window.confirm('Are you sure you want to permanently delete this record?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/${type}/${id}`);
+        await axios.delete(API_ENDPOINTS.ADMIN_DELETE_BLOG(id), API_CONFIG);
         fetchAllData();
       } catch (error) {
         console.error('Error deleting record:', error);
@@ -136,6 +160,7 @@ const SuperAdminDashboard = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, filename);
     XLSX.writeFile(workbook, `${filename}.xlsx`);
   };
+
   const handleAddBlog = async () => {
     try {
       const formData = new FormData();
@@ -148,14 +173,10 @@ const SuperAdminDashboard = () => {
       if (blogData.document) {
         formData.append('document', blogData.document);
       }
-  
-      await axios.post('http://localhost:5000/api/blogs', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      await fetchAllData(); 
+
+      await axios.post(API_ENDPOINTS.ADMIN_CREATE_BLOG, formData, MULTIPART_CONFIG);
+
+      await fetchAllData();
       setShowBlogModal(false);
       setBlogData({
         title: '',
@@ -169,324 +190,180 @@ const SuperAdminDashboard = () => {
       alert('Failed to add blog post');
     }
   };
-  
 
   return (
-    <div className="admin-dashboard">
-      <div className="dashboard-header">
-        <h1>Super Admin Dashboard</h1>
+    <AdminShell subtitle="Super Admin" navItems={NAV_ITEMS}>
+      <div className="admin-head">
+        <div>
+          <h1>Super admin dashboard</h1>
+          <p>Full visibility across blogs, applications, enquiries, admin accounts and site analytics.</p>
+        </div>
       </div>
-      
-<div className="dashboard-section">
-  <div className="section-header">
-    <h2>Blog Management</h2>
-    <button onClick={() => setShowBlogModal(true)} className="add-button">
-      Add New Blog
-    </button>
-  </div>
-  <table className="dashboard-table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Created At</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-  {blogs.map((blog) => (
-    <tr key={blog.id}>
-      <td>{blog.title}</td>
-      <td>{blog.author}</td>
-      <td>{new Date(blog.created_at).toLocaleString()}</td>
-      <td>
-        <span className={`status-badge ${blog.is_active ? 'active' : 'inactive'}`}>
-          {blog.is_active ? 'Active' : 'Hidden'}
-        </span>
-      </td>
-      <td>
-        <button
-          onClick={() => toggleVisibility(blog.id, 'blogs', blog.is_active)}
-          className={blog.is_active ? 'hide-button' : 'show-button'}
-        >
-          {blog.is_active ? 'Hide' : 'Show'}
-        </button>
-        <button
-          onClick={() => handleDelete(blog.id, 'blogs')}
-          className="delete-button"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-  </table>
 
-  {showBlogModal && (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Add New Blog Post</h2>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          handleAddBlog();
-        }}>
-          <input
-            type="text"
-            placeholder="Title"
-            value={blogData.title}
-            onChange={(e) => setBlogData({...blogData, title: e.target.value})}
-            required
-          />
-          <textarea
-            placeholder="Content"
-            value={blogData.content}
-            onChange={(e) => setBlogData({...blogData, content: e.target.value})}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Author"
-            value={blogData.author}
-            onChange={(e) => setBlogData({...blogData, author: e.target.value})}
-            required
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setBlogData({...blogData, image: e.target.files[0]})}
-          />
-          <input
-            type="file"
-            accept=".pdf,.doc,.docx"
-            onChange={(e) => setBlogData({...blogData, document: e.target.files[0]})}
-          />
-          <div className="modal-buttons">
-            <button type="submit">Add Blog</button>
-            <button type="button" onClick={() => setShowBlogModal(false)}>Cancel</button>
+      <section className="admin-section" id="blogs">
+        <div className="admin-section-head">
+          <h2>Blog management</h2>
+          <button type="button" onClick={() => setShowBlogModal(true)} className="btn btn-primary btn-sm">Add new blog</button>
+        </div>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead><tr><th>Title</th><th>Author</th><th>Created</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              {blogs.map((blog) => (
+                <tr key={blog.id} className={!blog.is_active ? 'inactive-row' : ''}>
+                  <td>{blog.title}</td>
+                  <td>{blog.author}</td>
+                  <td>{new Date(blog.created_at).toLocaleDateString()}</td>
+                  <td><span className={`pill ${blog.is_active ? 'active' : 'inactive'}`}>{blog.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => toggleBlogVisibility(blog.id, blog.is_active)}>{blog.is_active ? 'Hide' : 'Show'}</button>
+                    <button type="button" onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+              {blogs.length === 0 && <tr><td colSpan={5} style={{ color: 'var(--ink-faint)' }}>No blog posts yet.</td></tr>}
+            </tbody>
+          </table>
+        </div>
+
+        {showBlogModal && (
+          <div className="admin-modal-overlay" onClick={() => setShowBlogModal(false)}>
+            <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+              <h2>Add new blog post</h2>
+              <form onSubmit={(e) => { e.preventDefault(); handleAddBlog(); }}>
+                <input type="text" placeholder="Title" value={blogData.title} onChange={(e) => setBlogData({ ...blogData, title: e.target.value })} required />
+                <textarea placeholder="Content" rows={5} value={blogData.content} onChange={(e) => setBlogData({ ...blogData, content: e.target.value })} required />
+                <input type="text" placeholder="Author" value={blogData.author} onChange={(e) => setBlogData({ ...blogData, author: e.target.value })} required />
+                <input type="file" accept="image/*" onChange={(e) => setBlogData({ ...blogData, image: e.target.files[0] })} />
+                <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setBlogData({ ...blogData, document: e.target.files[0] })} />
+                <div className="admin-modal-actions">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShowBlogModal(false)}>Cancel</button>
+                  <button type="submit" className="btn btn-primary btn-sm">Add blog</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
-  )}
-</div>
+        )}
+      </section>
 
-      <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Estimator Dropdown Values</h2>
+      <section className="admin-section" id="applications">
+        <div className="admin-section-head">
+          <h2>Job applications</h2>
+          <button type="button" onClick={() => exportAllData(applications, "All_Job_Applications")} className="btn btn-ghost btn-sm">Export to Excel</button>
         </div>
-        <EstimatorOptionsManager />
-      </div>
-
-      <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Job Applications</h2>
-          <button 
-            onClick={() => exportAllData(applications, "All_Job_Applications")} 
-            className="export-button"
-          >
-            Export to Excel
-          </button>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Post applied for</th><th>Resume</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              {applications.map((app) => (
+                <tr key={app.id} className={!app.is_active ? 'inactive-row' : ''}>
+                  <td>{app.name}</td>
+                  <td>{app.email}</td>
+                  <td>{app.phone}</td>
+                  <td>{app.post_applied_for}</td>
+                  <td><a href={API_ENDPOINTS.ADMIN_DOWNLOAD_RESUME(app.resume_file_name)} target="_blank" rel="noopener noreferrer">Download</a></td>
+                  <td><span className={`pill ${app.is_active ? 'active' : 'inactive'}`}>{app.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => toggleApplicationVisibility(app.id, app.is_active)}>{app.is_active ? 'Hide' : 'Show'}</button>
+                  </td>
+                </tr>
+              ))}
+              {applications.length === 0 && <tr><td colSpan={7} style={{ color: 'var(--ink-faint)' }}>No applications yet.</td></tr>}
+            </tbody>
+          </table>
         </div>
-        <table className="dashboard-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Post Applied For</th>
-              <th>Resume</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((app) => (
-              <tr key={app.id} className={!app.is_active ? 'inactive-row' : ''}>
-                <td>{app.name}</td>
-                <td>{app.email}</td>
-                <td>{app.phone}</td>
-                <td>{app.post_applied_for}</td>
-                <td>
-  <a 
-    href={`http://localhost:5000/api/download-resume/${app.resume_file_name}`} 
-    className="download-link"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Download Resume
-  </a>
-</td>
+      </section>
 
-                <td>
-                  <span className={`status-badge ${app.is_active ? 'active' : 'inactive'}`}>
-                    {app.is_active ? 'Active' : 'Hidden'}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    onClick={() => toggleVisibility(app.id, 'applications', app.is_active)}
-                    className={app.is_active ? 'hide-button' : 'show-button'}
-                  >
-                    {app.is_active ? 'Hide' : 'Show'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Contact Submissions</h2>
-          <button 
-            onClick={() => exportAllData(contactSubmissions, "All_Contact_Submissions")} 
-            className="export-button"
-          >
-            Export to Excel
-          </button>
+      <section className="admin-section" id="contacts">
+        <div className="admin-section-head">
+          <h2>Contact submissions</h2>
+          <button type="button" onClick={() => exportAllData(contactSubmissions, "All_Contact_Submissions")} className="btn btn-ghost btn-sm">Export to Excel</button>
         </div>
-        <table className="dashboard-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Subject</th>
-              <th>Message</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contactSubmissions.map((submission) => (
-              <tr key={submission.id} className={!submission.is_active ? 'inactive-row' : ''}>
-                <td>{submission.name}</td>
-                <td>{submission.email}</td>
-                <td>{submission.subject}</td>
-                <td>{submission.message}</td>
-                <td>
-                  <span className={`status-badge ${submission.is_active ? 'active' : 'inactive'}`}>
-                    {submission.is_active ? 'Active' : 'Hidden'}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    onClick={() => toggleVisibility(submission.id, 'contact-submissions', submission.is_active)}
-                    className={submission.is_active ? 'hide-button' : 'show-button'}
-                  >
-                    {submission.is_active ? 'Hide' : 'Show'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-   {/* Admin Users Management Section */}
-   <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Admin Users Management</h2>
-          <button onClick={() => setShowModal(true)} className="add-button">
-            Add New Admin
-          </button>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              {contactSubmissions.map((submission) => (
+                <tr key={submission.id} className={!submission.is_active ? 'inactive-row' : ''}>
+                  <td>{submission.name}</td>
+                  <td>{submission.email}</td>
+                  <td>{submission.subject}</td>
+                  <td>{submission.message}</td>
+                  <td><span className={`pill ${submission.is_active ? 'active' : 'inactive'}`}>{submission.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => toggleContactVisibility(submission.id, submission.is_active)}>{submission.is_active ? 'Hide' : 'Show'}</button>
+                  </td>
+                </tr>
+              ))}
+              {contactSubmissions.length === 0 && <tr><td colSpan={6} style={{ color: 'var(--ink-faint)' }}>No submissions yet.</td></tr>}
+            </tbody>
+          </table>
         </div>
-        <table className="dashboard-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>Created At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {adminUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>
-                  <span className={`role-badge ${user.role}`}>
-                    {user.role}
-                  </span>
-                </td>
-                <td>{new Date(user.created_at).toLocaleString()}</td>
-                <td>
-                  <button 
-                    onClick={() => {
-                      setEditingUser(user);
-                      setShowModal(true);
-                    }} 
-                    className="edit-button"
-                  >
-                    Edit
-                  </button>
-                  <button 
-                    onClick={() => handleDeleteUser(user.id)}
-                    className="delete-button"
-                  >
-                    Delete
-                  </button>
-                  <AdminModal 
-      show={showModal}
-      onClose={() => {
-        setShowModal(false);
-        setEditingUser(null);
-      }}
-      user={editingUser}
-      onSubmit={(data) => {
-        if (editingUser) {
-          handleUpdateUser(editingUser.id, data);
-        } else {
-          handleAddUser(data);
-        }
-      }}
-    />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      </section>
 
-      <div className="dashboard-section">
-        <div className="section-header">
-          <h2>Site Analytics</h2>
+      <section className="admin-section" id="users">
+        <div className="admin-section-head">
+          <h2>Admin users</h2>
+          <button type="button" onClick={() => setShowModal(true)} className="btn btn-primary btn-sm">Add new admin</button>
         </div>
-        <div className="stats-grid">
-          <div className="stat-card">
-            <h3>Total Visits</h3>
-            <p className="stat-number">{visitorStats.totalVisits}</p>
-          </div>
-          <div className="stat-card">
-            <h3>Unique Visitors</h3>
-            <p className="stat-number">{visitorStats.uniqueVisitors}</p>
-          </div>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead><tr><th>ID</th><th>Username</th><th>Role</th><th>Created</th><th></th></tr></thead>
+            <tbody>
+              {adminUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.username}</td>
+                  <td><span className="role-badge">{user.role}</span></td>
+                  <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => { setEditingUser(user); setShowModal(true); }}>Edit</button>
+                    <button type="button" onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <table className="dashboard-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Visits</th>
-              <th>Unique Visitors</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visitorStats.dailyStats?.map((stat) => (
-              <tr key={stat.date}>
-                <td>{new Date(stat.date).toLocaleDateString()}</td>
-                <td>{stat.total_visits}</td>
-                <td>{stat.unique_visitors}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <AdminModal
+          show={showModal}
+          onClose={() => { setShowModal(false); setEditingUser(null); }}
+          user={editingUser}
+          onSubmit={(data) => {
+            if (editingUser) {
+              handleUpdateUser(editingUser.id, data);
+            } else {
+              handleAddUser(data);
+            }
+          }}
+        />
+      </section>
 
-    </div>
+      <section className="admin-section" id="analytics">
+        <div className="admin-section-head">
+          <h2>Site analytics</h2>
+        </div>
+        <div className="admin-stats">
+          <div className="st"><span>Total visits</span><strong className="num">{visitorStats.totalVisits}</strong></div>
+          <div className="st"><span>Unique visitors</span><strong className="num">{visitorStats.uniqueVisitors}</strong></div>
+        </div>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead><tr><th>Date</th><th>Visits</th><th>Unique visitors</th></tr></thead>
+            <tbody>
+              {visitorStats.dailyStats.map((stat) => (
+                <tr key={stat.date}>
+                  <td>{new Date(stat.date).toLocaleDateString()}</td>
+                  <td>{stat.total_visits}</td>
+                  <td>{stat.unique_visitors}</td>
+                </tr>
+              ))}
+              {visitorStats.dailyStats.length === 0 && <tr><td colSpan={3} style={{ color: 'var(--ink-faint)' }}>No visitor data yet.</td></tr>}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </AdminShell>
   );
 };
 

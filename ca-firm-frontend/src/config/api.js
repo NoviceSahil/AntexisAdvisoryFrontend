@@ -6,38 +6,52 @@ export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5
 
 // API Endpoints
 export const API_ENDPOINTS = {
-  // Application endpoints
+  // Public endpoints
   APPLY: `${API_BASE_URL}/api/apply`,
-
-  // Contact endpoints
   CONTACT: `${API_BASE_URL}/api/contact`,
-
-  // Blog endpoints
   BLOGS: `${API_BASE_URL}/api/blogs`,
   BLOG_BY_ID: (id) => `${API_BASE_URL}/api/blogs/${id}`,
+  COMPLIANCE_DATES: `${API_BASE_URL}/api/compliance`,
 
-  // Estimator endpoints
-  ESTIMATOR_OPTIONS: `${API_BASE_URL}/api/estimator-options`,
-  ADMIN_ESTIMATOR_OPTIONS: `${API_BASE_URL}/api/admin/estimator-options`,
-  ADMIN_CREATE_ESTIMATOR_OPTION: `${API_BASE_URL}/api/admin/estimator-options`,
-  ADMIN_UPDATE_ESTIMATOR_OPTION: (id) => `${API_BASE_URL}/api/admin/estimator-options/${id}`,
-  ADMIN_DELETE_ESTIMATOR_OPTION: (id) => `${API_BASE_URL}/api/admin/estimator-options/${id}`,
-
-  // Admin endpoints
+  // Admin session
   ADMIN_LOGIN: `${API_BASE_URL}/api/admin/login`,
-  ADMIN_APPLICATIONS: `${API_BASE_URL}/api/admin/applications`,
-  ADMIN_CONTACTS: `${API_BASE_URL}/api/admin/contacts`,
-  ADMIN_BLOGS: `${API_BASE_URL}/api/admin/blogs`,
-  ADMIN_DELETE_APPLICATION: (id) => `${API_BASE_URL}/api/admin/applications/${id}`,
-  ADMIN_DELETE_CONTACT: (id) => `${API_BASE_URL}/api/admin/contacts/${id}`,
-  ADMIN_DELETE_BLOG: (id) => `${API_BASE_URL}/api/admin/blogs/${id}`,
-  ADMIN_CREATE_BLOG: `${API_BASE_URL}/api/admin/blogs`,
-  ADMIN_UPDATE_BLOG: (id) => `${API_BASE_URL}/api/admin/blogs/${id}`,
+  ADMIN_LOGOUT: `${API_BASE_URL}/api/admin/logout`,
+  ADMIN_ME: `${API_BASE_URL}/api/admin/me`,
 
-  // Super Admin endpoints
-  SUPER_ADMIN_USERS: `${API_BASE_URL}/api/super-admin/users`,
-  SUPER_ADMIN_CREATE_USER: `${API_BASE_URL}/api/super-admin/users`,
-  SUPER_ADMIN_DELETE_USER: (id) => `${API_BASE_URL}/api/super-admin/users/${id}`,
+  // Admin: applications
+  ADMIN_APPLICATIONS: `${API_BASE_URL}/api/applications`,
+  ADMIN_APPLICATIONS_ALL: `${API_BASE_URL}/api/applications/all`,
+  ADMIN_APPLICATION_STATUS: (id) => `${API_BASE_URL}/api/applications/${id}/status`,
+  ADMIN_DOWNLOAD_RESUME: (filename) => `${API_BASE_URL}/api/download-resume/${filename}`,
+
+  // Admin: contact enquiries
+  ADMIN_CONTACTS: `${API_BASE_URL}/api/contact`,
+  ADMIN_CONTACTS_ALL: `${API_BASE_URL}/api/contact/all`,
+  ADMIN_CONTACT_STATUS: (id) => `${API_BASE_URL}/api/contact/${id}/status`,
+
+  // Admin: blogs
+  ADMIN_BLOGS_ALL: `${API_BASE_URL}/api/blogs/all`,
+  ADMIN_CREATE_BLOG: `${API_BASE_URL}/api/blogs`,
+  ADMIN_UPDATE_BLOG: (id) => `${API_BASE_URL}/api/blogs/${id}`,
+  ADMIN_BLOG_VISIBILITY: (id) => `${API_BASE_URL}/api/blogs/${id}/visibility`,
+  ADMIN_DELETE_BLOG: (id) => `${API_BASE_URL}/api/blogs/${id}`,
+
+  // Admin: compliance calendar
+  ADMIN_COMPLIANCE_ALL: `${API_BASE_URL}/api/compliance/all`,
+  ADMIN_CREATE_COMPLIANCE: `${API_BASE_URL}/api/compliance`,
+  ADMIN_UPDATE_COMPLIANCE: (id) => `${API_BASE_URL}/api/compliance/${id}`,
+  ADMIN_COMPLIANCE_VISIBILITY: (id) => `${API_BASE_URL}/api/compliance/${id}/visibility`,
+  ADMIN_DELETE_COMPLIANCE: (id) => `${API_BASE_URL}/api/compliance/${id}`,
+
+  // Admin: visitor analytics
+  ADMIN_VISITOR_STATS: `${API_BASE_URL}/api/visitor-stats`,
+  TRACK_VISIT: `${API_BASE_URL}/api/track-visit`,
+
+  // Super admin: manage admin accounts
+  SUPER_ADMIN_USERS: `${API_BASE_URL}/api/admin/users`,
+  SUPER_ADMIN_CREATE_USER: `${API_BASE_URL}/api/admin/users`,
+  SUPER_ADMIN_UPDATE_USER: (id) => `${API_BASE_URL}/api/admin/users/${id}`,
+  SUPER_ADMIN_DELETE_USER: (id) => `${API_BASE_URL}/api/admin/users/${id}`,
 
   // File upload base URL
   UPLOADS: `${API_BASE_URL}/uploads`,
@@ -52,12 +66,15 @@ const API_SETTINGS = {
     headers: {
       'Content-Type': 'application/json',
     },
-    withCredentials: false,
+    // Admin endpoints authenticate via an httpOnly session cookie, so every
+    // request needs to carry credentials - public endpoints don't mind.
+    withCredentials: true,
   },
   MULTIPART_CONFIG: {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
+    withCredentials: true,
   },
 };
 

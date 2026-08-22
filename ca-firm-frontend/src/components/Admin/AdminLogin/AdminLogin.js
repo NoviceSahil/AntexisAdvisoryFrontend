@@ -1,74 +1,68 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './AdminLogin.css';
+import { API_ENDPOINTS, API_CONFIG } from '../../../config/api';
 
-const AdminLogin = ({ setIsAdmin, setIsSuperAdmin }) => {
+const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/login', {
-        username,
-        password
-      });
-      
-      // Store token in sessionStorage
-      sessionStorage.setItem('token', response.data.token);
-      
-      if (response.data.role === 'superadmin') {
-        setIsSuperAdmin(true);
-        sessionStorage.setItem('isSuperAdmin', 'true');
-        navigate('/admin/super-dashboard');
-      } else if (response.data.role === 'admin') {
-        setIsAdmin(true);
-        sessionStorage.setItem('isAdmin', 'true');
-        navigate('/admin/dashboard');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
+      // The server sets an httpOnly session cookie on success - there is
+      // nothing for the client to store itself.
+      const response = await axios.post(API_ENDPOINTS.ADMIN_LOGIN, { username, password }, API_CONFIG);
+      navigate(response.data.role === 'superadmin' ? '/admin/super-dashboard' : '/admin/dashboard');
+    } catch (err) {
       setError(true);
       setTimeout(() => setError(false), 500);
-      alert('Invalid credentials');
+      alert(err.response?.data?.error || 'Invalid credentials');
+    } finally {
+      setSubmitting(false);
     }
   };
-  
-
 
   return (
-    <div className="admin-login-container">
-      <div className={`admin-login-card ${error ? 'error-shake' : ''}`}>
-        <h1 className="admin-login-title">Admin Login</h1>
-        <form onSubmit={handleSubmit} className="admin-login-form">
-          <div className="input-group">
+    <div className="admin-login-shell">
+      <div className={`admin-login-card${error ? ' error-shake' : ''}`}>
+        <div className="brand">
+          <span className="mark">A</span>
+          <span className="names">
+            <strong>Antexis Advisory</strong>
+            <span>Admin</span>
+          </span>
+        </div>
+        <h1>Sign in to continue</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label htmlFor="admin-username">Username</label>
             <input
+              id="admin-username"
               type="text"
-              id="username"
-              placeholder=" "
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              autoComplete="username"
             />
-            <label htmlFor="username">Username</label>
           </div>
-          
-          <div className="input-group">
+          <div className="field">
+            <label htmlFor="admin-password">Password</label>
             <input
+              id="admin-password"
               type="password"
-              id="password"
-              placeholder=" "
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
             />
-            <label htmlFor="password">Password</label>
           </div>
-          
-          <button type="submit" className="login-button">
-            Login
+          <button type="submit" className="btn btn-primary btn-block" disabled={submitting}>
+            {submitting ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
       </div>

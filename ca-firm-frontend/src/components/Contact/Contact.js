@@ -1,113 +1,105 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Contact.css';
 import { useNavigate } from 'react-router-dom';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, API_CONFIG } from '../../config/api';
+import Reveal from '../motion/Reveal';
+import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 const Contact = ({ setIsSubmitted }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [subject, setSubject] = useState('');
-    const [message, setMessage] = useState('');
+  useDocumentTitle('Contact');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(API_ENDPOINTS.CONTACT, { name, email, subject, message });
-            setIsSubmitted(true);
-            navigate('/contact-success');
-            console.log({ response });
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('Error sending message. Please try again.');
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await axios.post(API_ENDPOINTS.CONTACT, { name, email, subject, message }, API_CONFIG);
+      setIsSubmitted(true);
+      navigate('/contact-success');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Error sending message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-    return (
-        <main className="contact-page">
-            <section className="contact-hero">
-                <div className="contact-hero-copy">
-                    <span className="eyebrow">Contact</span>
-                    <h1>Send your message and we'll respond within one business day.</h1>
-                    <p>For audit, tax, corporate law, or advisory support, use the form below or connect directly with our team.</p>
-                </div>
-            </section>
+  return (
+    <>
+      <section className="page-hero panel">
+        <span className="eyebrow">Get in touch</span>
+        <h1>Let's talk about your books.</h1>
+        <p>Reach out directly, or send a note and a senior advisor will get back to you within one business day.</p>
+      </section>
 
-            <section className="contact-grid">
-                <aside className="contact-panel contact-details-panel">
-                    <p className="panel-label">Office</p>
-                    <h2>Panipat, Haryana</h2>
-                    <p className="panel-copy">DSS No. 21, 1st Floor, Huda Sector 13-17, Panipat-132103.</p>
+      <div className="panel form-grid">
+        <Reveal as="div" className="info-panel">
+          <div className="info-row">
+            <span className="lbl">Phone</span>
+            <div className="val">
+              <strong>+91 98765 43210</strong>
+              <span>Mon–Sat, 9am–6pm IST</span>
+            </div>
+          </div>
+          <div className="info-row">
+            <span className="lbl">Email</span>
+            <div className="val">
+              <strong>office@antexisadvisory.com</strong>
+              <span>We reply within one business day</span>
+            </div>
+          </div>
+          <div className="info-row">
+            <span className="lbl">Office</span>
+            <div className="val">
+              <strong>Panipat, Haryana</strong>
+              <a
+                href="https://www.google.com/maps/place/Ankita+%26+Associates/@29.4258771,76.9792994,20.21z"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on Google Maps
+              </a>
+            </div>
+          </div>
+          <p className="info-note">
+            Need urgent assistance? We provide responsive support for compliance deadlines, audit queries, and corporate filings.
+          </p>
+        </Reveal>
 
-                    <div className="info-block">
-                        <strong>Email</strong>
-                        <a href="mailto:office@antexisadvisory.com">office@antexisadvisory.com</a>
-                    </div>
-
-                    <div className="info-block">
-                        <strong>Location</strong>
-                        <a href="https://www.google.com/maps/place/Ankita+%26+Associates/@29.4258771,76.9792994,20.21z/data=!4m9!1m2!2m1!1santexis+advisory+panipat!3m5!1s0x390dd9ee72a3d5cd:0x6a5e7a1eaa8ec19e!8m2!3d29.4259011!4d76.9795886!16s%2Fg%2F11md1p1k08?entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">View on Google Maps</a>
-                    </div>
-
-                    <div className="contact-support-card">
-                        <p>Need urgent assistance?</p>
-                        <p>We provide responsive support for compliance deadlines, audit queries, and corporate filings.</p>
-                    </div>
-                </aside>
-
-                <section className="contact-panel contact-form-panel">
-                    <div className="panel-header">
-                        <p className="panel-label">Let's talk</p>
-                        <h2>Start your enquiry</h2>
-                    </div>
-                    <form onSubmit={handleSubmit} className="contact-form">
-                        <label>
-                            <span>Name</span>
-                            <input
-                                type="text"
-                                placeholder="Your Name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <label>
-                            <span>Email</span>
-                            <input
-                                type="email"
-                                placeholder="Your Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <label>
-                            <span>Subject</span>
-                            <input
-                                type="text"
-                                placeholder="Subject"
-                                value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <label>
-                            <span>Message</span>
-                            <textarea
-                                placeholder="Write your message"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                required
-                            />
-                        </label>
-                        <button type="submit" className="submit-button">Send Message</button>
-                    </form>
-                </section>
-            </section>
-        </main>
-    );
+        <Reveal as="div" className="form-card" delay={80}>
+          <form onSubmit={handleSubmit}>
+            <div className="field-row">
+              <div className="field">
+                <label htmlFor="contact-name">Name</label>
+                <input id="contact-name" type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} required />
+              </div>
+              <div className="field">
+                <label htmlFor="contact-email">Email</label>
+                <input id="contact-email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="contact-subject">Subject</label>
+              <input id="contact-subject" type="text" placeholder="What can we help with?" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+            </div>
+            <div className="field">
+              <label htmlFor="contact-message">Message</label>
+              <textarea id="contact-message" rows="5" placeholder="Tell us a little about your business and what you need." value={message} onChange={(e) => setMessage(e.target.value)} required />
+            </div>
+            <button type="submit" className="btn btn-primary btn-block" disabled={submitting}>
+              {submitting ? 'Sending…' : 'Send message'}
+            </button>
+          </form>
+        </Reveal>
+      </div>
+    </>
+  );
 };
 
 export default Contact;
