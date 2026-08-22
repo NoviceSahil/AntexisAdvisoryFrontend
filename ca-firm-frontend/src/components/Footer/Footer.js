@@ -19,7 +19,7 @@ const Footer = () => (
         <div className="foot-contact-block">
           <div className="fc-row">
             <strong>Phone</strong>
-            <a href="tel:+919876543210">+91 98765 43210</a>
+            <a href="tel:+918295450027">+91 82954 50027</a>
           </div>
           <div className="fc-row">
             <strong>Email</strong>

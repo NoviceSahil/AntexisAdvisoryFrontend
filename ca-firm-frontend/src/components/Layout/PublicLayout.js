@@ -85,7 +85,7 @@ const PublicLayout = () => {
             </NavLink>
           ))}
           <div className="rf-line">
-            <strong>+91 98765 43210</strong>
+            <strong>+91 82954 50027</strong>
             office@antexisadvisory.com
           </div>
           <NavLink to="/contact" className="btn btn-primary btn-block">Book Consultation</NavLink>

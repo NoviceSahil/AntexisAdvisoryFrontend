@@ -43,7 +43,7 @@ const Contact = ({ setIsSubmitted }) => {
           <div className="info-row">
             <span className="lbl">Phone</span>
             <div className="val">
-              <strong>+91 98765 43210</strong>
+              <strong>+91 82954 50027</strong>
               <span>Mon–Sat, 9am–6pm IST</span>
             </div>
           </div>
