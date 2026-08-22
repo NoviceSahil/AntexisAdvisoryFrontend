@@ -439,6 +439,26 @@ table.admin td{ padding:12px 16px; font-size:.86rem; border-bottom:1px solid var
 table.admin tr:last-child td{ border-bottom:none; }
 table.admin tr:hover td{ background:var(--surface-2); }
 table.admin tr.inactive-row td{ color:var(--ink-faint); }
+/* Below 700px, a wide data table forces horizontal scrolling to read
+   anything - a poor experience for exactly the tables admins use most
+   (blogs, applications, contacts). Desktop is untouched (this only
+   activates under the breakpoint): each row becomes its own card, each
+   cell stacks as a "label above value" pair using the data-label attribute
+   set on each <td> in JSX, instead of relying on the (now hidden) <thead>. */
+@media (max-width:700px){
+  .admin-tbl-wrap{ overflow-x:visible; border:none; background:none; margin-bottom:24px; }
+  table.admin{ min-width:0; }
+  table.admin thead{ display:none; }
+  table.admin, table.admin tbody, table.admin tr{ display:block; width:100%; }
+  table.admin tr{ background:var(--surface); border:1px solid var(--line); padding:14px 16px; margin-bottom:10px; }
+  table.admin tr:last-child{ margin-bottom:0; }
+  table.admin td{ display:block; padding:8px 0; border-bottom:1px solid var(--line); }
+  table.admin td:first-child{ padding-top:0; }
+  table.admin td:last-child{ border-bottom:none; padding-bottom:0; }
+  table.admin td::before{ content:attr(data-label); display:block; font-family:var(--font-mono); font-size:.64rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:3px; }
+  table.admin td.row-actions{ display:flex; padding-top:10px; }
+  table.admin td.row-actions::before{ content:none; }
+}
 .pill{ display:inline-flex; align-items:center; gap:5px; font-size:.7rem; font-weight:600; padding:3px 10px; border-radius:20px; }
 .pill::before{ content:""; width:6px; height:6px; border-radius:50%; }
 .pill.active{ background:var(--accent-tint); color:var(--accent-ink); }
@@ -457,3 +477,12 @@ table.admin tr.inactive-row td{ color:var(--ink-faint); }
 .admin-modal h2{ font-size:1.15rem; margin-bottom:18px; }
 .admin-modal input, .admin-modal textarea, .admin-modal select{ width:100%; border:1px solid var(--line-strong); background:var(--paper); padding:10px 12px; font-family:inherit; font-size:.92rem; margin-bottom:12px; color:var(--ink); }
 .admin-modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
+/* On a phone, filling in a form inside a small centered 480px-cap dialog
+   (with the on-screen keyboard eating half the remaining height) feels
+   cramped. Below 600px, anchor it to the bottom instead as a near-
+   full-width, near-full-height sheet - more room to type, closer to the
+   thumb. Desktop is untouched. */
+@media (max-width:600px){
+  .admin-modal-overlay{ padding:0; align-items:flex-end; }
+  .admin-modal{ max-width:100%; max-height:94vh; padding:22px 18px; border-left:none; border-right:none; border-bottom:none; border-radius:14px 14px 0 0; }
+}

@@ -211,10 +211,10 @@ const SuperAdminDashboard = () => {
             <tbody>
               {blogs.map((blog) => (
                 <tr key={blog.id} className={!blog.is_active ? 'inactive-row' : ''}>
-                  <td>{blog.title}</td>
-                  <td>{blog.author}</td>
-                  <td>{new Date(blog.created_at).toLocaleDateString()}</td>
-                  <td><span className={`pill ${blog.is_active ? 'active' : 'inactive'}`}>{blog.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td data-label="Title">{blog.title}</td>
+                  <td data-label="Author">{blog.author}</td>
+                  <td data-label="Created">{new Date(blog.created_at).toLocaleDateString()}</td>
+                  <td data-label="Status"><span className={`pill ${blog.is_active ? 'active' : 'inactive'}`}>{blog.is_active ? 'Active' : 'Hidden'}</span></td>
                   <td className="row-actions">
                     <button type="button" onClick={() => toggleBlogVisibility(blog.id, blog.is_active)}>{blog.is_active ? 'Hide' : 'Show'}</button>
                     <button type="button" onClick={() => handleDeleteBlog(blog.id)}>Delete</button>
@@ -257,12 +257,12 @@ const SuperAdminDashboard = () => {
             <tbody>
               {applications.map((app) => (
                 <tr key={app.id} className={!app.is_active ? 'inactive-row' : ''}>
-                  <td>{app.name}</td>
-                  <td>{app.email}</td>
-                  <td>{app.phone}</td>
-                  <td>{app.post_applied_for}</td>
-                  <td><a href={API_ENDPOINTS.ADMIN_DOWNLOAD_RESUME(app.resume_file_name)} target="_blank" rel="noopener noreferrer">Download</a></td>
-                  <td><span className={`pill ${app.is_active ? 'active' : 'inactive'}`}>{app.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td data-label="Name">{app.name}</td>
+                  <td data-label="Email">{app.email}</td>
+                  <td data-label="Phone">{app.phone}</td>
+                  <td data-label="Post applied for">{app.post_applied_for}</td>
+                  <td data-label="Resume"><a href={API_ENDPOINTS.ADMIN_DOWNLOAD_RESUME(app.resume_file_name)} target="_blank" rel="noopener noreferrer">Download</a></td>
+                  <td data-label="Status"><span className={`pill ${app.is_active ? 'active' : 'inactive'}`}>{app.is_active ? 'Active' : 'Hidden'}</span></td>
                   <td className="row-actions">
                     <button type="button" onClick={() => toggleApplicationVisibility(app.id, app.is_active)}>{app.is_active ? 'Hide' : 'Show'}</button>
                   </td>
@@ -285,11 +285,11 @@ const SuperAdminDashboard = () => {
             <tbody>
               {contactSubmissions.map((submission) => (
                 <tr key={submission.id} className={!submission.is_active ? 'inactive-row' : ''}>
-                  <td>{submission.name}</td>
-                  <td>{submission.email}</td>
-                  <td>{submission.subject}</td>
-                  <td>{submission.message}</td>
-                  <td><span className={`pill ${submission.is_active ? 'active' : 'inactive'}`}>{submission.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td data-label="Name">{submission.name}</td>
+                  <td data-label="Email">{submission.email}</td>
+                  <td data-label="Subject">{submission.subject}</td>
+                  <td data-label="Message">{submission.message}</td>
+                  <td data-label="Status"><span className={`pill ${submission.is_active ? 'active' : 'inactive'}`}>{submission.is_active ? 'Active' : 'Hidden'}</span></td>
                   <td className="row-actions">
                     <button type="button" onClick={() => toggleContactVisibility(submission.id, submission.is_active)}>{submission.is_active ? 'Hide' : 'Show'}</button>
                   </td>
@@ -312,10 +312,10 @@ const SuperAdminDashboard = () => {
             <tbody>
               {adminUsers.map((user) => (
                 <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.username}</td>
-                  <td><span className="role-badge">{user.role}</span></td>
-                  <td>{new Date(user.created_at).toLocaleDateString()}</td>
+                  <td data-label="ID">{user.id}</td>
+                  <td data-label="Username">{user.username}</td>
+                  <td data-label="Role"><span className="role-badge">{user.role}</span></td>
+                  <td data-label="Created">{new Date(user.created_at).toLocaleDateString()}</td>
                   <td className="row-actions">
                     <button type="button" onClick={() => { setEditingUser(user); setShowModal(true); }}>Edit</button>
                     <button type="button" onClick={() => handleDeleteUser(user.id)}>Delete</button>
@@ -353,9 +353,9 @@ const SuperAdminDashboard = () => {
             <tbody>
               {visitorStats.dailyStats.map((stat) => (
                 <tr key={stat.date}>
-                  <td>{new Date(stat.date).toLocaleDateString()}</td>
-                  <td>{stat.total_visits}</td>
-                  <td>{stat.unique_visitors}</td>
+                  <td data-label="Date">{new Date(stat.date).toLocaleDateString()}</td>
+                  <td data-label="Visits">{stat.total_visits}</td>
+                  <td data-label="Unique visitors">{stat.unique_visitors}</td>
                 </tr>
               ))}
               {visitorStats.dailyStats.length === 0 && <tr><td colSpan={3} style={{ color: 'var(--ink-faint)' }}>No visitor data yet.</td></tr>}

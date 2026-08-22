@@ -291,10 +291,10 @@ const AdminDashboard = () => {
             <tbody>
               {blogs.map((blog) => (
                 <tr key={blog.id} className={!blog.is_active ? 'inactive-row' : ''}>
-                  <td>{blog.title}</td>
-                  <td>{blog.author}</td>
-                  <td>{new Date(blog.created_at).toLocaleDateString()}</td>
-                  <td><span className={`pill ${blog.is_active ? 'active' : 'inactive'}`}>{blog.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td data-label="Title">{blog.title}</td>
+                  <td data-label="Author">{blog.author}</td>
+                  <td data-label="Created">{new Date(blog.created_at).toLocaleDateString()}</td>
+                  <td data-label="Status"><span className={`pill ${blog.is_active ? 'active' : 'inactive'}`}>{blog.is_active ? 'Active' : 'Hidden'}</span></td>
                   <td className="row-actions">
                     <button type="button" onClick={() => handleEditClick(blog)}>Edit</button>
                     <button type="button" onClick={() => toggleVisibility(blog.id, blog.is_active)}>
@@ -365,11 +365,11 @@ const AdminDashboard = () => {
             <tbody>
               {complianceDates.map((entry) => (
                 <tr key={entry.id} className={!entry.is_active ? 'inactive-row' : ''}>
-                  <td>{entry.category}</td>
-                  <td>{entry.title}</td>
-                  <td>{new Date(entry.due_date).toLocaleDateString()}</td>
-                  <td>{entry.cadence || '-'}</td>
-                  <td><span className={`pill ${entry.is_active ? 'active' : 'inactive'}`}>{entry.is_active ? 'Active' : 'Hidden'}</span></td>
+                  <td data-label="Category">{entry.category}</td>
+                  <td data-label="Title">{entry.title}</td>
+                  <td data-label="Due date">{new Date(entry.due_date).toLocaleDateString()}</td>
+                  <td data-label="Cadence">{entry.cadence || '-'}</td>
+                  <td data-label="Status"><span className={`pill ${entry.is_active ? 'active' : 'inactive'}`}>{entry.is_active ? 'Active' : 'Hidden'}</span></td>
                   <td className="row-actions">
                     <button type="button" onClick={() => handleEditComplianceClick(entry)}>Edit</button>
                     <button type="button" onClick={() => toggleComplianceVisibility(entry.id, entry.is_active)}>
@@ -436,11 +436,11 @@ const AdminDashboard = () => {
             <tbody>
               {applications.map((app) => (
                 <tr key={app.id}>
-                  <td>{app.name}</td>
-                  <td>{app.email}</td>
-                  <td>{app.phone}</td>
-                  <td>{app.post_applied_for}</td>
-                  <td>
+                  <td data-label="Name">{app.name}</td>
+                  <td data-label="Email">{app.email}</td>
+                  <td data-label="Phone">{app.phone}</td>
+                  <td data-label="Post applied for">{app.post_applied_for}</td>
+                  <td data-label="Resume">
                     <a href={API_ENDPOINTS.ADMIN_DOWNLOAD_RESUME(app.resume_file_name)} target="_blank" rel="noopener noreferrer">
                       Download
                     </a>
@@ -471,11 +471,11 @@ const AdminDashboard = () => {
             <tbody>
               {contactSubmissions.map((submission) => (
                 <tr key={submission.id}>
-                  <td>{submission.name}</td>
-                  <td>{submission.email}</td>
-                  <td>{submission.subject}</td>
-                  <td>{submission.message}</td>
-                  <td>{new Date(submission.submission_date).toLocaleDateString()}</td>
+                  <td data-label="Name">{submission.name}</td>
+                  <td data-label="Email">{submission.email}</td>
+                  <td data-label="Subject">{submission.subject}</td>
+                  <td data-label="Message">{submission.message}</td>
+                  <td data-label="Date">{new Date(submission.submission_date).toLocaleDateString()}</td>
                   <td className="row-actions">
                     <button type="button" onClick={() => handleDeleteClick(submission.id, 'contact')}>Archive</button>
                   </td>
