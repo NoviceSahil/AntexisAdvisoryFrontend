@@ -17,10 +17,16 @@ CREATE INDEX IF NOT EXISTS idx_compliance_dates_due_date ON compliance_dates (du
 
 -- Optional starter data so the page isn't empty on first load - feel free
 -- to delete these and add your own from the admin screen instead.
-INSERT INTO compliance_dates (category, title, due_date, cadence) VALUES
-    ('GST', 'GSTR-3B - monthly summary return', '2026-09-20', 'Monthly'),
-    ('GST', 'GSTR-1 - outward supplies', '2026-09-11', 'Monthly'),
-    ('Income Tax', 'Advance tax - Q2 instalment', '2026-09-15', 'Quarterly'),
-    ('Income Tax', 'TDS/TCS returns - Q2 FY 2026-27', '2026-10-31', 'Quarterly'),
-    ('ROC / Corporate', 'AOC-4 - filing of financial statements', '2026-09-30', 'Annual'),
-    ('ROC / Corporate', 'MGT-7 - annual return filing', '2026-10-29', 'Annual');
+-- Guarded by "table is currently empty" so this file stays safe to run on
+-- every deploy (e.g. from a Render Pre-Deploy Command) without duplicating
+-- rows each time.
+INSERT INTO compliance_dates (category, title, due_date, cadence)
+SELECT * FROM (VALUES
+    ('GST', 'GSTR-3B - monthly summary return', '2026-09-20'::date, 'Monthly'),
+    ('GST', 'GSTR-1 - outward supplies', '2026-09-11'::date, 'Monthly'),
+    ('Income Tax', 'Advance tax - Q2 instalment', '2026-09-15'::date, 'Quarterly'),
+    ('Income Tax', 'TDS/TCS returns - Q2 FY 2026-27', '2026-10-31'::date, 'Quarterly'),
+    ('ROC / Corporate', 'AOC-4 - filing of financial statements', '2026-09-30'::date, 'Annual'),
+    ('ROC / Corporate', 'MGT-7 - annual return filing', '2026-10-29'::date, 'Annual')
+) AS seed(category, title, due_date, cadence)
+WHERE NOT EXISTS (SELECT 1 FROM compliance_dates);

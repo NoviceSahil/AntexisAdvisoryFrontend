@@ -1,8 +1,11 @@
 // API Configuration
 // This file centralizes all API endpoint configurations
 
-// Base API URL from environment variables
-export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// Base API URL from environment variables. Empty string means "same origin"
+// - correct for production, since server.js serves both the API and the
+// built frontend from one process. Local dev overrides this via
+// .env.development (loaded only by `npm start`, never `npm run build`).
+export const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 // API Endpoints
 export const API_ENDPOINTS = {

@@ -6,8 +6,11 @@ require('dotenv').config();
 // fields — support both instead of forcing one deployment shape.
 const poolConfig = process.env.DATABASE_URL
     ? {
+        // Hosted Postgres (Render, Railway, Heroku) requires SSL on external
+        // connections regardless of NODE_ENV - e.g. when running migration
+        // scripts from a local machine against the External Database URL.
         connectionString: process.env.DATABASE_URL,
-        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+        ssl: { rejectUnauthorized: false }
     }
     : {
         user: process.env.DB_USER,
