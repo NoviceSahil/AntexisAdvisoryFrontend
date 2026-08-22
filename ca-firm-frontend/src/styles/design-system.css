@@ -139,10 +139,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero h1{ font-size:clamp(2.3rem, 4.6vw, 3.35rem); line-height:1.08; max-width:16ch; margin-bottom:22px; font-weight:600; }
 .hero .lede{ font-size:1.08rem; color:var(--ink-muted); max-width:46ch; margin-bottom:30px; }
 .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px; }
+@media (max-width:640px){
+  .hero{ padding:48px 0 0; }
+  .hero .lede{ margin-bottom:24px; }
+  .hero-actions{ margin-bottom:40px; }
+  .hero-actions .btn{ flex:1 1 auto; }
+}
 
 .page-hero{ padding:76px 0 48px; border-bottom:1px solid var(--line); margin-bottom:48px; }
 .page-hero h1{ font-size:clamp(2rem, 4vw, 2.8rem); max-width:18ch; margin-bottom:16px; }
 .page-hero p{ font-size:1.03rem; color:var(--ink-muted); max-width:56ch; }
+@media (max-width:640px){ .page-hero{ padding:48px 0 32px; margin-bottom:32px; } }
 
 .stat-rule{ display:flex; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .stat-rule .stat{ flex:1; padding:20px 24px 22px 0; border-left:1px solid var(--line); }
@@ -153,7 +160,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .section{ padding:64px 0; }
 .section + .section{ border-top:1px solid var(--line); }
-.sec-title{ font-size:1.7rem; max-width:30ch; margin-bottom:34px; }
+.sec-title{ font-size:clamp(1.4rem, 4.5vw, 1.7rem); max-width:30ch; margin-bottom:34px; }
+@media (max-width:640px){
+  .section{ padding:44px 0; }
+  .sec-title{ margin-bottom:24px; }
+}
 
 /* row-list pattern - used for "related services" on each service detail
    page. The main 8-service listing on Home/Services uses .service-grid
@@ -183,6 +194,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:900px){ .service-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:520px){ .service-grid{ grid-template-columns:1fr; } }
 .service-card{ background:var(--surface); padding:26px 22px; display:flex; flex-direction:column; gap:12px; min-height:190px; transition:background .15s; }
+/* min-height keeps the 4-across desktop grid even-heighted regardless of
+   summary length - in the single-column mobile layout it just stretches
+   each card with empty space below a two-line title and summary, so drop
+   it once cards are full-width and let content set the height instead. */
+@media (max-width:520px){ .service-card{ min-height:0; padding:22px 20px; } }
 .service-card:hover{ background:var(--surface-2); }
 .service-card .num{ font-size:1.25rem; color:var(--ink-faint); transition:color .15s; }
 .service-card:hover .num{ color:var(--accent-ink); }
@@ -200,6 +216,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:700px){ .note-points{ grid-template-columns:1fr; } }
 .note-points li{ font-size:.86rem; color:var(--ink-muted); }
 .note-points strong{ display:block; color:var(--ink); font-family:var(--font-serif); font-style:italic; font-size:1.5rem; font-variant-numeric:oldstyle-nums; margin-bottom:6px; }
+@media (max-width:640px){
+  .note-mark{ font-size:2.6rem; margin-bottom:4px; }
+  .note blockquote{ font-size:1.22rem; margin-bottom:20px; }
+  .note-meta{ margin-bottom:22px; }
+  .note-points{ gap:16px; padding-top:20px; }
+  .note-points strong{ font-size:1.25rem; }
+}
 
 /* bulletin (blog) list */
 .bull-row{ display:grid; grid-template-columns:110px 90px 1fr auto; align-items:baseline; gap:18px; padding:18px 0; border-bottom:1px solid var(--line); }
@@ -217,9 +240,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .cta-inner{ padding:64px 0; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
 .cta-inner h2{ font-size:clamp(1.5rem, 5vw, 1.9rem); color:var(--paper); max-width:22ch; }
 .cta-inner .btn-primary:hover{ filter:brightness(1.1); }
+@media (max-width:640px){ .cta-inner{ padding:44px 0; } }
 
 .site-footer-outer{ background:var(--surface-2); border-top:1px solid var(--line); margin-top:48px; }
 .site-footer{ padding:40px 0 22px; }
+@media (max-width:640px){ .site-footer{ padding:32px 0 20px; } }
 
 /* Editorial statement + contact, instead of three columns of plain links -
    matches the serif-statement treatment used elsewhere on the site (the
@@ -245,6 +270,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .foot-bottom a:hover{ color:var(--accent-ink); }
 .foot-legal{ display:flex; gap:16px; flex-wrap:wrap; }
 .foot-reg{ display:flex; align-items:center; gap:8px; }
+/* Below 600px the copyright line usually already needs the full width on
+   its own, so relying on flex-wrap + space-between leaves foot-legal
+   stranded on its own wrapped line with inconsistent alignment - stack
+   both explicitly instead of leaving it to wrap. */
+@media (max-width:600px){ .foot-bottom{ flex-direction:column; align-items:flex-start; gap:12px; } }
 
 /* ================= SERVICE DETAIL ================= */
 .crumb{ padding:26px 0 6px; font-family:var(--font-mono); font-size:.76rem; color:var(--ink-faint); }
@@ -253,6 +283,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-hero h1{ font-size:clamp(1.9rem, 5vw, 2.3rem); margin-bottom:16px; }
 .svc-hero p{ font-size:1.03rem; color:var(--ink-muted); max-width:58ch; }
 .svc-sec{ padding:40px 0; border-bottom:1px solid var(--line); }
+@media (max-width:640px){ .svc-hero{ padding:12px 0 32px; } .svc-sec{ padding:28px 0; } }
 .svc-sec h2{ font-family:var(--font-sans); font-weight:700; font-size:1rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
 .svc-sec p{ color:var(--ink-muted); font-size:.98rem; max-width:64ch; }
 .deliv-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
@@ -314,6 +345,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* ================= BLOG ================= */
 .blog-index-grid{ display:flex; flex-direction:column; margin-bottom:40px; }
 .blog-detail-hero{ padding:76px 0 40px; }
+@media (max-width:640px){ .blog-detail-hero{ padding:48px 0 28px; } }
 .blog-detail-meta{ display:flex; gap:16px; font-family:var(--font-mono); font-size:.78rem; color:var(--ink-faint); margin-bottom:18px; }
 .blog-detail-img{ width:100%; max-width:900px; border:1px solid var(--line); margin:0 0 40px; display:block; }
 .blog-detail-body{ max-width:68ch; font-size:1.02rem; color:var(--ink-muted); white-space:pre-line; margin-bottom:40px; }
