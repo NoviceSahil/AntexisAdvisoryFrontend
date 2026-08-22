@@ -42,10 +42,21 @@
 
 *{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+/* Belt-and-braces: nothing on this site should legitimately need to
+   scroll sideways. If a heading, long word, or anything else ever
+   overflows its column again, clip it instead of silently producing a
+   horizontally-scrollable page - a phone screen showing text with no
+   visible way to scroll to the rest of it is a worse failure mode than
+   losing an overflowing pixel or two. */
+/* html only, not body - setting overflow on body would push its other
+   axis to "auto" scrolling too, which breaks .topnav's position:sticky
+   (sticky needs an ancestor with unconstrained overflow up to the
+   viewport). html's own overflow doesn't affect that. */
+html{ overflow-x:hidden; }
 img, video{ max-width:100%; height:auto; }
 body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
 a{ color:inherit; text-decoration:none; }
-h1,h2,h3{ font-family:var(--font-serif); font-weight:500; text-wrap:balance; margin:0; letter-spacing:-.01em; }
+h1,h2,h3{ font-family:var(--font-serif); font-weight:500; text-wrap:balance; margin:0; letter-spacing:-.01em; overflow-wrap:break-word; }
 p{ margin:0; }
 button{ font-family:inherit; cursor:pointer; }
 ::selection{ background:var(--accent-tint); color:var(--accent-ink); }
@@ -136,7 +147,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ================= HOME / generic page hero ================= */
 .hero{ padding:76px 0 0; }
-.hero h1{ font-size:clamp(2.3rem, 4.6vw, 3.35rem); line-height:1.08; max-width:16ch; margin-bottom:22px; font-weight:600; }
+.hero h1{ font-size:clamp(1.85rem, 4.6vw, 3.35rem); line-height:1.15; max-width:16ch; margin-bottom:22px; font-weight:600; }
 .hero .lede{ font-size:1.08rem; color:var(--ink-muted); max-width:46ch; margin-bottom:30px; }
 .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px; }
 @media (max-width:640px){
@@ -147,7 +158,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .page-hero{ padding:76px 0 48px; border-bottom:1px solid var(--line); margin-bottom:48px; }
-.page-hero h1{ font-size:clamp(2rem, 4vw, 2.8rem); max-width:18ch; margin-bottom:16px; }
+.page-hero h1{ font-size:clamp(1.7rem, 4vw, 2.8rem); line-height:1.15; max-width:18ch; margin-bottom:16px; }
 .page-hero p{ font-size:1.03rem; color:var(--ink-muted); max-width:56ch; }
 @media (max-width:640px){ .page-hero{ padding:48px 0 32px; margin-bottom:32px; } }
 
@@ -198,7 +209,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    summary length - in the single-column mobile layout it just stretches
    each card with empty space below a two-line title and summary, so drop
    it once cards are full-width and let content set the height instead. */
-@media (max-width:520px){ .service-card{ min-height:0; padding:22px 20px; } }
+@media (max-width:520px){ .service-card{ min-height:0; padding:18px 20px; gap:8px; } .service-card p{ font-size:.82rem; } }
 .service-card:hover{ background:var(--surface-2); }
 .service-card .num{ font-size:1.25rem; color:var(--ink-faint); transition:color .15s; }
 .service-card:hover .num{ color:var(--accent-ink); }
