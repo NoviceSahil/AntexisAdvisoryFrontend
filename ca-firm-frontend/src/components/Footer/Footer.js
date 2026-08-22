@@ -39,7 +39,6 @@ const Footer = () => (
       <nav className="foot-links-row" aria-label="Footer">
         <Link to="/">Home</Link>
         <Link to="/services">Services</Link>
-        <Link to="/team">Team</Link>
         <Link to="/affiliation">Affiliations</Link>
         <Link to="/blog">Blog</Link>
         <Link to="/compliance-calendar">Compliance calendar</Link>

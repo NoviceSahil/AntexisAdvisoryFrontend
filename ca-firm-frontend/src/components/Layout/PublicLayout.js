@@ -9,7 +9,6 @@ import { API_ENDPOINTS } from '../../config/api';
 const navItems = [
   { to: '/', label: 'Home', end: true },
   { to: '/services', label: 'Services' },
-  { to: '/team', label: 'Team' },
   { to: '/blog', label: 'Blog' },
   { to: '/contact', label: 'Contact' },
   { to: '/apply-online', label: 'Careers' }
