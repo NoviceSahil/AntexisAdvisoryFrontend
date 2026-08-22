@@ -36,10 +36,26 @@ async function bootstrapAdmin() {
     logger.info(`Bootstrap superadmin account created: ${username}`);
 }
 
-async function runStartupTasks() {
+async function runOnce() {
     await runMigrationFile('migrations/000_full_schema.sql');
     await runMigrationFile('migrations/001_compliance_dates.sql');
     await bootstrapAdmin();
+}
+
+// Retries with a short delay - covers a transient DNS/network hiccup in the
+// first moments after a fresh container boots, which would otherwise
+// silently skip schema setup for the rest of that process's lifetime.
+async function runStartupTasks(attempts = 5, delayMs = 3000) {
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+        try {
+            await runOnce();
+            return;
+        } catch (error) {
+            if (attempt === attempts) throw error;
+            logger.error(`Startup tasks attempt ${attempt}/${attempts} failed, retrying`, { error: error.message });
+            await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+    }
 }
 
 module.exports = runStartupTasks;
