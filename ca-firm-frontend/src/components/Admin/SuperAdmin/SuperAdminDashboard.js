@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import * as XLSX from 'xlsx';
 import AdminModal from '../Modal/AdminModal';
 import AdminShell from '../AdminShell';
 import ServiceForm from '../Services/ServiceForm';
+import { exportToCsv } from '../../../utils/exportCsv';
 import { API_ENDPOINTS, API_CONFIG, MULTIPART_CONFIG } from '../../../config/api';
 
 const NAV_ITEMS = [
@@ -203,12 +203,7 @@ const SuperAdminDashboard = () => {
     }
   };
 
-  const exportAllData = (data, filename) => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, filename);
-    XLSX.writeFile(workbook, `${filename}.xlsx`);
-  };
+  const exportAllData = (data, filename) => exportToCsv(data, filename);
 
   const handleAddBlog = async () => {
     try {

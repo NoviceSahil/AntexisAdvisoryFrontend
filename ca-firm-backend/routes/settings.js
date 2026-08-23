@@ -4,6 +4,21 @@ const pool = require('../config/db');
 const logger = require('../utils/logger');
 const { requireAdmin } = require('../middleware/auth');
 
+// Only these keys can be written - not a security boundary on its own
+// (this route is already admin-only and values are just displayed as
+// plain text, so an arbitrary extra key couldn't do anything harmful
+// either way), but there's no reason to let the table accumulate
+// untracked keys nothing ever reads.
+const ALLOWED_KEYS = new Set([
+    'years_of_service',
+    'clients_supported',
+    'regional_offices',
+    'contact_phone',
+    'contact_email',
+    'contact_address',
+    'whatsapp_message'
+]);
+
 // Public: every setting as a flat { key: value } object - simpler for the
 // frontend to consume than an array of {key, value} rows.
 router.get('/', async (req, res) => {
@@ -21,9 +36,9 @@ router.get('/', async (req, res) => {
 // Admin: upsert a partial { key: value } object - only the keys present in
 // the request body are touched, everything else is left as-is.
 router.put('/', requireAdmin, async (req, res) => {
-    const entries = Object.entries(req.body || {});
+    const entries = Object.entries(req.body || {}).filter(([key]) => ALLOWED_KEYS.has(key));
     if (entries.length === 0) {
-        return res.status(400).json({ error: 'No settings provided' });
+        return res.status(400).json({ error: 'No valid settings provided' });
     }
     try {
         for (const [key, value] of entries) {

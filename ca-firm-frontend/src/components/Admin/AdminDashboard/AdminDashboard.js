@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import * as XLSX from 'xlsx';
 import Modal from '../Modal/Modal';
 import AdminShell from '../AdminShell';
 import ServiceForm from '../Services/ServiceForm';
+import { exportToCsv } from '../../../utils/exportCsv';
 import { API_ENDPOINTS, API_CONFIG, MULTIPART_CONFIG } from '../../../config/api';
 
 const NAV_ITEMS = [
@@ -65,19 +65,8 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  const exportJobApplications = () => {
-    const worksheet = XLSX.utils.json_to_sheet(applications);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Job Applications");
-    XLSX.writeFile(workbook, "job_applications.xlsx");
-  };
-
-  const exportContactSubmissions = () => {
-    const worksheet = XLSX.utils.json_to_sheet(contactSubmissions);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Contact Submissions");
-    XLSX.writeFile(workbook, "contact_submissions.xlsx");
-  };
+  const exportJobApplications = () => exportToCsv(applications, 'job_applications');
+  const exportContactSubmissions = () => exportToCsv(contactSubmissions, 'contact_submissions');
 
   // Note: there's no hard-delete for applications/contact enquiries on the
   // backend - both endpoints archive (is_active = false) so candidate/

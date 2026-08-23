@@ -1,7 +1,6 @@
 node_modules/
 
 server2.js
-package-lock.json
 document.md
 document1.md
 .env

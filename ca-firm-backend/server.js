@@ -33,7 +33,6 @@ app.use(cors({
     origin: function (origin, callback) {
         if (!origin) return callback(null, true); // non-browser clients (curl, Postman)
         if (allowedOrigins.indexOf(origin) === -1) {
-            logger.warn('CORS origin rejected', { origin, allowedOrigins });
             return callback(new Error('The CORS policy for this site does not allow access from the specified origin.'), false);
         }
         return callback(null, true);
