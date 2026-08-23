@@ -40,6 +40,7 @@ async function runOnce() {
     await runMigrationFile('migrations/000_full_schema.sql');
     await runMigrationFile('migrations/001_compliance_dates.sql');
     await runMigrationFile('migrations/002_services_and_settings.sql');
+    await runMigrationFile('migrations/003_whatsapp_message_setting.sql');
     await bootstrapAdmin();
 }
 

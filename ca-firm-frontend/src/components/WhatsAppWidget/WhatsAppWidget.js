@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_ENDPOINTS } from '../../config/api';
 import './WhatsAppWidget.css';
+
+const DEFAULT_PHONE = '+91 82954 50027';
+const DEFAULT_MESSAGE = "Hello! I'm interested in your CA services and would like to know more about your offerings. Could you please help me?";
 
 const WhatsAppWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
-    
-    // Replace with your actual WhatsApp number (include country code without + sign)
-    const phoneNumber = "918295450027"; // Replace with your actual WhatsApp number
-    
-    // Default message that will be pre-filled
-    const defaultMessage = "Hello! I'm interested in your CA services and would like to know more about your offerings. Could you please help me?";
-    
+    const [phone, setPhone] = useState(DEFAULT_PHONE);
+    const [message, setMessage] = useState(DEFAULT_MESSAGE);
+
+    // Same contact_phone used by the footer/navbar/contact page, plus a
+    // dedicated whatsapp_message key - both admin-editable from the Site
+    // settings panel instead of hardcoded here.
+    useEffect(() => {
+        axios.get(API_ENDPOINTS.SITE_SETTINGS)
+            .then((response) => {
+                if (response.data.contact_phone) setPhone(response.data.contact_phone);
+                if (response.data.whatsapp_message) setMessage(response.data.whatsapp_message);
+            })
+            .catch((error) => console.error('Error fetching site settings:', error));
+    }, []);
+
     const handleWhatsAppClick = () => {
-        const message = encodeURIComponent(defaultMessage);
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+        const phoneDigitsOnly = phone.replace(/[^\d]/g, '');
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${phoneDigitsOnly}?text=${encodedMessage}`;
         window.open(whatsappUrl, '_blank');
     };
 

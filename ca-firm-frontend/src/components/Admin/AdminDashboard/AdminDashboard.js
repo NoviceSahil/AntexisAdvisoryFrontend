@@ -683,6 +683,15 @@ const AdminDashboard = () => {
               onChange={(e) => setSettings({ ...settings, contact_address: e.target.value })}
             />
           </div>
+          <div className="field">
+            <label htmlFor="set-wa-message">WhatsApp widget message</label>
+            <textarea
+              id="set-wa-message"
+              rows={3}
+              value={settings.whatsapp_message || ''}
+              onChange={(e) => setSettings({ ...settings, whatsapp_message: e.target.value })}
+            />
+          </div>
           <button type="submit" className="btn btn-primary btn-sm" disabled={savingSettings}>
             {savingSettings ? 'Saving…' : 'Save settings'}
           </button>
