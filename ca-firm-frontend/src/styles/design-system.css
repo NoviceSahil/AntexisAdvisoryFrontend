@@ -484,6 +484,16 @@ table.admin tr.inactive-row td{ color:var(--ink-faint); }
 .admin-modal h2{ font-size:1.15rem; margin-bottom:18px; }
 .admin-modal input, .admin-modal textarea, .admin-modal select{ width:100%; border:1px solid var(--line-strong); background:var(--paper); padding:10px 12px; font-family:inherit; font-size:.92rem; margin-bottom:12px; color:var(--ink); }
 .admin-modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
+.field-label{ display:block; font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:8px; }
+/* Repeatable deliverable label+description rows in the services admin
+   form. Reuses .field-row's existing 2-col-desktop/1-col-mobile grid for
+   the pair itself, so nothing new is needed for that part. */
+.deliverable-row{ margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+.deliverable-row .field-row{ margin-bottom:8px; }
+.related-checklist{ max-height:160px; overflow-y:auto; border:1px solid var(--line-strong); padding:10px 12px; margin-bottom:14px; }
+.related-checklist label{ display:flex; align-items:center; gap:8px; font-size:.86rem; padding:5px 0; }
+.related-checklist input[type="checkbox"]{ width:auto; margin:0; }
+.related-checklist .empty{ color:var(--ink-faint); font-size:.84rem; }
 /* On a phone, filling in a form inside a small centered 480px-cap dialog
    (with the on-screen keyboard eating half the remaining height) feels
    cramped. Below 600px, anchor it to the bottom instead as a near-

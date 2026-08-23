@@ -3,10 +3,12 @@ import axios from "axios";
 import * as XLSX from 'xlsx';
 import AdminModal from '../Modal/AdminModal';
 import AdminShell from '../AdminShell';
+import ServiceForm from '../Services/ServiceForm';
 import { API_ENDPOINTS, API_CONFIG, MULTIPART_CONFIG } from '../../../config/api';
 
 const NAV_ITEMS = [
   { href: '#blogs', label: 'Blogs' },
+  { href: '#services', label: 'Services' },
   { href: '#applications', label: 'Applications' },
   { href: '#contacts', label: 'Contacts' },
   { href: '#users', label: 'Admin users' },
@@ -28,6 +30,9 @@ const SuperAdminDashboard = () => {
     image: null,
     document: null
   });
+  const [services, setServices] = useState([]);
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [editingService, setEditingService] = useState(null); // null = adding new
 
   useEffect(() => {
     fetchAllData();
@@ -35,19 +40,63 @@ const SuperAdminDashboard = () => {
 
   const fetchAllData = async () => {
     try {
-      const [appsRes, contactRes, adminRes, blogsRes] = await Promise.all([
+      const [appsRes, contactRes, adminRes, blogsRes, servicesRes] = await Promise.all([
         axios.get(API_ENDPOINTS.ADMIN_APPLICATIONS_ALL, API_CONFIG),
         axios.get(API_ENDPOINTS.ADMIN_CONTACTS_ALL, API_CONFIG),
         axios.get(API_ENDPOINTS.SUPER_ADMIN_USERS, API_CONFIG),
-        axios.get(API_ENDPOINTS.ADMIN_BLOGS_ALL, API_CONFIG)
+        axios.get(API_ENDPOINTS.ADMIN_BLOGS_ALL, API_CONFIG),
+        axios.get(API_ENDPOINTS.ADMIN_SERVICES_ALL, API_CONFIG)
       ]);
 
       setApplications(appsRes.data);
       setContactSubmissions(contactRes.data);
       setAdminUsers(adminRes.data);
       setBlogs(blogsRes.data);
+      setServices(servicesRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
+    }
+  };
+
+  const handleAddService = async (data) => {
+    try {
+      await axios.post(API_ENDPOINTS.ADMIN_CREATE_SERVICE, data, API_CONFIG);
+      await fetchAllData();
+      setShowServiceModal(false);
+    } catch (error) {
+      console.error('Error adding service:', error);
+      alert(error.response?.data?.error || 'Failed to add service');
+    }
+  };
+
+  const handleUpdateService = async (data) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_UPDATE_SERVICE(editingService.id), data, API_CONFIG);
+      await fetchAllData();
+      setEditingService(null);
+    } catch (error) {
+      console.error('Error updating service:', error);
+      alert('Failed to update service');
+    }
+  };
+
+  const toggleServiceVisibility = async (id, currentStatus) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_SERVICE_VISIBILITY(id), { isActive: !currentStatus }, API_CONFIG);
+      await fetchAllData();
+    } catch (error) {
+      console.error('Error toggling service visibility:', error);
+    }
+  };
+
+  const handleDeleteService = async (id) => {
+    if (window.confirm('Permanently delete this service? This cannot be undone.')) {
+      try {
+        await axios.delete(API_ENDPOINTS.ADMIN_DELETE_SERVICE(id), API_CONFIG);
+        fetchAllData();
+      } catch (error) {
+        console.error('Error deleting service:', error);
+      }
     }
   };
 
@@ -243,6 +292,58 @@ const SuperAdminDashboard = () => {
               </form>
             </div>
           </div>
+        )}
+      </section>
+
+      <section className="admin-section" id="services">
+        <div className="admin-section-head">
+          <h2>Services</h2>
+          <button type="button" onClick={() => setShowServiceModal(true)} className="btn btn-primary btn-sm">
+            Add new service
+          </button>
+        </div>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead>
+              <tr><th>Title</th><th>Summary</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              {services.map((service) => (
+                <tr key={service.id} className={!service.is_active ? 'inactive-row' : ''}>
+                  <td data-label="Title">{service.title}</td>
+                  <td data-label="Summary">{service.summary}</td>
+                  <td data-label="Status"><span className={`pill ${service.is_active ? 'active' : 'inactive'}`}>{service.is_active ? 'Active' : 'Archived'}</span></td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => setEditingService(service)}>Edit</button>
+                    <button type="button" onClick={() => toggleServiceVisibility(service.id, service.is_active)}>
+                      {service.is_active ? 'Archive' : 'Restore'}
+                    </button>
+                    <button type="button" onClick={() => handleDeleteService(service.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+              {services.length === 0 && (
+                <tr><td colSpan={4} style={{ color: 'var(--ink-faint)' }}>No services yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {showServiceModal && (
+          <ServiceForm
+            allServices={services}
+            onSubmit={handleAddService}
+            onCancel={() => setShowServiceModal(false)}
+          />
+        )}
+        {editingService && (
+          <ServiceForm
+            isEdit
+            initialData={editingService}
+            allServices={services}
+            onSubmit={handleUpdateService}
+            onCancel={() => setEditingService(null)}
+          />
         )}
       </section>
 

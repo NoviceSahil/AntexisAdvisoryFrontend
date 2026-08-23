@@ -16,6 +16,8 @@ const applicationRoutes = require('./routes/applications');
 const contactRoutes = require('./routes/contact');
 const analyticsRoutes = require('./routes/analytics');
 const complianceRoutes = require('./routes/compliance');
+const servicesRoutes = require('./routes/services');
+const settingsRoutes = require('./routes/settings');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -64,6 +66,8 @@ app.use('/api', applicationRoutes); // POST /api/apply, /api/applications*, /api
 app.use('/api/contact', contactRoutes);
 app.use('/api', analyticsRoutes); // /api/track-visit, /api/visitor-stats
 app.use('/api/compliance', complianceRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/settings', settingsRoutes);
 
 app.use((req, res, next) => {
     if (req.path.startsWith('/api/') || req.path.startsWith('/uploads/')) {

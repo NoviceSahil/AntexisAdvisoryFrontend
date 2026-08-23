@@ -3,13 +3,16 @@ import axios from 'axios';
 import * as XLSX from 'xlsx';
 import Modal from '../Modal/Modal';
 import AdminShell from '../AdminShell';
+import ServiceForm from '../Services/ServiceForm';
 import { API_ENDPOINTS, API_CONFIG, MULTIPART_CONFIG } from '../../../config/api';
 
 const NAV_ITEMS = [
   { href: '#blogs', label: 'Blogs' },
   { href: '#compliance', label: 'Compliance' },
+  { href: '#services', label: 'Services' },
   { href: '#applications', label: 'Applications' },
-  { href: '#contacts', label: 'Contacts' }
+  { href: '#contacts', label: 'Contacts' },
+  { href: '#settings', label: 'Settings' }
 ];
 
 const emptyCompliance = { category: '', title: '', due_date: '', cadence: '' };
@@ -34,6 +37,11 @@ const AdminDashboard = () => {
   const [complianceData, setComplianceData] = useState(emptyCompliance);
   const [showEditComplianceModal, setShowEditComplianceModal] = useState(false);
   const [editComplianceData, setEditComplianceData] = useState(emptyCompliance);
+  const [services, setServices] = useState([]);
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [editingService, setEditingService] = useState(null); // null = adding new
+  const [settings, setSettings] = useState({});
+  const [savingSettings, setSavingSettings] = useState(false);
 
   const handleDeleteClick = (id, type) => {
     setSelectedId(id);
@@ -92,6 +100,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetchAllData();
     fetchCompliance();
+    fetchServices();
+    fetchSettings();
   }, []);
 
   const fetchAllData = async () => {
@@ -109,6 +119,69 @@ const AdminDashboard = () => {
       setComplianceDates(res.data);
     } catch (error) {
       console.error('Error fetching compliance dates:', error);
+    }
+  };
+
+  const fetchServices = async () => {
+    try {
+      const res = await axios.get(API_ENDPOINTS.ADMIN_SERVICES_ALL, API_CONFIG);
+      setServices(res.data);
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    }
+  };
+
+  const handleAddService = async (data) => {
+    try {
+      await axios.post(API_ENDPOINTS.ADMIN_CREATE_SERVICE, data, API_CONFIG);
+      await fetchServices();
+      setShowServiceModal(false);
+    } catch (error) {
+      console.error('Error adding service:', error);
+      alert(error.response?.data?.error || 'Failed to add service');
+    }
+  };
+
+  const handleUpdateService = async (data) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_UPDATE_SERVICE(editingService.id), data, API_CONFIG);
+      await fetchServices();
+      setEditingService(null);
+    } catch (error) {
+      console.error('Error updating service:', error);
+      alert('Failed to update service');
+    }
+  };
+
+  const toggleServiceVisibility = async (id, currentStatus) => {
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_SERVICE_VISIBILITY(id), { isActive: !currentStatus }, API_CONFIG);
+      await fetchServices();
+    } catch (error) {
+      console.error('Error toggling service visibility:', error);
+    }
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const res = await axios.get(API_ENDPOINTS.SITE_SETTINGS);
+      setSettings(res.data);
+    } catch (error) {
+      console.error('Error fetching site settings:', error);
+    }
+  };
+
+  const handleSaveSettings = async (e) => {
+    e.preventDefault();
+    setSavingSettings(true);
+    try {
+      await axios.put(API_ENDPOINTS.ADMIN_UPDATE_SETTINGS, settings, API_CONFIG);
+      alert('Settings saved.');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      alert('Failed to save settings');
+    } finally {
+      setSavingSettings(false);
     }
   };
 
@@ -423,6 +496,57 @@ const AdminDashboard = () => {
         )}
       </section>
 
+      <section className="admin-section" id="services">
+        <div className="admin-section-head">
+          <h2>Services</h2>
+          <button type="button" onClick={() => setShowServiceModal(true)} className="btn btn-primary btn-sm">
+            Add new service
+          </button>
+        </div>
+        <div className="admin-tbl-wrap">
+          <table className="admin">
+            <thead>
+              <tr><th>Title</th><th>Summary</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              {services.map((service) => (
+                <tr key={service.id} className={!service.is_active ? 'inactive-row' : ''}>
+                  <td data-label="Title">{service.title}</td>
+                  <td data-label="Summary">{service.summary}</td>
+                  <td data-label="Status"><span className={`pill ${service.is_active ? 'active' : 'inactive'}`}>{service.is_active ? 'Active' : 'Archived'}</span></td>
+                  <td className="row-actions">
+                    <button type="button" onClick={() => setEditingService(service)}>Edit</button>
+                    <button type="button" onClick={() => toggleServiceVisibility(service.id, service.is_active)}>
+                      {service.is_active ? 'Archive' : 'Restore'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {services.length === 0 && (
+                <tr><td colSpan={4} style={{ color: 'var(--ink-faint)' }}>No services yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {showServiceModal && (
+          <ServiceForm
+            allServices={services}
+            onSubmit={handleAddService}
+            onCancel={() => setShowServiceModal(false)}
+          />
+        )}
+        {editingService && (
+          <ServiceForm
+            isEdit
+            initialData={editingService}
+            allServices={services}
+            onSubmit={handleUpdateService}
+            onCancel={() => setEditingService(null)}
+          />
+        )}
+      </section>
+
       <section className="admin-section" id="applications">
         <div className="admin-section-head">
           <h2>Job applications</h2>
@@ -493,6 +617,76 @@ const AdminDashboard = () => {
           onConfirm={handleConfirmDelete}
           message={`Are you sure you want to archive this ${modalType}?`}
         />
+      </section>
+
+      <section className="admin-section" id="settings">
+        <div className="admin-section-head">
+          <h2>Site settings</h2>
+        </div>
+        <form onSubmit={handleSaveSettings} className="form-card" style={{ maxWidth: 480 }}>
+          <div className="field-row">
+            <div className="field">
+              <label htmlFor="set-years">Years of service</label>
+              <input
+                id="set-years"
+                type="number"
+                min="0"
+                value={settings.years_of_service || ''}
+                onChange={(e) => setSettings({ ...settings, years_of_service: e.target.value })}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="set-clients">Clients supported</label>
+              <input
+                id="set-clients"
+                type="number"
+                min="0"
+                value={settings.clients_supported || ''}
+                onChange={(e) => setSettings({ ...settings, clients_supported: e.target.value })}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label htmlFor="set-offices">Regional offices</label>
+            <input
+              id="set-offices"
+              type="number"
+              min="0"
+              value={settings.regional_offices || ''}
+              onChange={(e) => setSettings({ ...settings, regional_offices: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="set-phone">Phone</label>
+            <input
+              id="set-phone"
+              type="text"
+              value={settings.contact_phone || ''}
+              onChange={(e) => setSettings({ ...settings, contact_phone: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="set-email">Email</label>
+            <input
+              id="set-email"
+              type="email"
+              value={settings.contact_email || ''}
+              onChange={(e) => setSettings({ ...settings, contact_email: e.target.value })}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="set-address">Office address</label>
+            <input
+              id="set-address"
+              type="text"
+              value={settings.contact_address || ''}
+              onChange={(e) => setSettings({ ...settings, contact_address: e.target.value })}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary btn-sm" disabled={savingSettings}>
+            {savingSettings ? 'Saving…' : 'Save settings'}
+          </button>
+        </form>
       </section>
     </AdminShell>
   );

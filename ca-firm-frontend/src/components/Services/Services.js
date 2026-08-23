@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import services from '../../data/services';
+import axios from 'axios';
+import { API_ENDPOINTS } from '../../config/api';
 import Reveal from '../motion/Reveal';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 const Services = () => {
   useDocumentTitle('Services');
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    axios.get(API_ENDPOINTS.SERVICES)
+      .then((response) => setServices(response.data))
+      .catch((error) => console.error('Error fetching services:', error));
+  }, []);
+
   return (
   <>
     <section className="page-hero panel">
@@ -27,7 +36,7 @@ const Services = () => {
             className="service-card"
             delay={i * 45}
           >
-            <span className="num">{service.num}</span>
+            <span className="num">{String(i + 1).padStart(2, '0')}</span>
             <h3>{service.title}</h3>
             <p>{service.summary}</p>
             <span className="card-go">Learn more <span className="card-arrow">→</span></span>

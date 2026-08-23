@@ -1,26 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
-import services, { getServiceBySlug } from '../../data/services';
+import axios from 'axios';
+import { API_ENDPOINTS } from '../../config/api';
 import Reveal from '../motion/Reveal';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
-// One template drives all 8 practice-area pages, driven by src/data/services.js,
-// instead of 8 near-identical files that only differed in copy.
+// One template drives every practice-area page, fetched from the admin-
+// managed services table instead of the old static src/data/services.js.
 const ServiceDetail = () => {
   const { slug } = useParams();
-  const service = getServiceBySlug(slug);
-  useDocumentTitle(service?.title);
+  const [services, setServices] = useState(null); // null = still loading
+  useDocumentTitle(services?.find((s) => s.slug === slug)?.title);
 
+  useEffect(() => {
+    axios.get(API_ENDPOINTS.SERVICES)
+      .then((response) => setServices(response.data))
+      .catch((error) => {
+        console.error('Error fetching services:', error);
+        setServices([]);
+      });
+  }, []);
+
+  if (services === null) return null; // brief loading state, avoids a false "not found" flash
+  const index = services.findIndex((s) => s.slug === slug);
+  const service = services[index];
   if (!service) return <Navigate to="/services" replace />;
 
   const related = service.related
-    .map((relSlug) => getServiceBySlug(relSlug))
+    .map((relSlug) => services.find((s) => s.slug === relSlug))
     .filter(Boolean);
 
   return (
     <>
       <div className="panel crumb">
-        <Link to="/services">Schedule {service.num}</Link> / <strong>{service.title}</strong>
+        <Link to="/services">Schedule {String(index + 1).padStart(2, '0')}</Link> / <strong>{service.title}</strong>
       </div>
 
       <section className="svc-hero panel">
@@ -50,7 +63,7 @@ const ServiceDetail = () => {
 
       <Reveal as="section" className="svc-sec panel">
         <h2>Who it's for</h2>
-        <p>{service.whoFor}</p>
+        <p>{service.who_for}</p>
       </Reveal>
 
       <section className="section panel">
@@ -58,7 +71,7 @@ const ServiceDetail = () => {
         <div className="related-list">
           {related.map((rel) => (
             <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
-              <span className="sch-num num">{rel.num}</span>
+              <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
               <span className="sch-text">
                 <span className="sch-title">{rel.title}</span>
               </span>
@@ -79,6 +92,3 @@ const ServiceDetail = () => {
 };
 
 export default ServiceDetail;
-
-// Exported so App.js can validate route slugs stay in sync with the data.
-export const serviceSlugs = services.map((s) => s.slug);

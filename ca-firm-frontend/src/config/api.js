@@ -15,6 +15,8 @@ export const API_ENDPOINTS = {
   BLOGS: `${API_BASE_URL}/api/blogs`,
   BLOG_BY_ID: (id) => `${API_BASE_URL}/api/blogs/${id}`,
   COMPLIANCE_DATES: `${API_BASE_URL}/api/compliance`,
+  SERVICES: `${API_BASE_URL}/api/services`,
+  SITE_SETTINGS: `${API_BASE_URL}/api/settings`,
 
   // Admin session
   ADMIN_LOGIN: `${API_BASE_URL}/api/admin/login`,
@@ -45,6 +47,16 @@ export const API_ENDPOINTS = {
   ADMIN_UPDATE_COMPLIANCE: (id) => `${API_BASE_URL}/api/compliance/${id}`,
   ADMIN_COMPLIANCE_VISIBILITY: (id) => `${API_BASE_URL}/api/compliance/${id}/visibility`,
   ADMIN_DELETE_COMPLIANCE: (id) => `${API_BASE_URL}/api/compliance/${id}`,
+
+  // Admin: services
+  ADMIN_SERVICES_ALL: `${API_BASE_URL}/api/services/all`,
+  ADMIN_CREATE_SERVICE: `${API_BASE_URL}/api/services`,
+  ADMIN_UPDATE_SERVICE: (id) => `${API_BASE_URL}/api/services/${id}`,
+  ADMIN_SERVICE_VISIBILITY: (id) => `${API_BASE_URL}/api/services/${id}/visibility`,
+  ADMIN_DELETE_SERVICE: (id) => `${API_BASE_URL}/api/services/${id}`,
+
+  // Admin: site settings (stats + contact info)
+  ADMIN_UPDATE_SETTINGS: `${API_BASE_URL}/api/settings`,
 
   // Admin: visitor analytics
   ADMIN_VISITOR_STATS: `${API_BASE_URL}/api/visitor-stats`,

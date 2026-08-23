@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS, API_CONFIG } from '../../config/api';
 import Reveal from '../motion/Reveal';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+
+const DEFAULT_CONTACT = {
+  contact_phone: '+91 82954 50027',
+  contact_email: 'office@antexisadvisory.com',
+  contact_address: 'DSS No. 21, 1st Floor, Huda Sector 13-17, Panipat-132103, Haryana'
+};
 
 const Contact = ({ setIsSubmitted }) => {
   useDocumentTitle('Contact');
@@ -12,8 +18,15 @@ const Contact = ({ setIsSubmitted }) => {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [contact, setContact] = useState(DEFAULT_CONTACT);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(API_ENDPOINTS.SITE_SETTINGS)
+      .then((response) => setContact((prev) => ({ ...prev, ...response.data })))
+      .catch((error) => console.error('Error fetching site settings:', error));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,21 +56,21 @@ const Contact = ({ setIsSubmitted }) => {
           <div className="info-row">
             <span className="lbl">Phone</span>
             <div className="val">
-              <strong>+91 82954 50027</strong>
+              <strong>{contact.contact_phone}</strong>
               <span>Mon–Sat, 9am–6pm IST</span>
             </div>
           </div>
           <div className="info-row">
             <span className="lbl">Email</span>
             <div className="val">
-              <strong>office@antexisadvisory.com</strong>
+              <strong>{contact.contact_email}</strong>
               <span>We reply within one business day</span>
             </div>
           </div>
           <div className="info-row">
             <span className="lbl">Office</span>
             <div className="val">
-              <strong>Panipat, Haryana</strong>
+              <strong>{contact.contact_address}</strong>
               <a
                 href="https://www.google.com/maps/place/Ankita+%26+Associates/@29.4258771,76.9792994,20.21z"
                 target="_blank"

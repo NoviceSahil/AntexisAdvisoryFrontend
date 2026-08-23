@@ -16,9 +16,18 @@ const navItems = [
 
 const linkClass = ({ isActive }) => (isActive ? 'current' : undefined);
 
+const DEFAULT_CONTACT = { contact_phone: '+91 82954 50027', contact_email: 'office@antexisadvisory.com' };
+
 const PublicLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contact, setContact] = useState(DEFAULT_CONTACT);
   const location = useLocation();
+
+  useEffect(() => {
+    axios.get(API_ENDPOINTS.SITE_SETTINGS)
+      .then((response) => setContact((prev) => ({ ...prev, ...response.data })))
+      .catch((error) => console.error('Error fetching site settings:', error));
+  }, []);
 
   // Close the mobile menu automatically on navigation, otherwise it would
   // stay open over the next page.
@@ -84,8 +93,8 @@ const PublicLayout = () => {
             </NavLink>
           ))}
           <div className="rf-line">
-            <strong>+91 82954 50027</strong>
-            office@antexisadvisory.com
+            <strong>{contact.contact_phone}</strong>
+            {contact.contact_email}
           </div>
           <NavLink to="/contact" className="btn btn-primary btn-block">Book Consultation</NavLink>
         </div>
