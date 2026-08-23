@@ -66,7 +66,8 @@ const NoticeTicker = () => {
         <span className={`notice-item${showing ? ' showing' : ''}`}>{notices[idx]}</span>
       </div>
       <Link to="/compliance-calendar" className="notice-link">
-        View compliance calendar →
+        <span className="notice-link-full">View compliance calendar</span>
+        <span className="notice-link-short">Calendar</span> →
       </Link>
     </div>
   );

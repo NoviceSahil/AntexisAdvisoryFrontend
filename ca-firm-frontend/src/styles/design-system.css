@@ -86,7 +86,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .notice-ticker .notice-item.showing{ opacity:1; transform:none; }
 .notice-ticker .notice-link{ flex:none; font-weight:600; white-space:nowrap; opacity:.9; border-bottom:1px solid rgba(255,255,255,.35); padding-bottom:1px; }
 .notice-ticker .notice-link:hover{ opacity:1; }
-@media (max-width:760px){ .notice-ticker .notice-link{ display:none; } }
+.notice-ticker .notice-link-short{ display:none; }
+/* Previously hidden outright below 760px, which meant it wasn't just hard
+   to tap - it didn't exist at all. Keep it tappable, just shortened so it
+   doesn't crowd out the rotating message in the narrow bar. */
+@media (max-width:640px){
+  .notice-ticker .notice-link-full{ display:none; }
+  .notice-ticker .notice-link-short{ display:inline; }
+}
 @media (prefers-reduced-motion: reduce){ .notice-ticker .notice-dot{ animation:none; } }
 
 /* ================= TOP NAV + centered content ================= */
