@@ -337,7 +337,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:640px){ .svc-hero{ padding-top:12px; padding-bottom:32px; } .svc-hero-icon{ width:56px; height:56px; } .svc-hero-icon svg{ width:24px; height:24px; } .svc-hero-num{ font-size:1.8rem; } .svc-sec{ padding-top:28px; padding-bottom:28px; } }
 .svc-sec h2{ font-family:var(--font-sans); font-weight:700; font-size:1rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
 .svc-sec p{ color:var(--ink-muted); font-size:.98rem; max-width:64ch; }
-.svc-count{ font-family:var(--font-mono); font-weight:400; text-transform:none; letter-spacing:0; color:var(--ink-faint); }
+/* Tabs instead of a long scroll - Scope/Deliverables/Who it's for/Related
+   sit in one content pane that swaps on click, so exploring a service
+   doesn't mean scrolling through every section whether you want it or
+   not. */
+.svc-tabbed{ padding-top:36px; padding-bottom:56px; }
+.svc-tabbar{ display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--line); margin-bottom:28px; }
+.svc-tab{ background:none; border:none; border-bottom:2px solid transparent; padding:12px 4px; margin-right:28px; font-family:var(--font-sans); font-size:.88rem; font-weight:600; color:var(--ink-faint); cursor:pointer; transition:color .15s ease, border-color .15s ease; }
+.svc-tab:hover{ color:var(--ink-muted); }
+.svc-tab.active{ color:var(--ink); border-bottom-color:var(--accent-strong); }
+.svc-tabpane{ min-height:180px; }
+@media (max-width:640px){
+  .svc-tabbed{ padding-top:24px; padding-bottom:40px; }
+  .svc-tabbar{ gap:0; overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; }
+  .svc-tab{ white-space:nowrap; margin-right:20px; font-size:.82rem; }
+}
+/* Compact CTA band for pages that already have their own tabbed content
+   above - the full-height cta-inner padding (64px) would add another
+   large block to scroll past right after the tabs; this one's just
+   enough to read as a closing action, not a whole extra section. */
+.cta-band-compact .cta-inner{ padding-top:32px; padding-bottom:32px; }
+
 /* Full ink/paper inversion, same treatment as the hub row hover - makes
    "who this is actually for" impossible to skim past. */
 .svc-callout{ background:var(--ink); color:var(--paper); padding:28px 30px; }
@@ -356,7 +376,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    (beside the form) pages - plain flexbox, so which side is "left" is
    just whichever element comes first in each page's own JSX. Each page
    only needs to set its own fixed-width side's flex-basis. */
-.split-hero-grid{ display:flex; align-items:center; gap:56px; }
+/* flex-start, not center: the fixed-width side (form/calendar) is
+   consistently taller than the short intro text, so centering pushed the
+   text down to match the taller side's midpoint instead of sitting at the
+   top where a page heading belongs. */
+.split-hero-grid{ display:flex; align-items:flex-start; gap:56px; }
 .split-hero-text{ flex:1; min-width:0; }
 .split-hero-text h1{ margin-bottom:12px; }
 @media (max-width:900px){ .split-hero-grid{ flex-direction:column; align-items:stretch; gap:32px; } }
@@ -451,11 +475,38 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ================= BLOG ================= */
 .blog-index-grid{ display:flex; flex-direction:column; margin-bottom:40px; }
+/* Richer post rows for the full blog index - excerpt + optional thumbnail
+   instead of the compact title-only row used for Home's "Bulletin"
+   preview (.bull-row, kept separate and unchanged for that narrower use). */
+.blog-post-row{ display:flex; gap:24px; padding:26px 4px; border-bottom:1px solid var(--line); cursor:pointer; transition:background .2s ease; }
+.blog-post-row:first-child{ border-top:1px solid var(--line); }
+.blog-post-row:hover{ background:var(--surface-2); }
+.blog-post-thumb{ flex:none; width:150px; height:105px; overflow:hidden; border:1px solid var(--line); }
+.blog-post-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
+.blog-post-row:hover .blog-post-thumb img{ transform:scale(1.05); }
+.blog-post-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
+.blog-post-meta{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); }
+.blog-post-body h3{ font-size:1.15rem; display:inline-block; position:relative; width:fit-content; }
+.blog-post-body h3::after{ content:""; position:absolute; left:0; right:100%; bottom:-2px; height:1px; background:var(--accent-strong); transition:right .25s ease; }
+.blog-post-row:hover .blog-post-body h3::after{ right:0; }
+.blog-post-body p{ color:var(--ink-muted); font-size:.9rem; line-height:1.55; max-width:64ch; }
+.blog-post-read{ font-size:.8rem; font-weight:600; color:var(--accent-ink); display:flex; align-items:center; gap:6px; margin-top:2px; }
+.blog-post-row:hover .blog-post-read .card-arrow{ transform:translateX(5px); }
+.card-arrow{ display:inline-block; transition:transform .25s cubic-bezier(.22,.61,.36,1); }
+@media (max-width:600px){
+  .blog-post-row{ gap:14px; padding:20px 0; }
+  .blog-post-thumb{ width:88px; height:88px; }
+  .blog-post-body h3{ font-size:1.02rem; }
+  .blog-post-body p{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+}
 .blog-detail-hero{ padding-top:76px; padding-bottom:40px; }
 @media (max-width:640px){ .blog-detail-hero{ padding-top:48px; padding-bottom:28px; } }
 .blog-detail-meta{ display:flex; gap:16px; font-family:var(--font-mono); font-size:.78rem; color:var(--ink-faint); margin-bottom:18px; }
 .blog-detail-img{ width:100%; max-width:900px; border:1px solid var(--line); margin:0 0 40px; display:block; }
-.blog-detail-body{ max-width:68ch; font-size:1.02rem; color:var(--ink-muted); white-space:pre-line; margin-bottom:40px; }
+/* Slightly larger and looser than the site's default body copy - this is
+   the one place on the site meant for sustained reading, not scanning. */
+.blog-detail-body{ max-width:66ch; font-size:1.08rem; line-height:1.75; color:var(--ink-muted); white-space:pre-line; margin-bottom:32px; }
+.blog-detail-back{ padding-bottom:60px; border-bottom:1px solid var(--line); margin-bottom:0; }
 .blog-doc-link{ display:inline-flex; align-items:center; gap:8px; font-weight:600; border-bottom:1px solid var(--line-strong); padding-bottom:2px; }
 .blog-doc-link:hover{ color:var(--accent-ink); border-color:currentColor; }
 

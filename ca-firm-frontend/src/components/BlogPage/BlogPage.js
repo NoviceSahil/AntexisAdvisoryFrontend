@@ -46,7 +46,7 @@ const BlogPage = () => {
         <h1>{blog.title}</h1>
         <div className="blog-detail-meta">
           <span>By {blog.author}</span>
-          <span>{new Date(blog.created_at).toLocaleDateString()}</span>
+          <span>{new Date(blog.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
         </div>
       </section>
 
@@ -69,7 +69,18 @@ const BlogPage = () => {
             Download source document →
           </a>
         )}
+
+        <div className="blog-detail-back">
+          <Link to="/blog" className="btn btn-ghost btn-sm">← Back to all posts</Link>
+        </div>
       </div>
+
+      <section className="cta-band">
+        <div className="panel cta-inner">
+          <h2>Have a question about this topic?</h2>
+          <Link to="/contact" className="btn btn-primary">Talk to a partner</Link>
+        </div>
+      </section>
     </>
   );
 };
