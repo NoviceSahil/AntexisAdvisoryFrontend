@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../../config/api';
-import Reveal from '../motion/Reveal';
 import ServiceIcon from './ServiceIcons';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
@@ -10,6 +9,12 @@ import useDocumentTitle from '../../hooks/useDocumentTitle';
 // managed services table - every field here (title, summary, scope,
 // deliverables, who it's for, related services) is editable from the
 // admin dashboard.
+//
+// Laid out as one compact grid instead of stacked sections - fitting
+// scope, deliverables, who-it's-for, related services and a CTA on one
+// screen with nothing hidden behind a click means using width instead of
+// height, since stacking all of that vertically (even without tabs)
+// doesn't fit a normal viewport without scrolling.
 const ServiceDetail = () => {
   const { slug } = useParams();
   const [services, setServices] = useState(null); // null = still loading
@@ -34,74 +39,55 @@ const ServiceDetail = () => {
     .filter(Boolean);
 
   return (
-    <>
-      <div className="panel crumb">
+    <div className="svc-compact panel">
+      <div className="crumb svc-compact-crumb">
         <Link to="/services">Schedule {String(index + 1).padStart(2, '0')}</Link> / <strong>{service.title}</strong>
       </div>
 
-      <section className="svc-hero panel">
-        <div className="svc-hero-top">
-          <span className="svc-hero-icon"><ServiceIcon slug={service.slug} /></span>
-          <span className="svc-hero-num num">{String(index + 1).padStart(2, '0')}</span>
+      <div className="svc-compact-head">
+        <span className="svc-mini-icon"><ServiceIcon slug={service.slug} /></span>
+        <div>
+          <h1>{service.title}</h1>
+          <p>{service.summary}</p>
         </div>
-        <h1>{service.title}</h1>
-        <p>{service.summary}</p>
-      </section>
+      </div>
 
-      <Reveal as="section" className="svc-sec panel">
-        <h2>Scope of work</h2>
-        <p>{service.scope}</p>
-      </Reveal>
-
-      {/* Directly answers "what is this made for" as a visually distinct
-          callout rather than another plain paragraph, so it's the one
-          thing on the page a skimming visitor can't miss. */}
-      <Reveal as="section" className="svc-sec panel">
-        <div className="svc-callout">
-          <span className="svc-callout-label">Made for</span>
-          <p>{service.who_for}</p>
+      <div className="svc-compact-grid">
+        <div className="svc-compact-col">
+          <h2>Scope of work</h2>
+          <p>{service.scope}</p>
         </div>
-      </Reveal>
 
-      <Reveal as="section" className="svc-sec panel">
-        <h2>Deliverables</h2>
-        <ul className="deliv-list">
-          {service.deliverables.map(([title, desc], i) => (
-            <li key={title}>
-              <span className="dl-letter">{String.fromCharCode(97 + i)}.</span>
-              <div>
-                <strong>{title}</strong>
-                <span>{desc}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
-
-      {related.length > 0 && (
-        <section className="section panel">
-          <span className="related-title">Related services</span>
-          <div className="related-list">
-            {related.map((rel) => (
-              <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
-                <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
-                <span className="sch-text">
-                  <span className="sch-title">{rel.title}</span>
-                </span>
-                <span className="sch-arrow">→</span>
-              </Link>
+        <div className="svc-compact-col">
+          <h2>Deliverables</h2>
+          <ul className="svc-mini-list">
+            {service.deliverables.map(([title, desc]) => (
+              <li key={title}><strong>{title}</strong><span>{desc}</span></li>
             ))}
-          </div>
-        </section>
-      )}
-
-      <section className="cta-band">
-        <div className="panel cta-inner">
-          <h2>Have a question about this service?</h2>
-          <Link to="/contact" className="btn btn-primary">Discuss with a partner</Link>
+          </ul>
         </div>
-      </section>
-    </>
+
+        <div className="svc-compact-col svc-compact-side">
+          <div className="svc-callout svc-callout-mini">
+            <span className="svc-callout-label">Made for</span>
+            <p>{service.who_for}</p>
+          </div>
+
+          {related.length > 0 && (
+            <div className="svc-mini-related">
+              <span className="related-title">Related</span>
+              {related.map((rel) => (
+                <Link key={rel.slug} to={`/service/${rel.slug}`}>{rel.title}</Link>
+              ))}
+            </div>
+          )}
+
+          <Link to="/contact" className="btn btn-primary btn-sm btn-block svc-compact-cta">
+            Discuss with a partner
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

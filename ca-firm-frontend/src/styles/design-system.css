@@ -196,24 +196,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .sec-title{ margin-bottom:24px; }
 }
 
-/* row-list pattern - used for "related services" on each service detail
-   page. The main 8-service listing on Home/Services uses .service-grid
-   (cards) below instead. */
-/* Negative margin + matching padding lets the hover highlight bleed
-   slightly past the text column on both sides, instead of a highlight
-   box whose edges sit flush against the number/arrow with no breathing
-   room - the text itself stays aligned with everything else on the page. */
-.sch-row{ display:grid; grid-template-columns:44px 1fr auto; align-items:center; gap:20px; padding:22px 16px; margin:0 -16px; border-bottom:1px solid var(--line); border-radius:6px; transition:background .15s; }
-.sch-row:first-child{ border-top:1px solid var(--line); }
-.sch-row:hover{ background:var(--surface-2); }
-@media (max-width:640px){ .sch-row{ grid-template-columns:30px 1fr; padding:18px 12px; margin:0 -12px; row-gap:6px; } .sch-row .sch-arrow{ display:none; } }
-.sch-num{ font-family:var(--font-serif); font-style:italic; font-size:1.2rem; color:var(--ink-faint); font-variant-numeric:oldstyle-nums; text-align:right; }
-.sch-row:hover .sch-num{ color:var(--accent-ink); }
-.sch-text{ min-width:0; display:flex; flex-direction:column; gap:4px; }
-.sch-title{ font-size:1.02rem; font-weight:600; }
-.sch-desc{ font-size:.86rem; color:var(--ink-muted); line-height:1.5; }
-.sch-arrow{ font-size:1.1rem; color:var(--ink-faint); transition:transform .15s, color .15s; }
-.sch-row:hover .sch-arrow{ transform:translateX(4px); color:var(--accent-ink); }
 
 /* Services hub - one full-width row per practice area. On hover the whole
    row inverts to solid ink/paper, not just a subtle tint - a bold,
@@ -329,18 +311,61 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .foot-legal a:hover{ color:var(--paper); }
 @media (max-width:560px){ .foot-bottom{ flex-direction:column; align-items:flex-start; gap:10px; } }
 
-/* ================= SERVICE DETAIL ================= */
+/* ================= SERVICE DETAIL (compact, single-screen) ================= */
+/* Everything on one screen with nothing behind a click means using width
+   instead of height - scope, deliverables, and who-it's-for/related/CTA
+   sit as three parallel columns instead of stacked full-width sections,
+   with meaningfully smaller type and spacing than the rest of the site
+   uses. This page trades the site's usual generous editorial spacing for
+   density, on purpose, only here. */
+.svc-compact{ padding-top:20px; padding-bottom:28px; }
+.svc-compact-crumb{ padding-top:0; padding-bottom:14px; }
+.svc-compact-head{ display:flex; align-items:center; gap:18px; padding-bottom:18px; margin-bottom:18px; border-bottom:1px solid var(--line); }
+.svc-mini-icon{ flex:none; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
+.svc-mini-icon svg{ width:22px; height:22px; color:var(--ink-muted); }
+.svc-compact-head h1{ font-size:1.4rem; line-height:1.2; margin-bottom:4px; }
+.svc-compact-head p{ font-size:.86rem; color:var(--ink-muted); line-height:1.4; max-width:60ch; }
+.svc-compact-grid{ display:grid; grid-template-columns:1.1fr 1.1fr .9fr; gap:32px; align-items:start; }
+.svc-compact-col h2{ font-family:var(--font-sans); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:10px; }
+.svc-compact-col > p{ font-size:.85rem; color:var(--ink-muted); line-height:1.5; }
+.svc-mini-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.svc-mini-list li{ display:flex; flex-direction:column; font-size:.83rem; line-height:1.4; }
+.svc-mini-list strong{ font-size:.85rem; }
+.svc-mini-list span{ color:var(--ink-muted); font-size:.78rem; }
+.svc-compact-side{ display:flex; flex-direction:column; gap:14px; }
+.svc-callout-mini{ padding:14px 16px; }
+.svc-callout-mini .svc-callout-label{ font-size:.62rem; margin-bottom:5px; }
+.svc-callout-mini p{ font-size:.85rem; line-height:1.4; }
+.svc-mini-related{ display:flex; flex-direction:column; gap:6px; }
+.svc-mini-related .related-title{ margin-bottom:2px; }
+.svc-mini-related a{ font-size:.82rem; color:var(--ink); border-bottom:1px solid var(--line); padding-bottom:6px; }
+.svc-mini-related a:last-child{ border-bottom:none; padding-bottom:0; }
+.svc-mini-related a:hover{ color:var(--accent-ink); }
+.svc-compact-cta{ margin-top:auto; }
+@media (max-width:900px){
+  .svc-compact-grid{ grid-template-columns:1fr 1fr; }
+  .svc-compact-side{ grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; gap:16px; }
+  .svc-callout-mini, .svc-mini-related{ flex:1 1 220px; }
+  .svc-compact-cta{ flex:1 1 100%; }
+}
+@media (max-width:640px){
+  .svc-compact{ padding-top:14px; padding-bottom:20px; }
+  .svc-compact-head{ gap:12px; padding-bottom:14px; margin-bottom:14px; }
+  .svc-mini-icon{ width:40px; height:40px; }
+  .svc-mini-icon svg{ width:18px; height:18px; }
+  .svc-compact-head h1{ font-size:1.15rem; }
+  .svc-compact-head p{ font-size:.8rem; }
+  .svc-compact-grid{ grid-template-columns:1fr; gap:18px; }
+  .svc-compact-side{ flex-direction:column; }
+}
+
 .crumb{ padding-top:26px; padding-bottom:6px; font-family:var(--font-mono); font-size:.76rem; color:var(--ink-faint); }
 .crumb strong{ color:var(--ink); font-weight:500; }
-.svc-hero{ padding-top:20px; padding-bottom:44px; border-bottom:1px solid var(--line); }
-.svc-hero-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
-.svc-hero-icon{ width:76px; height:76px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
-.svc-hero-icon svg{ width:32px; height:32px; color:var(--ink-muted); }
-.svc-hero-num{ font-size:2.4rem; color:var(--line-strong); line-height:1; }
-.svc-hero h1{ font-size:clamp(1.9rem, 5vw, 2.3rem); margin-bottom:16px; }
-.svc-hero p{ font-size:1.03rem; color:var(--ink-muted); max-width:58ch; }
+/* Legal pages (Privacy/Terms) still use .svc-sec for their long-form
+   sections - kept even though the service detail page itself moved to
+   the compact grid above. */
 .svc-sec{ padding-top:40px; padding-bottom:40px; border-bottom:1px solid var(--line); }
-@media (max-width:640px){ .svc-hero{ padding-top:12px; padding-bottom:32px; } .svc-hero-icon{ width:56px; height:56px; } .svc-hero-icon svg{ width:24px; height:24px; } .svc-hero-num{ font-size:1.8rem; } .svc-sec{ padding-top:28px; padding-bottom:28px; } }
+@media (max-width:640px){ .svc-sec{ padding-top:28px; padding-bottom:28px; } }
 .svc-sec h2{ font-family:var(--font-sans); font-weight:700; font-size:1rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
 .svc-sec p{ color:var(--ink-muted); font-size:.98rem; max-width:64ch; }
 /* Full ink/paper inversion, same treatment as the hub row hover - makes
@@ -348,11 +373,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-callout{ background:var(--ink); color:var(--paper); padding:28px 30px; }
 .svc-callout-label{ display:block; font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.55); margin-bottom:10px; }
 .svc-callout p{ color:var(--paper); font-size:1.1rem; font-family:var(--font-serif); line-height:1.5; max-width:64ch; }
-.deliv-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
-.deliv-list li{ display:flex; gap:14px; font-size:.94rem; }
-.deliv-list .dl-letter{ font-family:var(--font-serif); font-style:italic; color:var(--ink-faint); flex:none; }
-.deliv-list strong{ display:block; }
-.deliv-list span{ color:var(--ink-muted); font-size:.86rem; }
 .related-title{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:6px; }
 .related-list{ display:flex; flex-direction:column; }
 
