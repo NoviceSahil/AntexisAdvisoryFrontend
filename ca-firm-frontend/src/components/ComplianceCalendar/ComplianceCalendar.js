@@ -120,13 +120,17 @@ const ComplianceCalendar = () => {
                     disabled={!hasEvents}
                   >
                     <span className="cal-cell-day num">{day}</span>
-                    {hasEvents && <span className="cal-cell-dot" />}
+                    {hasEvents && (
+                      <span className="cal-cell-label">
+                        {events[0].category}{events.length > 1 ? ` +${events.length - 1}` : ''}
+                      </span>
+                    )}
                     {hasEvents && (
                       <div className="cal-tooltip">
                         {events.map((e) => (
                           <div key={e.id} className="cal-tooltip-row">
-                            <span className="cal-tooltip-cat">{e.category}</span>
-                            <span>{e.title}</span>
+                            <span className="cal-tooltip-cat">{e.category}{e.cadence ? ` · ${e.cadence}` : ''}</span>
+                            <span className="cal-tooltip-title">{e.title}</span>
                           </div>
                         ))}
                       </div>

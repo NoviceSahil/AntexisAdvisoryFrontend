@@ -208,45 +208,45 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .sch-arrow{ font-size:1.1rem; color:var(--ink-faint); transition:transform .15s, color .15s; }
 .sch-row:hover .sch-arrow{ transform:translateX(4px); color:var(--accent-ink); }
 
-/* services as a card grid - 4 columns / 2 rows for the 8 practice areas on
-   Home and the Services hub. Same hairline-grid technique as .team-grid
-   (1px gap filled with the line color reads as shared borders, not a
-   heavier bordered-box-per-card look). The row-list pattern above is kept
-   only for the smaller "related services" list on each detail page. */
-.service-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); position:relative; z-index:0; }
-@media (max-width:900px){ .service-grid{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:520px){ .service-grid{ grid-template-columns:1fr; } }
-.service-card{ background:var(--surface); padding:26px 22px; display:flex; flex-direction:column; gap:10px; min-height:190px; position:relative; transition:background .2s ease, transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
-/* Lifting the hovered card above its neighbours (own stacking context +
-   shadow) reads as a deliberate "pick me up" interaction rather than just a
-   flat background swap - the grid's shared hairline borders stay intact
-   since siblings don't move. */
-.service-card:hover{ background:var(--surface); transform:translateY(-6px); box-shadow:var(--shadow-lg); z-index:1; }
-/* min-height keeps the 4-across desktop grid even-heighted regardless of
-   summary length - in the single-column mobile layout it just stretches
-   each card with empty space below a two-line title and summary, so drop
-   it once cards are full-width and let content set the height instead. */
-@media (max-width:520px){ .service-card{ min-height:0; padding:18px 20px; gap:8px; } .service-card p{ font-size:.82rem; } .service-card:hover{ transform:none; box-shadow:none; } }
-.service-card .num{ font-size:1.25rem; color:var(--ink-faint); transition:color .2s ease; }
-.service-card:hover .num{ color:var(--accent-ink); }
-.service-card h3{ font-family:var(--font-sans); font-size:.98rem; font-weight:600; display:inline-block; position:relative; width:fit-content; }
-.service-card h3::after{ content:""; position:absolute; left:0; right:100%; bottom:-2px; height:1px; background:var(--accent-strong); transition:right .25s ease; }
-.service-card:hover h3::after{ right:0; }
-.service-card p{ font-size:.85rem; color:var(--ink-muted); line-height:1.5; }
-/* Hidden by default, expands open on hover - a small taste of "who it's
-   for" before committing to a click, using max-height+opacity (not
-   display) so the transition can actually animate. */
-.service-card .card-hint{ font-size:.78rem; color:var(--ink-faint); line-height:1.45; max-height:0; opacity:0; overflow:hidden; transition:max-height .3s ease, opacity .25s ease, margin-top .3s ease; }
-.service-card:hover .card-hint{ max-height:80px; opacity:1; margin-top:2px; }
-.service-card .card-go{ font-size:.8rem; font-weight:600; color:var(--accent-ink); display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:6px; }
-.service-card:hover .card-go .card-arrow{ transform:translateX(6px); }
+/* Services hub - alternating full-width editorial rows instead of a card
+   grid, one per practice area: icon badge on one side, title/summary/CTA
+   on the other, flipping sides each row for visual rhythm down the page. */
+.svc-rows-wrap{ padding-bottom:76px; }
+.svc-row{ display:flex; align-items:center; gap:48px; padding:44px 0; border-bottom:1px solid var(--line); text-decoration:none; color:inherit; transition:background .2s ease; }
+.svc-row:first-child{ border-top:1px solid var(--line); }
+.svc-row-reverse{ flex-direction:row-reverse; }
+.svc-row:hover{ background:var(--surface-2); }
+.svc-row-icon{ flex:none; width:104px; height:104px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.22,.61,.36,1); }
+.svc-row-icon svg{ width:38px; height:38px; color:var(--ink-muted); transition:color .3s ease; }
+/* Full ink/paper inversion on hover - a bold, high-contrast "activated"
+   state that matches the site's monochrome identity rather than a subtle
+   tint. */
+.svc-row:hover .svc-row-icon{ background:var(--ink); border-color:var(--ink); transform:scale(1.06); }
+.svc-row:hover .svc-row-icon svg{ color:var(--paper); }
+.svc-row-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
+.svc-row-eyebrow{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+.svc-row-body h3{ font-size:1.3rem; display:inline-block; position:relative; width:fit-content; }
+.svc-row-body h3::after{ content:""; position:absolute; left:0; right:100%; bottom:-3px; height:1px; background:var(--accent-strong); transition:right .3s ease; }
+.svc-row:hover .svc-row-body h3::after{ right:0; }
+.svc-row-body p{ color:var(--ink-muted); font-size:.98rem; line-height:1.55; max-width:56ch; }
+.svc-row-hint{ font-size:.84rem; color:var(--ink-faint); line-height:1.5; max-width:56ch; }
+.svc-row-hint::before{ content:"Best for: "; font-weight:600; color:var(--ink-muted); }
+.svc-row-cta{ margin-top:8px; align-self:flex-start; transition:background .2s ease, color .2s ease, border-color .2s ease; }
+.svc-row:hover .svc-row-cta{ background:var(--accent-strong); color:var(--on-accent); border-color:var(--accent-strong); }
+.svc-row:hover .svc-row-cta .card-arrow{ transform:translateX(6px); }
 .card-arrow{ display:inline-block; transition:transform .25s cubic-bezier(.22,.61,.36,1); }
 /* A touch more pop on entrance than the generic fade-up .reveal used
    elsewhere - specific to this combination of classes, so it doesn't
    affect .reveal's behaviour anywhere else on the site. */
-.service-card.reveal{ transform:translateY(16px) scale(.97); }
-.service-card.reveal.in{ transform:none; }
-@media (prefers-reduced-motion: reduce){ .service-card{ transition:none; } .service-card:hover{ transform:none; } }
+.svc-row.reveal{ transform:translateY(18px) scale(.98); }
+.svc-row.reveal.in{ transform:none; }
+@media (max-width:700px){
+  .svc-row, .svc-row-reverse{ flex-direction:column; align-items:flex-start; gap:20px; padding:32px 0; }
+  .svc-row-icon{ width:76px; height:76px; }
+  .svc-row-icon svg{ width:30px; height:30px; }
+  .svc-row-body h3{ font-size:1.15rem; }
+}
+@media (prefers-reduced-motion: reduce){ .svc-row, .svc-row-icon, .svc-row-cta{ transition:none; } .svc-row:hover .svc-row-icon{ transform:none; } }
 
 /* note / pull quote */
 .note-mark{ font-family:var(--font-serif); font-size:3.4rem; color:var(--line-strong); line-height:.6; margin-bottom:10px; }
