@@ -35,11 +35,6 @@ const ServiceDetail = () => {
 
   return (
     <div className="svc-compact panel">
-      <Link to="/services" className="svc-back-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
-        Back to services
-      </Link>
-
       <div className="svc-compact-head">
         <span className="svc-mini-icon"><ServiceIcon slug={service.slug} /></span>
         <div>
@@ -74,6 +69,11 @@ const ServiceDetail = () => {
           </Link>
         </div>
       </div>
+
+      <Link to="/services" className="svc-back-link svc-back-link-bottom">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
+        Back to services
+      </Link>
     </div>
   );
 };

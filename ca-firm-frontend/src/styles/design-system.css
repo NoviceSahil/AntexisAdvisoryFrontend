@@ -305,10 +305,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .svc-index-card{ padding:14px; }
 }
 
-.svc-back-link{ display:inline-flex; align-items:center; gap:8px; font-size:.85rem; font-weight:600; color:var(--ink-muted); margin-bottom:16px; transition:color .15s ease, gap .15s ease; }
+.svc-back-link{ display:inline-flex; align-items:center; gap:8px; font-size:.85rem; font-weight:600; color:var(--ink-muted); transition:color .15s ease, gap .15s ease; }
 .svc-back-link svg{ width:16px; height:16px; transition:transform .15s ease; }
 .svc-back-link:hover{ color:var(--ink); }
 .svc-back-link:hover svg{ transform:translateX(-3px); }
+.svc-back-link-bottom{ margin-top:20px; }
 .svc-compact-head{ display:flex; align-items:center; gap:18px; padding-bottom:18px; margin-bottom:18px; border-bottom:1px solid var(--line); }
 .svc-mini-icon{ flex:none; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
 .svc-mini-icon svg{ width:22px; height:22px; color:var(--ink-muted); }
