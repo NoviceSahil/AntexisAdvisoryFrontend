@@ -34,7 +34,7 @@ const BlogIndex = () => {
 
   return (
     <>
-      <section className="page-hero panel">
+      <section className="page-hero panel page-hero-flush">
         <span className="eyebrow">Insights &amp; updates</span>
         <h1>From our advisory desk.</h1>
         <p>Practical notes on audit, tax and compliance for growing Indian businesses.</p>

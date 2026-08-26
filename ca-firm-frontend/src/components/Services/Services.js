@@ -18,7 +18,7 @@ const Services = () => {
 
   return (
   <>
-    <section className="page-hero panel">
+    <section className="page-hero panel page-hero-flush">
       <span className="eyebrow">Practice areas</span>
       <h1>Services built for compliance, finance and business growth.</h1>
       <p>

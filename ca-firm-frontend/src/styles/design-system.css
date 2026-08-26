@@ -158,7 +158,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); font-weight:500; }
 
 /* ================= HOME / generic page hero ================= */
-.hero{ padding-top:76px; }
+.hero{ padding-top:0; }
 .hero h1{ font-size:clamp(1.85rem, 4.6vw, 3.35rem); line-height:1.15; max-width:16ch; margin-bottom:22px; font-weight:600; }
 .hero .lede{ font-size:1.08rem; color:var(--ink-muted); max-width:46ch; margin-bottom:30px; }
 .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px; }
@@ -173,12 +173,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .page-hero h1{ font-size:clamp(1.7rem, 4vw, 2.8rem); line-height:1.15; max-width:18ch; margin-bottom:16px; }
 .page-hero p{ font-size:1.03rem; color:var(--ink-muted); max-width:56ch; }
 @media (max-width:640px){ .page-hero{ padding-top:48px; padding-bottom:32px; margin-bottom:32px; } }
+/* No top padding - used on Services and Blog specifically, not the shared
+   base rule, since other pages (Contact, Career, Team, Affiliation, Legal,
+   Compliance Calendar) keep the normal spacing. */
+.page-hero-flush{ padding-top:0; }
 
 .stat-rule{ display:flex; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .stat-rule .stat{ flex:1; padding:20px 24px 22px 0; border-left:1px solid var(--line); }
 .stat-rule .stat:first-child{ border-left:none; padding-left:0; }
 @media (max-width:640px){ .stat-rule{ flex-wrap:wrap; } .stat-rule .stat{ flex:1 1 45%; border-left:none; border-top:1px solid var(--line); padding:16px 16px 16px 0; } .stat-rule .stat:nth-child(odd){ padding-left:0; } }
-.stat-rule strong{ display:block; font-family:var(--font-serif); font-style:italic; font-size:1.9rem; font-variant-numeric:oldstyle-nums; line-height:1; margin-bottom:6px; }
+/* Bold upright sans instead of the italic serif oldstyle-numerals used
+   for ordinal numbers elsewhere (service listings, calendar days) - these
+   are stats, not an index, so a distinct, more solid-feeling treatment. */
+.stat-rule strong{ display:block; font-family:var(--font-sans); font-style:normal; font-weight:800; font-size:1.9rem; font-variant-numeric:normal; letter-spacing:-.01em; line-height:1; margin-bottom:6px; }
 .stat-rule span{ font-size:.72rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.04em; }
 
 .section{ padding-top:64px; padding-bottom:64px; }
