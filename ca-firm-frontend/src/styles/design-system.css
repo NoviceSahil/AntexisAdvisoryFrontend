@@ -120,19 +120,24 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:900px){
   .topnav-links{ display:none; }
   .topnav-toggle{ display:block; }
+  /* The mobile dropdown already has its own full-width "Book Consultation"
+     button, so showing the small header one too was redundant clutter next
+     to the hamburger icon in an already-tight space. */
+  .topnav-actions > .btn{ display:none; }
 }
 
-.topnav-mobile{ display:none; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); }
+/* Full-bleed dropdown, not the centered/max-width treatment used for page
+   content - it previously reused the same max-width+margin:auto pattern as
+   .topnav-inner, which (combined with the header's own contents) could read
+   as the menu "opening in the middle" rather than a clean full-width panel
+   anchored under the header. */
+.topnav-mobile{ display:none; flex-direction:column; background:var(--surface); border-bottom:1px solid var(--line); box-shadow:var(--shadow); }
 .topnav-mobile.open{ display:flex; }
-.topnav-mobile-inner{ max-width:1120px; margin:0 auto; padding:4px 20px 20px; display:flex; flex-direction:column; }
-.topnav-mobile a{ padding:13px 0; font-size:.95rem; color:var(--ink-muted); border-bottom:1px solid var(--line); }
+.topnav-mobile-inner{ width:100%; padding:6px 20px 22px; display:flex; flex-direction:column; box-sizing:border-box; }
+.topnav-mobile a{ padding:14px 0; font-size:1rem; color:var(--ink-muted); border-bottom:1px solid var(--line); text-align:left; }
 .topnav-mobile a.current{ color:var(--ink); font-weight:600; }
 .topnav-mobile a:last-of-type{ border-bottom:none; }
-.topnav-mobile .rf-line{ font-size:.82rem; color:var(--ink-muted); padding-top:14px; }
-.topnav-mobile .rf-line strong{ display:block; color:var(--ink); }
-.topnav-mobile .btn{ margin-top:16px; }
-
-.rf-line strong{ display:block; color:var(--ink); font-size:.84rem; margin-bottom:1px; }
+.topnav-mobile .btn{ margin-top:18px; }
 
 .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 20px; font-size:.86rem; font-weight:600; border:1px solid transparent; transition:transform .12s, box-shadow .12s, background .15s, color .15s, border-color .15s; }
 .btn:active{ transform:translateY(1px); }
@@ -208,23 +213,40 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    (1px gap filled with the line color reads as shared borders, not a
    heavier bordered-box-per-card look). The row-list pattern above is kept
    only for the smaller "related services" list on each detail page. */
-.service-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+.service-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); position:relative; z-index:0; }
 @media (max-width:900px){ .service-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:520px){ .service-grid{ grid-template-columns:1fr; } }
-.service-card{ background:var(--surface); padding:26px 22px; display:flex; flex-direction:column; gap:12px; min-height:190px; transition:background .15s; }
+.service-card{ background:var(--surface); padding:26px 22px; display:flex; flex-direction:column; gap:10px; min-height:190px; position:relative; transition:background .2s ease, transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease; }
+/* Lifting the hovered card above its neighbours (own stacking context +
+   shadow) reads as a deliberate "pick me up" interaction rather than just a
+   flat background swap - the grid's shared hairline borders stay intact
+   since siblings don't move. */
+.service-card:hover{ background:var(--surface); transform:translateY(-6px); box-shadow:var(--shadow-lg); z-index:1; }
 /* min-height keeps the 4-across desktop grid even-heighted regardless of
    summary length - in the single-column mobile layout it just stretches
    each card with empty space below a two-line title and summary, so drop
    it once cards are full-width and let content set the height instead. */
-@media (max-width:520px){ .service-card{ min-height:0; padding:18px 20px; gap:8px; } .service-card p{ font-size:.82rem; } }
-.service-card:hover{ background:var(--surface-2); }
-.service-card .num{ font-size:1.25rem; color:var(--ink-faint); transition:color .15s; }
+@media (max-width:520px){ .service-card{ min-height:0; padding:18px 20px; gap:8px; } .service-card p{ font-size:.82rem; } .service-card:hover{ transform:none; box-shadow:none; } }
+.service-card .num{ font-size:1.25rem; color:var(--ink-faint); transition:color .2s ease; }
 .service-card:hover .num{ color:var(--accent-ink); }
-.service-card h3{ font-family:var(--font-sans); font-size:.98rem; font-weight:600; }
-.service-card p{ font-size:.85rem; color:var(--ink-muted); line-height:1.5; flex:1; }
-.service-card .card-go{ font-size:.8rem; font-weight:600; color:var(--accent-ink); display:flex; align-items:center; gap:6px; }
-.service-card:hover .card-go .card-arrow{ transform:translateX(4px); }
-.card-arrow{ display:inline-block; transition:transform .15s; }
+.service-card h3{ font-family:var(--font-sans); font-size:.98rem; font-weight:600; display:inline-block; position:relative; width:fit-content; }
+.service-card h3::after{ content:""; position:absolute; left:0; right:100%; bottom:-2px; height:1px; background:var(--accent-strong); transition:right .25s ease; }
+.service-card:hover h3::after{ right:0; }
+.service-card p{ font-size:.85rem; color:var(--ink-muted); line-height:1.5; }
+/* Hidden by default, expands open on hover - a small taste of "who it's
+   for" before committing to a click, using max-height+opacity (not
+   display) so the transition can actually animate. */
+.service-card .card-hint{ font-size:.78rem; color:var(--ink-faint); line-height:1.45; max-height:0; opacity:0; overflow:hidden; transition:max-height .3s ease, opacity .25s ease, margin-top .3s ease; }
+.service-card:hover .card-hint{ max-height:80px; opacity:1; margin-top:2px; }
+.service-card .card-go{ font-size:.8rem; font-weight:600; color:var(--accent-ink); display:flex; align-items:center; gap:6px; margin-top:auto; padding-top:6px; }
+.service-card:hover .card-go .card-arrow{ transform:translateX(6px); }
+.card-arrow{ display:inline-block; transition:transform .25s cubic-bezier(.22,.61,.36,1); }
+/* A touch more pop on entrance than the generic fade-up .reveal used
+   elsewhere - specific to this combination of classes, so it doesn't
+   affect .reveal's behaviour anywhere else on the site. */
+.service-card.reveal{ transform:translateY(16px) scale(.97); }
+.service-card.reveal.in{ transform:none; }
+@media (prefers-reduced-motion: reduce){ .service-card{ transition:none; } .service-card:hover{ transform:none; } }
 
 /* note / pull quote */
 .note-mark{ font-family:var(--font-serif); font-size:3.4rem; color:var(--line-strong); line-height:.6; margin-bottom:10px; }
@@ -313,8 +335,49 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .related-list{ display:flex; flex-direction:column; }
 
 /* ================= COMPLIANCE CALENDAR ================= */
-.cal-group{ margin-bottom:36px; }
-.cal-group h3{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:4px; font-weight:500; }
+.cal-nav{ display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:24px; }
+.cal-nav-btn{ background:none; border:1px solid var(--line-strong); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--ink); cursor:pointer; transition:background .15s, border-color .15s; }
+.cal-nav-btn:hover{ background:var(--surface-2); border-color:var(--ink-muted); }
+.cal-nav-label{ font-style:italic; font-size:1.15rem; min-width:14ch; text-align:center; }
+
+/* Same hairline-grid technique as .service-grid/.team-grid - 1px gaps
+   filled with the line colour read as shared borders between cells. */
+/* Capped width (not full panel width) + a fixed short cell height instead
+   of aspect-ratio:1 - a 7-across square grid at full ~960px panel width
+   made each cell (and the whole grid, across up to 6 rows) tall enough
+   that the calendar alone pushed the page into a scroll. */
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:0 auto 28px; max-width:460px; }
+.cal-grid-head{ background:var(--surface-2); padding:7px 4px; text-align:center; font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); }
+.cal-cell{ background:var(--surface); height:52px; border:none; padding:6px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:3px; position:relative; font-family:inherit; cursor:default; transition:background .15s, transform .15s ease; }
+.cal-cell-empty{ background:var(--surface-2); }
+.cal-cell-day{ font-size:.92rem; color:var(--ink-faint); transition:color .15s; }
+.cal-cell.is-today .cal-cell-day{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
+.cal-cell.has-events{ cursor:pointer; }
+.cal-cell.has-events .cal-cell-day{ color:var(--ink); font-weight:600; }
+/* Every cell gets a hint of feedback on hover (interactive-feeling grid,
+   not just a few clickable islands); cells with events go further with a
+   lift + accent border so the ones actually worth clicking stand out. */
+.cal-cell:hover{ background:var(--surface-2); z-index:1; }
+.cal-cell.has-events:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+.cal-cell.has-events:hover .cal-cell-day{ color:var(--accent-ink); }
+.cal-cell.is-selected{ background:var(--surface-2); box-shadow:inset 0 0 0 2px var(--accent-strong); }
+.cal-cell-dot{ width:5px; height:5px; border-radius:50%; background:var(--accent-strong); transition:transform .15s ease; }
+.cal-cell.has-events:hover .cal-cell-dot{ transform:scale(1.4); }
+
+/* Hover tooltip - CSS-only, a quick desktop preview before clicking. Touch
+   devices don't get hover, so the click-to-select panel below the grid
+   (rendered from the same data) is the primary interaction on mobile. */
+.cal-tooltip{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px); background:var(--ink); color:var(--paper); padding:10px 12px; border-radius:4px; min-width:160px; max-width:220px; text-align:left; font-size:.76rem; line-height:1.4; opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:20; box-shadow:var(--shadow-lg); }
+.cal-cell.has-events:hover .cal-tooltip{ opacity:1; transform:translateX(-50%) translateY(0); }
+.cal-tooltip-row + .cal-tooltip-row{ margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,.2); }
+.cal-tooltip-cat{ display:block; font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.04em; opacity:.7; margin-bottom:2px; }
+@media (max-width:640px){
+  .cal-grid-head{ font-size:.6rem; padding:8px 2px; }
+  .cal-cell{ padding:6px 3px; }
+  .cal-tooltip{ display:none; } /* no hover on touch - the click panel below covers it */
+}
+
+.cal-selected{ margin-bottom:36px; padding-top:4px; }
 .cal-row{ display:grid; grid-template-columns:100px 1fr auto; align-items:baseline; gap:16px; padding:16px 0; border-bottom:1px solid var(--line); }
 .cal-row:first-of-type{ border-top:1px solid var(--line); }
 @media (max-width:560px){ .cal-row{ grid-template-columns:80px 1fr; } .cal-row .cal-tag{ display:none; } }

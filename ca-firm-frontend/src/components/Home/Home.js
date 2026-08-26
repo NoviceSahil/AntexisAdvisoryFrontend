@@ -71,29 +71,6 @@ const Home = () => {
         </div>
       </div>
 
-      <section className="section panel">
-        <span className="sec-label">Schedule of services</span>
-        <Reveal as="h2" className="sec-title">
-          Eight practice areas, one senior team across all of them.
-        </Reveal>
-        <div className="service-grid">
-          {services.map((service, i) => (
-            <Reveal
-              as={Link}
-              key={service.slug}
-              to={`/service/${service.slug}`}
-              className="service-card"
-              delay={i * 45}
-            >
-              <span className="num">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{service.title}</h3>
-              <p>{service.summary}</p>
-              <span className="card-go">Learn more <span className="card-arrow">→</span></span>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       <Reveal as="section" className="section panel note">
         <div className="note-mark">&ldquo;</div>
         <blockquote>

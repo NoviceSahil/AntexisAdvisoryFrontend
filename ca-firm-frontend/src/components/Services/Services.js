@@ -21,8 +21,8 @@ const Services = () => {
       <span className="eyebrow">Practice areas</span>
       <h1>Services built for compliance, finance and business growth.</h1>
       <p>
-        Eight practice areas, run by one senior team - explore each to see
-        exactly what's delivered and who it's for.
+        {services.length || 'Several'} practice area{services.length === 1 ? '' : 's'}, run by one senior team -
+        hover each to see who it's for, then explore the full scope and deliverables.
       </p>
     </section>
 
@@ -39,10 +39,18 @@ const Services = () => {
             <span className="num">{String(i + 1).padStart(2, '0')}</span>
             <h3>{service.title}</h3>
             <p>{service.summary}</p>
+            <span className="card-hint">{service.who_for}</span>
             <span className="card-go">Learn more <span className="card-arrow">→</span></span>
           </Reveal>
         ))}
       </div>
+    </section>
+
+    <section className="cta-band">
+      <Reveal as="div" className="panel cta-inner">
+        <h2>Not sure which service you need?</h2>
+        <Link to="/contact" className="btn btn-primary">Talk to a partner</Link>
+      </Reveal>
     </section>
   </>
   );
