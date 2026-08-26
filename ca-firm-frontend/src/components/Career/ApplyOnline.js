@@ -59,7 +59,7 @@ const ApplyOnline = ({ setIsSubmitted }) => {
 
   return (
     <>
-      <section className="page-hero panel page-hero-flush">
+      <section className="page-hero panel page-hero-tight">
         <div className="split-hero-grid">
           <div className="split-hero-text">
             <span className="eyebrow">Careers</span>
