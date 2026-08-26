@@ -406,15 +406,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .cal-tag{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase; color:var(--ink-faint); white-space:nowrap; }
 
 /* ================= FORMS (contact, apply) ================= */
-.form-grid{ padding-bottom:76px; display:grid; grid-template-columns:.85fr 1.15fr; gap:60px; }
-@media (max-width:900px){ .form-grid{ grid-template-columns:1fr; gap:40px; } }
-.info-panel > p{ color:var(--ink-muted); margin-bottom:30px; max-width:44ch; }
-.info-row{ padding:16px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; }
-.info-row .lbl{ font-family:var(--font-mono); font-size:.72rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.04em; padding-top:2px; flex:none; }
-.info-row .val{ text-align:right; font-size:.94rem; min-width:0; overflow-wrap:break-word; }
-.info-row .val strong{ display:block; }
-.info-row .val span, .info-row .val a{ color:var(--ink-muted); font-size:.82rem; }
-.info-note{ margin-top:24px; padding:18px 20px; border:1px solid var(--line); background:var(--surface-2); font-size:.86rem; color:var(--ink-muted); }
+/* Contact intro text beside the form instead of stacked above it - same
+   split-hero mechanic as the compliance calendar page (plain flexbox,
+   left-to-right DOM order controls which side each piece lands on). */
+.contact-hero-grid{ display:flex; align-items:center; gap:56px; }
+.contact-hero-text{ flex:1; min-width:0; }
+.contact-hero-text h1{ margin-bottom:12px; }
+.contact-hero-form{ flex:0 0 440px; margin:0; }
+@media (max-width:900px){
+  .contact-hero-grid{ flex-direction:column; align-items:stretch; gap:32px; }
+  .contact-hero-form{ flex:none; }
+}
 
 .field{ margin-bottom:26px; }
 .field label, .field-label{ display:block; font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:9px; }

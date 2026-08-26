@@ -90,6 +90,12 @@ const ComplianceCalendar = () => {
           <p className="bull-empty">Loading…</p>
         ) : (
           <div className="cal-hero-grid">
+            <div className="cal-hero-text">
+              <span className="eyebrow">Compliance calendar</span>
+              <h1>Upcoming due dates.</h1>
+              <p>GST, income tax and ROC filing deadlines - maintained by our team, not a fixed schedule, so check back as dates approach.</p>
+            </div>
+
             <div className="cal-hero-calendar">
               <div className="cal-nav">
                 <button type="button" className="cal-nav-btn" onClick={() => changeMonth(-1)} aria-label="Previous month">←</button>
@@ -134,12 +140,6 @@ const ComplianceCalendar = () => {
                   );
                 })}
               </div>
-            </div>
-
-            <div className="cal-hero-text">
-              <span className="eyebrow">Compliance calendar</span>
-              <h1>Upcoming due dates.</h1>
-              <p>GST, income tax and ROC filing deadlines - maintained by our team, not a fixed schedule, so check back as dates approach.</p>
             </div>
           </div>
         )}
