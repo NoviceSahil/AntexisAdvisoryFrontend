@@ -60,12 +60,14 @@ const ApplyOnline = ({ setIsSubmitted }) => {
   return (
     <>
       <section className="page-hero panel">
-        <span className="eyebrow">Careers</span>
-        <h1>Build your practice with us.</h1>
-        <p>For current openings, complete the application below - a resume in PDF, JPG or PNG is required.</p>
-      </section>
+        <div className="split-hero-grid">
+          <div className="split-hero-text">
+            <span className="eyebrow">Careers</span>
+            <h1>Build your practice with us.</h1>
+            <p>For current openings, complete the application below - a resume in PDF, JPG or PNG is required.</p>
+          </div>
 
-      <Reveal as="div" className="panel form-card" style={{ marginBottom: '76px' }}>
+          <Reveal as="div" className="form-card career-hero-form">
         <form onSubmit={handleSubmit}>
           <div className="field-row">
             <div className="field">
@@ -156,8 +158,10 @@ const ApplyOnline = ({ setIsSubmitted }) => {
             </a>
             .
           </p>
-        </form>
-      </Reveal>
+            </form>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 };

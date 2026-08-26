@@ -3,10 +3,13 @@ import { Link, Navigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../../config/api';
 import Reveal from '../motion/Reveal';
+import ServiceIcon from './ServiceIcons';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 // One template drives every practice-area page, fetched from the admin-
-// managed services table instead of the old static src/data/services.js.
+// managed services table instead of the old static src/data/services.js -
+// every field here (title, summary, scope, deliverables, who it's for,
+// related services) is editable from the admin dashboard.
 const ServiceDetail = () => {
   const { slug } = useParams();
   const [services, setServices] = useState(null); // null = still loading
@@ -37,6 +40,10 @@ const ServiceDetail = () => {
       </div>
 
       <section className="svc-hero panel">
+        <div className="svc-hero-top">
+          <span className="svc-hero-icon"><ServiceIcon slug={service.slug} /></span>
+          <span className="svc-hero-num num">{String(index + 1).padStart(2, '0')}</span>
+        </div>
         <h1>{service.title}</h1>
         <p>{service.summary}</p>
       </section>
@@ -46,8 +53,18 @@ const ServiceDetail = () => {
         <p>{service.scope}</p>
       </Reveal>
 
+      {/* Directly answers "what is this made for" as a visually distinct
+          callout rather than another plain paragraph, so it's the one
+          thing on the page a skimming visitor can't miss. */}
       <Reveal as="section" className="svc-sec panel">
-        <h2>Deliverables</h2>
+        <div className="svc-callout">
+          <span className="svc-callout-label">Made for</span>
+          <p>{service.who_for}</p>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="svc-sec panel">
+        <h2>Deliverables <span className="svc-count">({service.deliverables.length})</span></h2>
         <ul className="deliv-list">
           {service.deliverables.map(([title, desc], i) => (
             <li key={title}>
@@ -61,25 +78,22 @@ const ServiceDetail = () => {
         </ul>
       </Reveal>
 
-      <Reveal as="section" className="svc-sec panel">
-        <h2>Who it's for</h2>
-        <p>{service.who_for}</p>
-      </Reveal>
-
-      <section className="section panel">
-        <span className="related-title">Related services</span>
-        <div className="related-list">
-          {related.map((rel) => (
-            <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
-              <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
-              <span className="sch-text">
-                <span className="sch-title">{rel.title}</span>
-              </span>
-              <span className="sch-arrow">→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {related.length > 0 && (
+        <section className="section panel">
+          <span className="related-title">Related services</span>
+          <div className="related-list">
+            {related.map((rel) => (
+              <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
+                <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
+                <span className="sch-text">
+                  <span className="sch-title">{rel.title}</span>
+                </span>
+                <span className="sch-arrow">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="cta-band">
         <div className="panel cta-inner">

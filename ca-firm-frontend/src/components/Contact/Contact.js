@@ -32,9 +32,9 @@ const Contact = ({ setIsSubmitted }) => {
 
   return (
     <>
-      <section className="page-hero panel contact-hero">
-        <div className="contact-hero-grid">
-          <div className="contact-hero-text">
+      <section className="page-hero panel">
+        <div className="split-hero-grid">
+          <div className="split-hero-text">
             <span className="eyebrow">Get in touch</span>
             <h1>Let's talk about your books.</h1>
             <p>Reach out directly, or send a note and a senior advisor will get back to you within one business day.</p>

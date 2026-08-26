@@ -85,12 +85,12 @@ const ComplianceCalendar = () => {
 
   return (
     <>
-      <section className="page-hero panel cal-hero">
+      <section className="page-hero panel">
         {loading ? (
           <p className="bull-empty">Loading…</p>
         ) : (
-          <div className="cal-hero-grid">
-            <div className="cal-hero-text">
+          <div className="split-hero-grid">
+            <div className="split-hero-text">
               <span className="eyebrow">Compliance calendar</span>
               <h1>Upcoming due dates.</h1>
               <p>GST, income tax and ROC filing deadlines - maintained by our team, not a fixed schedule, so check back as dates approach.</p>

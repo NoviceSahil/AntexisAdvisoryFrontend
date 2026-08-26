@@ -20,6 +20,20 @@ const PublicLayout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
+  // The mobile dropdown panel is a normal block sibling below the sticky
+  // header, not fixed/sticky itself - if the visitor is scrolled down the
+  // page and opens it, it renders back at the page's natural top (right
+  // after the header's un-stuck position) and never becomes visible.
+  // Scrolling back up when opening puts the toggle - and the menu that
+  // just appeared under it - back in view.
+  const toggleMenu = () => {
+    setMenuOpen((open) => {
+      const next = !open;
+      if (next) window.scrollTo({ top: 0, behavior: 'smooth' });
+      return next;
+    });
+  };
+
   // Close the mobile menu automatically on navigation, otherwise it would
   // stay open over the next page.
   useEffect(() => {
@@ -64,7 +78,7 @@ const PublicLayout = () => {
               className="topnav-toggle"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((open) => !open)}
+              onClick={toggleMenu}
             >
               {menuOpen ? (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
