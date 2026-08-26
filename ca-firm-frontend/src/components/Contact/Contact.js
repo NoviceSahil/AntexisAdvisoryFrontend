@@ -32,7 +32,7 @@ const Contact = ({ setIsSubmitted }) => {
 
   return (
     <>
-      <section className="page-hero panel">
+      <section className="page-hero panel page-hero-flush">
         <div className="split-hero-grid">
           <div className="split-hero-text">
             <span className="eyebrow">Get in touch</span>

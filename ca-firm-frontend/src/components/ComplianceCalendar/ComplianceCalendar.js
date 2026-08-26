@@ -85,7 +85,7 @@ const ComplianceCalendar = () => {
 
   return (
     <>
-      <section className="page-hero panel">
+      <section className="page-hero panel page-hero-flush">
         {loading ? (
           <p className="bull-empty">Loading…</p>
         ) : (
