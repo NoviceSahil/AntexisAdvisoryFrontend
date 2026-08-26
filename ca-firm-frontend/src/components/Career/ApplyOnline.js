@@ -125,11 +125,11 @@ const ApplyOnline = ({ setIsSubmitted }) => {
           <div className="field-row">
             <div className="field">
               <label htmlFor="address">Address</label>
-              <textarea id="address" rows="3" name="address" value={formData.address} onChange={handleChange} />
+              <textarea id="address" rows="2" name="address" value={formData.address} onChange={handleChange} />
             </div>
             <div className="field">
               <label htmlFor="otherDetails">Anything else to add</label>
-              <textarea id="otherDetails" rows="3" name="otherDetails" value={formData.otherDetails} onChange={handleChange} />
+              <textarea id="otherDetails" rows="2" name="otherDetails" value={formData.otherDetails} onChange={handleChange} />
             </div>
           </div>
 

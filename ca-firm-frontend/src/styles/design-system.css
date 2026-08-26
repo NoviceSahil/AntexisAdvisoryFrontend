@@ -337,27 +337,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:640px){ .svc-hero{ padding-top:12px; padding-bottom:32px; } .svc-hero-icon{ width:56px; height:56px; } .svc-hero-icon svg{ width:24px; height:24px; } .svc-hero-num{ font-size:1.8rem; } .svc-sec{ padding-top:28px; padding-bottom:28px; } }
 .svc-sec h2{ font-family:var(--font-sans); font-weight:700; font-size:1rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:16px; }
 .svc-sec p{ color:var(--ink-muted); font-size:.98rem; max-width:64ch; }
-/* Tabs instead of a long scroll - Scope/Deliverables/Who it's for/Related
-   sit in one content pane that swaps on click, so exploring a service
-   doesn't mean scrolling through every section whether you want it or
-   not. */
-.svc-tabbed{ padding-top:36px; padding-bottom:56px; }
-.svc-tabbar{ display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--line); margin-bottom:28px; }
-.svc-tab{ background:none; border:none; border-bottom:2px solid transparent; padding:12px 4px; margin-right:28px; font-family:var(--font-sans); font-size:.88rem; font-weight:600; color:var(--ink-faint); cursor:pointer; transition:color .15s ease, border-color .15s ease; }
-.svc-tab:hover{ color:var(--ink-muted); }
-.svc-tab.active{ color:var(--ink); border-bottom-color:var(--accent-strong); }
-.svc-tabpane{ min-height:180px; }
-@media (max-width:640px){
-  .svc-tabbed{ padding-top:24px; padding-bottom:40px; }
-  .svc-tabbar{ gap:0; overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; }
-  .svc-tab{ white-space:nowrap; margin-right:20px; font-size:.82rem; }
-}
-/* Compact CTA band for pages that already have their own tabbed content
-   above - the full-height cta-inner padding (64px) would add another
-   large block to scroll past right after the tabs; this one's just
-   enough to read as a closing action, not a whole extra section. */
-.cta-band-compact .cta-inner{ padding-top:32px; padding-bottom:32px; }
-
 /* Full ink/paper inversion, same treatment as the hub row hover - makes
    "who this is actually for" impossible to skim past. */
 .svc-callout{ background:var(--ink); color:var(--paper); padding:28px 30px; }
@@ -446,14 +425,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .career-hero-form{ flex:0 0 500px; margin:0; }
 @media (max-width:900px){ .contact-hero-form, .career-hero-form{ flex:none; } }
 
-.field{ margin-bottom:26px; }
-.field label, .field-label{ display:block; font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:9px; }
-.field input, .field textarea, .field select{ width:100%; border:none; border-bottom:1px solid var(--line-strong); background:transparent; padding:8px 0; font-family:inherit; font-size:1rem; color:var(--ink); resize:vertical; }
+/* Tightened from 26px/9px/8px - on a long form (career especially, 5
+   field-rows) the generous spacing alone was enough to push the submit
+   button below the fold, forcing a scroll just to finish filling it in. */
+.field{ margin-bottom:15px; }
+.field label, .field-label{ display:block; font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); margin-bottom:5px; }
+.field input, .field textarea, .field select{ width:100%; border:none; border-bottom:1px solid var(--line-strong); background:transparent; padding:6px 0; font-family:inherit; font-size:1rem; color:var(--ink); resize:vertical; }
 .field input:focus, .field textarea:focus, .field select:focus{ outline:none; border-bottom-color:var(--accent-strong); }
-.field input[type="file"]{ font-size:.86rem; padding:10px 0; }
-.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.field input[type="file"]{ font-size:.86rem; padding:8px 0; }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 @media (max-width:480px){ .field-row{ grid-template-columns:1fr; } }
-.form-card{ border:1px solid var(--line); padding:32px; background:var(--surface); box-shadow:var(--shadow); }
+.form-card{ border:1px solid var(--line); padding:24px; background:var(--surface); box-shadow:var(--shadow); }
 
 /* ================= TEAM ================= */
 .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:64px; }

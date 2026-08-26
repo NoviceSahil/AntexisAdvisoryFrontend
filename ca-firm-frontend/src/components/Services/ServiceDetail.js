@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../../config/api';
+import Reveal from '../motion/Reveal';
 import ServiceIcon from './ServiceIcons';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
 // One template drives every practice-area page, fetched from the admin-
 // managed services table - every field here (title, summary, scope,
 // deliverables, who it's for, related services) is editable from the
-// admin dashboard. Tabbed instead of a long scroll: the header stays put
-// and only the tab pane below it changes, so exploring scope, deliverables,
-// who it's for, and related services doesn't require scrolling through
-// each section in turn.
+// admin dashboard.
 const ServiceDetail = () => {
   const { slug } = useParams();
   const [services, setServices] = useState(null); // null = still loading
-  const [tab, setTab] = useState('scope');
   useDocumentTitle(services?.find((s) => s.slug === slug)?.title);
 
   useEffect(() => {
@@ -27,8 +24,6 @@ const ServiceDetail = () => {
       });
   }, []);
 
-  useEffect(() => { setTab('scope'); }, [slug]);
-
   if (services === null) return null; // brief loading state, avoids a false "not found" flash
   const index = services.findIndex((s) => s.slug === slug);
   const service = services[index];
@@ -37,13 +32,6 @@ const ServiceDetail = () => {
   const related = service.related
     .map((relSlug) => services.find((s) => s.slug === relSlug))
     .filter(Boolean);
-
-  const tabs = [
-    { key: 'scope', label: 'Scope of work' },
-    { key: 'deliverables', label: `Deliverables (${service.deliverables.length})` },
-    { key: 'who', label: "Who it's for" },
-    ...(related.length > 0 ? [{ key: 'related', label: 'Related' }] : [])
-  ];
 
   return (
     <>
@@ -60,63 +48,54 @@ const ServiceDetail = () => {
         <p>{service.summary}</p>
       </section>
 
-      <section className="panel svc-tabbed">
-        <div className="svc-tabbar" role="tablist">
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              role="tab"
-              aria-selected={tab === t.key}
-              className={`svc-tab${tab === t.key ? ' active' : ''}`}
-              onClick={() => setTab(t.key)}
-            >
-              {t.label}
-            </button>
+      <Reveal as="section" className="svc-sec panel">
+        <h2>Scope of work</h2>
+        <p>{service.scope}</p>
+      </Reveal>
+
+      {/* Directly answers "what is this made for" as a visually distinct
+          callout rather than another plain paragraph, so it's the one
+          thing on the page a skimming visitor can't miss. */}
+      <Reveal as="section" className="svc-sec panel">
+        <div className="svc-callout">
+          <span className="svc-callout-label">Made for</span>
+          <p>{service.who_for}</p>
+        </div>
+      </Reveal>
+
+      <Reveal as="section" className="svc-sec panel">
+        <h2>Deliverables</h2>
+        <ul className="deliv-list">
+          {service.deliverables.map(([title, desc], i) => (
+            <li key={title}>
+              <span className="dl-letter">{String.fromCharCode(97 + i)}.</span>
+              <div>
+                <strong>{title}</strong>
+                <span>{desc}</span>
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
+      </Reveal>
 
-        <div className="svc-tabpane">
-          {tab === 'scope' && <p>{service.scope}</p>}
+      {related.length > 0 && (
+        <section className="section panel">
+          <span className="related-title">Related services</span>
+          <div className="related-list">
+            {related.map((rel) => (
+              <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
+                <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
+                <span className="sch-text">
+                  <span className="sch-title">{rel.title}</span>
+                </span>
+                <span className="sch-arrow">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
-          {tab === 'deliverables' && (
-            <ul className="deliv-list">
-              {service.deliverables.map(([title, desc], i) => (
-                <li key={title}>
-                  <span className="dl-letter">{String.fromCharCode(97 + i)}.</span>
-                  <div>
-                    <strong>{title}</strong>
-                    <span>{desc}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {tab === 'who' && (
-            <div className="svc-callout">
-              <span className="svc-callout-label">Made for</span>
-              <p>{service.who_for}</p>
-            </div>
-          )}
-
-          {tab === 'related' && (
-            <div className="related-list">
-              {related.map((rel) => (
-                <Link key={rel.slug} to={`/service/${rel.slug}`} className="sch-row">
-                  <span className="sch-num num">{String(services.findIndex((s) => s.slug === rel.slug) + 1).padStart(2, '0')}</span>
-                  <span className="sch-text">
-                    <span className="sch-title">{rel.title}</span>
-                  </span>
-                  <span className="sch-arrow">→</span>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="cta-band cta-band-compact">
+      <section className="cta-band">
         <div className="panel cta-inner">
           <h2>Have a question about this service?</h2>
           <Link to="/contact" className="btn btn-primary">Discuss with a partner</Link>
