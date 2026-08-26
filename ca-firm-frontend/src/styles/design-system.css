@@ -335,6 +335,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .related-list{ display:flex; flex-direction:column; }
 
 /* ================= COMPLIANCE CALENDAR ================= */
+/* Calendar beside the intro text instead of stacked below it. */
+.cal-hero{ border-bottom:1px solid var(--line); }
+.cal-hero-grid{ display:flex; align-items:center; gap:56px; }
+.cal-hero-calendar{ flex:0 0 420px; }
+.cal-hero-text{ flex:1; min-width:0; }
+.cal-hero-text h1{ margin-bottom:12px; }
+@media (max-width:900px){
+  .cal-hero-grid{ flex-direction:column; align-items:stretch; gap:32px; }
+  .cal-hero-calendar{ flex:none; }
+}
+
 .cal-nav{ display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:24px; }
 .cal-nav-btn{ background:none; border:1px solid var(--line-strong); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; color:var(--ink); cursor:pointer; transition:background .15s, border-color .15s; }
 .cal-nav-btn:hover{ background:var(--surface-2); border-color:var(--ink-muted); }
@@ -346,14 +357,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    of aspect-ratio:1 - a 7-across square grid at full ~960px panel width
    made each cell (and the whole grid, across up to 6 rows) tall enough
    that the calendar alone pushed the page into a scroll. */
-.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:0 auto 28px; max-width:460px; }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:0 auto 28px; max-width:420px; }
 .cal-grid-head{ background:var(--surface-2); padding:7px 4px; text-align:center; font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); }
-.cal-cell{ background:var(--surface); height:52px; border:none; padding:6px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:3px; position:relative; font-family:inherit; cursor:default; transition:background .15s, transform .15s ease; }
+.cal-cell{ background:var(--surface); height:58px; border:none; padding:6px 4px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:3px; position:relative; font-family:inherit; cursor:default; transition:background .15s, transform .15s ease; }
 .cal-cell-empty{ background:var(--surface-2); }
 .cal-cell-day{ font-size:.92rem; color:var(--ink-faint); transition:color .15s; }
 .cal-cell.is-today .cal-cell-day{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
 .cal-cell.has-events{ cursor:pointer; }
 .cal-cell.has-events .cal-cell-day{ color:var(--ink); font-weight:600; }
+/* Never wrap to a second line - a cell is a fixed 52px tall, and long
+   category names ("ROC / Corporate") wrapping is exactly what pushed text
+   outside the bordered box. Truncate with an ellipsis instead. */
+.cal-cell-label{ font-size:.56rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; line-height:1.2; }
 /* Every cell gets a hint of feedback on hover (interactive-feeling grid,
    not just a few clickable islands); cells with events go further with a
    lift + accent border so the ones actually worth clicking stand out. */
@@ -361,8 +376,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .cal-cell.has-events:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
 .cal-cell.has-events:hover .cal-cell-day{ color:var(--accent-ink); }
 .cal-cell.is-selected{ background:var(--surface-2); box-shadow:inset 0 0 0 2px var(--accent-strong); }
-.cal-cell-dot{ width:5px; height:5px; border-radius:50%; background:var(--accent-strong); transition:transform .15s ease; }
-.cal-cell.has-events:hover .cal-cell-dot{ transform:scale(1.4); }
 
 /* Hover tooltip - CSS-only, a quick desktop preview before clicking. Touch
    devices don't get hover, so the click-to-select panel below the grid

@@ -85,61 +85,69 @@ const ComplianceCalendar = () => {
 
   return (
     <>
-      <section className="page-hero panel">
-        <span className="eyebrow">Compliance calendar</span>
-        <h1>Upcoming due dates.</h1>
-        <p>GST, income tax and ROC filing deadlines - maintained by our team, not a fixed schedule, so check back as dates approach.</p>
-      </section>
-
-      <div className="panel" style={{ paddingBottom: '76px' }}>
+      <section className="page-hero panel cal-hero">
         {loading ? (
           <p className="bull-empty">Loading…</p>
         ) : (
+          <div className="cal-hero-grid">
+            <div className="cal-hero-calendar">
+              <div className="cal-nav">
+                <button type="button" className="cal-nav-btn" onClick={() => changeMonth(-1)} aria-label="Previous month">←</button>
+                <span className="cal-nav-label num">{MONTH_NAMES[cursor.month]} {cursor.year}</span>
+                <button type="button" className="cal-nav-btn" onClick={() => changeMonth(1)} aria-label="Next month">→</button>
+              </div>
+
+              <div className="cal-grid">
+                {WEEKDAYS.map((w) => <div className="cal-grid-head" key={w}>{w}</div>)}
+                {grid.map((day, i) => {
+                  if (day === null) return <div className="cal-cell cal-cell-empty" key={`blank-${i}`} />;
+                  const key = dateKey(cursor.year, cursor.month, day);
+                  const events = byDay.get(key) || [];
+                  const hasEvents = events.length > 0;
+                  const isToday = key === todayKey;
+                  const isSelected = key === selectedKey;
+                  return (
+                    <button
+                      type="button"
+                      key={key}
+                      className={`cal-cell${hasEvents ? ' has-events' : ''}${isToday ? ' is-today' : ''}${isSelected ? ' is-selected' : ''}`}
+                      onClick={() => hasEvents && setSelectedKey(isSelected ? null : key)}
+                      disabled={!hasEvents}
+                    >
+                      <span className="cal-cell-day num">{day}</span>
+                      {hasEvents && (
+                        <span className="cal-cell-label">
+                          {events[0].category}{events.length > 1 ? ` +${events.length - 1}` : ''}
+                        </span>
+                      )}
+                      {hasEvents && (
+                        <div className="cal-tooltip">
+                          {events.map((e) => (
+                            <div key={e.id} className="cal-tooltip-row">
+                              <span className="cal-tooltip-cat">{e.category}{e.cadence ? ` · ${e.cadence}` : ''}</span>
+                              <span className="cal-tooltip-title">{e.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="cal-hero-text">
+              <span className="eyebrow">Compliance calendar</span>
+              <h1>Upcoming due dates.</h1>
+              <p>GST, income tax and ROC filing deadlines - maintained by our team, not a fixed schedule, so check back as dates approach.</p>
+            </div>
+          </div>
+        )}
+      </section>
+
+      <div className="panel" style={{ paddingBottom: '76px' }}>
+        {!loading && (
           <>
-            <div className="cal-nav">
-              <button type="button" className="cal-nav-btn" onClick={() => changeMonth(-1)} aria-label="Previous month">←</button>
-              <span className="cal-nav-label num">{MONTH_NAMES[cursor.month]} {cursor.year}</span>
-              <button type="button" className="cal-nav-btn" onClick={() => changeMonth(1)} aria-label="Next month">→</button>
-            </div>
-
-            <div className="cal-grid">
-              {WEEKDAYS.map((w) => <div className="cal-grid-head" key={w}>{w}</div>)}
-              {grid.map((day, i) => {
-                if (day === null) return <div className="cal-cell cal-cell-empty" key={`blank-${i}`} />;
-                const key = dateKey(cursor.year, cursor.month, day);
-                const events = byDay.get(key) || [];
-                const hasEvents = events.length > 0;
-                const isToday = key === todayKey;
-                const isSelected = key === selectedKey;
-                return (
-                  <button
-                    type="button"
-                    key={key}
-                    className={`cal-cell${hasEvents ? ' has-events' : ''}${isToday ? ' is-today' : ''}${isSelected ? ' is-selected' : ''}`}
-                    onClick={() => hasEvents && setSelectedKey(isSelected ? null : key)}
-                    disabled={!hasEvents}
-                  >
-                    <span className="cal-cell-day num">{day}</span>
-                    {hasEvents && (
-                      <span className="cal-cell-label">
-                        {events[0].category}{events.length > 1 ? ` +${events.length - 1}` : ''}
-                      </span>
-                    )}
-                    {hasEvents && (
-                      <div className="cal-tooltip">
-                        {events.map((e) => (
-                          <div key={e.id} className="cal-tooltip-row">
-                            <span className="cal-tooltip-cat">{e.category}{e.cadence ? ` · ${e.cadence}` : ''}</span>
-                            <span className="cal-tooltip-title">{e.title}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
             {selectedKey && (
               <div className="cal-selected">
                 <span className="related-title">
