@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../../config/api';
-import Reveal from '../motion/Reveal';
 import ServiceIcon from './ServiceIcons';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+// No entrance animation here (unlike most other pages) - Reveal's
+// scroll-triggered fade only fires for items already in the natural
+// scroll flow; on a page built specifically to need no scrolling, most
+// or all cards are visible immediately anyway.
 
+// Compact grid instead of stacked full-width rows - same reasoning as the
+// service detail page: fitting every practice area on one screen with no
+// scrolling means using width instead of height, so this trades the
+// site's usual generous spacing for density, deliberately, only here.
 const Services = () => {
   useDocumentTitle('Services');
   const [services, setServices] = useState([]);
@@ -17,49 +24,27 @@ const Services = () => {
   }, []);
 
   return (
-  <>
-    <section className="page-hero panel page-hero-flush">
-      <span className="eyebrow">Practice areas</span>
-      <h1>Services built for compliance, finance and business growth.</h1>
-      <p>
-        {services.length || 'Several'} practice area{services.length === 1 ? '' : 's'}, run by one senior team -
-        explore each one to see exactly what's delivered and who it's for.
-      </p>
-    </section>
+    <div className="svc-compact panel">
+      <div className="svc-index-head">
+        <span className="eyebrow">Practice areas</span>
+        <h1>Services built for compliance, finance and business growth.</h1>
+      </div>
 
-    <section className="panel svc-rows-wrap">
-      {services.map((service, i) => (
-        <Reveal
-          as={Link}
-          key={service.slug}
-          to={`/service/${service.slug}`}
-          className="svc-row"
-          delay={i * 60}
-        >
-          <span className="svc-row-num num">{String(i + 1).padStart(2, '0')}</span>
-          <span className="svc-row-icon"><ServiceIcon slug={service.slug} /></span>
-          <span className="svc-row-body">
-            <h3>{service.title}</h3>
-            <p>{service.summary}</p>
-            <span className="svc-row-stats">
-              <span className="svc-row-stat">{service.deliverables.length} deliverables</span>
-              <span className="svc-row-stat">{service.who_for}</span>
+      <div className="svc-index-grid">
+        {services.map((service, i) => (
+          <Link key={service.slug} to={`/service/${service.slug}`} className="svc-index-card">
+            <span className="svc-index-top">
+              <span className="svc-mini-icon"><ServiceIcon slug={service.slug} /></span>
+              <span className="svc-index-num num">{String(i + 1).padStart(2, '0')}</span>
             </span>
-          </span>
-          <span className="svc-row-go" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-          </span>
-        </Reveal>
-      ))}
-    </section>
-
-    <section className="cta-band">
-      <Reveal as="div" className="panel cta-inner">
-        <h2>Not sure which service you need?</h2>
-        <Link to="/contact" className="btn btn-primary">Talk to a partner</Link>
-      </Reveal>
-    </section>
-  </>
+            <h3>{service.title}</h3>
+            <span className="svc-index-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 };
 

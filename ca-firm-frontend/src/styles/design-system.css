@@ -197,53 +197,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 
-/* Services hub - one full-width row per practice area. On hover the whole
-   row inverts to solid ink/paper, not just a subtle tint - a bold,
-   confident transformation meant to feel worth stopping for, matching the
-   site's high-contrast monochrome identity rather than a quiet nudge. */
-.svc-rows-wrap{ padding-bottom:60px; }
-.svc-row{ display:flex; align-items:center; gap:22px; padding:22px 20px; border-bottom:1px solid var(--line); text-decoration:none; color:inherit; position:relative; transition:background .3s ease, color .3s ease; }
-.svc-row:first-child{ border-top:1px solid var(--line); }
-.svc-row:hover{ background:var(--ink); color:var(--paper); }
-.svc-row-num{ flex:none; font-size:1.9rem; color:var(--line-strong); line-height:1; transition:color .3s ease; }
-.svc-row:hover .svc-row-num{ color:rgba(255,255,255,.35); }
-.svc-row-icon{ flex:none; width:48px; height:48px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease; }
-.svc-row-icon svg{ width:21px; height:21px; color:var(--ink-muted); transition:color .3s ease; }
-.svc-row:hover .svc-row-icon{ border-color:rgba(255,255,255,.4); }
-.svc-row:hover .svc-row-icon svg{ color:var(--paper); }
-.svc-row-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
-.svc-row-body h3{ font-size:1.2rem; }
-.svc-row-body p{ color:var(--ink-muted); font-size:.9rem; line-height:1.5; max-width:56ch; transition:color .3s ease; }
-.svc-row:hover .svc-row-body p{ color:rgba(255,255,255,.75); }
-/* Concrete, scannable facts instead of just prose - "4 deliverables"
-   answers "what do I actually get" at a glance. */
-.svc-row-stats{ display:flex; flex-wrap:wrap; gap:6px 8px; margin-top:2px; }
-.svc-row-stat{ font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); border:1px solid var(--line-strong); padding:3px 9px; border-radius:20px; transition:color .3s ease, border-color .3s ease; }
-.svc-row-stat:first-child{ color:var(--ink); font-weight:600; }
-.svc-row:hover .svc-row-stat{ border-color:rgba(255,255,255,.35); color:rgba(255,255,255,.7); }
-.svc-row:hover .svc-row-stat:first-child{ color:var(--paper); }
-/* Circular arrow button, not a text link - a tactile "press this" target
-   that visibly fills in on hover, like a play button. */
-.svc-row-go{ flex:none; width:42px; height:42px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.22,.61,.36,1); }
-.svc-row-go svg{ width:17px; height:17px; color:var(--ink); transition:color .3s ease; }
-.svc-row:hover .svc-row-go{ background:var(--paper); border-color:var(--paper); transform:scale(1.12) rotate(45deg); }
-.svc-row:hover .svc-row-go svg{ color:var(--ink); }
-/* A touch more pop on entrance than the generic fade-up .reveal used
-   elsewhere - specific to this combination of classes, so it doesn't
-   affect .reveal's behaviour anywhere else on the site. */
-.svc-row.reveal{ transform:translateY(14px) scale(.99); }
-.svc-row.reveal.in{ transform:none; }
-@media (max-width:700px){
-  .svc-row{ flex-wrap:wrap; gap:12px; padding:18px 16px; }
-  .svc-row-num{ font-size:1.4rem; }
-  .svc-row-icon{ width:40px; height:40px; }
-  .svc-row-icon svg{ width:18px; height:18px; }
-  .svc-row-body{ order:1; flex-basis:100%; }
-  .svc-row-body h3{ font-size:1.05rem; }
-  .svc-row-go{ width:36px; height:36px; margin-left:auto; }
-}
-@media (prefers-reduced-motion: reduce){ .svc-row, .svc-row-go{ transition:none; } .svc-row:hover .svc-row-go{ transform:none; } }
-
 /* note / pull quote */
 .note-mark{ font-family:var(--font-serif); font-size:3.4rem; color:var(--line-strong); line-height:.6; margin-bottom:10px; }
 .note blockquote{ font-family:var(--font-serif); font-size:1.5rem; line-height:1.42; max-width:30ch; margin:0 0 26px; font-weight:500; }
@@ -319,6 +272,33 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    uses. This page trades the site's usual generous editorial spacing for
    density, on purpose, only here. */
 .svc-compact{ padding-top:20px; padding-bottom:28px; }
+/* Services hub as a dense index/menu instead of a scrolling list of full-
+   width rows - same "width instead of height" reasoning as the detail
+   page's compact grid just above, so every practice area fits on one
+   screen with nothing to click to reveal more. */
+.svc-index-head{ margin-bottom:20px; }
+.svc-index-head h1{ font-size:1.3rem; line-height:1.25; max-width:44ch; margin-top:6px; }
+.svc-index-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+@media (max-width:900px){ .svc-index-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px){ .svc-index-grid{ grid-template-columns:1fr; } }
+.svc-index-card{ background:var(--surface); color:inherit; text-decoration:none; padding:16px; display:flex; flex-direction:column; gap:10px; transition:background .2s ease, color .2s ease; }
+.svc-index-card:hover{ background:var(--ink); color:var(--paper); }
+.svc-index-top{ display:flex; align-items:center; justify-content:space-between; }
+.svc-index-card .svc-mini-icon{ width:38px; height:38px; transition:border-color .2s ease; }
+.svc-index-card .svc-mini-icon svg{ width:16px; height:16px; }
+.svc-index-card:hover .svc-mini-icon{ border-color:rgba(255,255,255,.4); }
+.svc-index-card:hover .svc-mini-icon svg{ color:var(--paper); }
+.svc-index-num{ font-size:1.1rem; color:var(--line-strong); transition:color .2s ease; }
+.svc-index-card:hover .svc-index-num{ color:rgba(255,255,255,.4); }
+.svc-index-card h3{ font-size:.9rem; line-height:1.3; flex:1; }
+.svc-index-go{ align-self:flex-end; display:flex; }
+.svc-index-go svg{ width:16px; height:16px; color:var(--ink-faint); transition:transform .2s cubic-bezier(.22,.61,.36,1), color .2s ease; }
+.svc-index-card:hover .svc-index-go svg{ transform:translateX(4px); color:var(--paper); }
+@media (max-width:640px){
+  .svc-index-head h1{ font-size:1.1rem; }
+  .svc-index-card{ padding:14px; }
+}
+
 .svc-compact-crumb{ padding-top:0; padding-bottom:14px; }
 .svc-compact-head{ display:flex; align-items:center; gap:18px; padding-bottom:18px; margin-bottom:18px; border-bottom:1px solid var(--line); }
 .svc-mini-icon{ flex:none; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
