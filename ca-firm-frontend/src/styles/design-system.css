@@ -208,45 +208,52 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .sch-arrow{ font-size:1.1rem; color:var(--ink-faint); transition:transform .15s, color .15s; }
 .sch-row:hover .sch-arrow{ transform:translateX(4px); color:var(--accent-ink); }
 
-/* Services hub - alternating full-width editorial rows instead of a card
-   grid, one per practice area: icon badge on one side, title/summary/CTA
-   on the other, flipping sides each row for visual rhythm down the page. */
+/* Services hub - one full-width row per practice area. On hover the whole
+   row inverts to solid ink/paper, not just a subtle tint - a bold,
+   confident transformation meant to feel worth stopping for, matching the
+   site's high-contrast monochrome identity rather than a quiet nudge. */
 .svc-rows-wrap{ padding-bottom:76px; }
-.svc-row{ display:flex; align-items:center; gap:48px; padding:44px 0; border-bottom:1px solid var(--line); text-decoration:none; color:inherit; transition:background .2s ease; }
+.svc-row{ display:flex; align-items:center; gap:32px; padding:36px 28px; border-bottom:1px solid var(--line); text-decoration:none; color:inherit; position:relative; transition:background .3s ease, color .3s ease; }
 .svc-row:first-child{ border-top:1px solid var(--line); }
-.svc-row-reverse{ flex-direction:row-reverse; }
-.svc-row:hover{ background:var(--surface-2); }
-.svc-row-icon{ flex:none; width:104px; height:104px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.22,.61,.36,1); }
-.svc-row-icon svg{ width:38px; height:38px; color:var(--ink-muted); transition:color .3s ease; }
-/* Full ink/paper inversion on hover - a bold, high-contrast "activated"
-   state that matches the site's monochrome identity rather than a subtle
-   tint. */
-.svc-row:hover .svc-row-icon{ background:var(--ink); border-color:var(--ink); transform:scale(1.06); }
+.svc-row:hover{ background:var(--ink); color:var(--paper); }
+.svc-row-num{ flex:none; font-size:2.6rem; color:var(--line-strong); line-height:1; transition:color .3s ease; }
+.svc-row:hover .svc-row-num{ color:rgba(255,255,255,.35); }
+.svc-row-icon{ flex:none; width:64px; height:64px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:border-color .3s ease; }
+.svc-row-icon svg{ width:28px; height:28px; color:var(--ink-muted); transition:color .3s ease; }
+.svc-row:hover .svc-row-icon{ border-color:rgba(255,255,255,.4); }
 .svc-row:hover .svc-row-icon svg{ color:var(--paper); }
 .svc-row-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
-.svc-row-eyebrow{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
-.svc-row-body h3{ font-size:1.3rem; display:inline-block; position:relative; width:fit-content; }
-.svc-row-body h3::after{ content:""; position:absolute; left:0; right:100%; bottom:-3px; height:1px; background:var(--accent-strong); transition:right .3s ease; }
-.svc-row:hover .svc-row-body h3::after{ right:0; }
-.svc-row-body p{ color:var(--ink-muted); font-size:.98rem; line-height:1.55; max-width:56ch; }
-.svc-row-hint{ font-size:.84rem; color:var(--ink-faint); line-height:1.5; max-width:56ch; }
-.svc-row-hint::before{ content:"Best for: "; font-weight:600; color:var(--ink-muted); }
-.svc-row-cta{ margin-top:8px; align-self:flex-start; transition:background .2s ease, color .2s ease, border-color .2s ease; }
-.svc-row:hover .svc-row-cta{ background:var(--accent-strong); color:var(--on-accent); border-color:var(--accent-strong); }
-.svc-row:hover .svc-row-cta .card-arrow{ transform:translateX(6px); }
-.card-arrow{ display:inline-block; transition:transform .25s cubic-bezier(.22,.61,.36,1); }
+.svc-row-body h3{ font-size:1.7rem; }
+.svc-row-body p{ color:var(--ink-muted); font-size:1rem; line-height:1.55; max-width:56ch; transition:color .3s ease; }
+.svc-row:hover .svc-row-body p{ color:rgba(255,255,255,.75); }
+/* Concrete, scannable facts instead of just prose - "4 deliverables"
+   answers "what do I actually get" at a glance. */
+.svc-row-stats{ display:flex; flex-wrap:wrap; gap:8px 10px; margin-top:2px; }
+.svc-row-stat{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-faint); border:1px solid var(--line-strong); padding:4px 10px; border-radius:20px; transition:color .3s ease, border-color .3s ease; }
+.svc-row-stat:first-child{ color:var(--ink); font-weight:600; }
+.svc-row:hover .svc-row-stat{ border-color:rgba(255,255,255,.35); color:rgba(255,255,255,.7); }
+.svc-row:hover .svc-row-stat:first-child{ color:var(--paper); }
+/* Circular arrow button, not a text link - a tactile "press this" target
+   that visibly fills in on hover, like a play button. */
+.svc-row-go{ flex:none; width:56px; height:56px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; transition:background .3s ease, border-color .3s ease, transform .3s cubic-bezier(.22,.61,.36,1); }
+.svc-row-go svg{ width:22px; height:22px; color:var(--ink); transition:color .3s ease; }
+.svc-row:hover .svc-row-go{ background:var(--paper); border-color:var(--paper); transform:scale(1.12) rotate(45deg); }
+.svc-row:hover .svc-row-go svg{ color:var(--ink); }
 /* A touch more pop on entrance than the generic fade-up .reveal used
    elsewhere - specific to this combination of classes, so it doesn't
    affect .reveal's behaviour anywhere else on the site. */
 .svc-row.reveal{ transform:translateY(18px) scale(.98); }
 .svc-row.reveal.in{ transform:none; }
 @media (max-width:700px){
-  .svc-row, .svc-row-reverse{ flex-direction:column; align-items:flex-start; gap:20px; padding:32px 0; }
-  .svc-row-icon{ width:76px; height:76px; }
-  .svc-row-icon svg{ width:30px; height:30px; }
-  .svc-row-body h3{ font-size:1.15rem; }
+  .svc-row{ flex-wrap:wrap; gap:16px; padding:28px 20px; }
+  .svc-row-num{ font-size:1.8rem; }
+  .svc-row-icon{ width:48px; height:48px; }
+  .svc-row-icon svg{ width:22px; height:22px; }
+  .svc-row-body{ order:1; flex-basis:100%; }
+  .svc-row-body h3{ font-size:1.3rem; }
+  .svc-row-go{ width:44px; height:44px; margin-left:auto; }
 }
-@media (prefers-reduced-motion: reduce){ .svc-row, .svc-row-icon, .svc-row-cta{ transition:none; } .svc-row:hover .svc-row-icon{ transform:none; } }
+@media (prefers-reduced-motion: reduce){ .svc-row, .svc-row-go{ transition:none; } .svc-row:hover .svc-row-go{ transform:none; } }
 
 /* note / pull quote */
 .note-mark{ font-family:var(--font-serif); font-size:3.4rem; color:var(--line-strong); line-height:.6; margin-bottom:10px; }

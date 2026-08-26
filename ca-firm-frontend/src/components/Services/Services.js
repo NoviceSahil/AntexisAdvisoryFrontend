@@ -33,18 +33,21 @@ const Services = () => {
           as={Link}
           key={service.slug}
           to={`/service/${service.slug}`}
-          className={`svc-row${i % 2 === 1 ? ' svc-row-reverse' : ''}`}
+          className="svc-row"
           delay={i * 60}
         >
-          <span className="svc-row-icon">
-            <ServiceIcon slug={service.slug} />
-          </span>
+          <span className="svc-row-num num">{String(i + 1).padStart(2, '0')}</span>
+          <span className="svc-row-icon"><ServiceIcon slug={service.slug} /></span>
           <span className="svc-row-body">
-            <span className="svc-row-eyebrow">Practice area {String(i + 1).padStart(2, '0')}</span>
             <h3>{service.title}</h3>
             <p>{service.summary}</p>
-            <span className="svc-row-hint">{service.who_for}</span>
-            <span className="btn btn-ghost btn-sm svc-row-cta">Explore this service <span className="card-arrow">→</span></span>
+            <span className="svc-row-stats">
+              <span className="svc-row-stat">{service.deliverables.length} deliverables</span>
+              <span className="svc-row-stat">{service.who_for}</span>
+            </span>
+          </span>
+          <span className="svc-row-go" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </span>
         </Reveal>
       ))}
