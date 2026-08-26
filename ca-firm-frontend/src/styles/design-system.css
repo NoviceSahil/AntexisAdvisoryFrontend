@@ -281,25 +281,34 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-index-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
 @media (max-width:900px){ .svc-index-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .svc-index-grid{ grid-template-columns:1fr; } }
-.svc-index-card{ background:var(--surface); color:inherit; text-decoration:none; padding:16px; display:flex; flex-direction:column; gap:10px; transition:background .2s ease, color .2s ease; }
-.svc-index-card:hover{ background:var(--ink); color:var(--paper); }
+/* Neither a full black invert (too harsh/hard to read) nor a flat gray
+   tint (felt flat, didn't match the theme) landed well - lifting the card
+   with a shadow instead sidesteps picking a hover color entirely and
+   reuses the same elevation cue already proven elsewhere on the site
+   (service detail's icon badge, blog thumbnails). Background stays the
+   same surface color throughout. */
+.svc-index-card{ background:var(--surface); color:inherit; text-decoration:none; padding:16px; display:flex; flex-direction:column; gap:10px; position:relative; transition:transform .2s cubic-bezier(.22,.61,.36,1), box-shadow .2s ease; }
+.svc-index-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); z-index:1; }
 .svc-index-top{ display:flex; align-items:center; justify-content:space-between; }
-.svc-index-card .svc-mini-icon{ width:38px; height:38px; transition:border-color .2s ease; }
-.svc-index-card .svc-mini-icon svg{ width:16px; height:16px; }
-.svc-index-card:hover .svc-mini-icon{ border-color:rgba(255,255,255,.4); }
+.svc-index-card .svc-mini-icon{ width:38px; height:38px; transition:border-color .2s ease, background .2s ease; }
+.svc-index-card .svc-mini-icon svg{ width:16px; height:16px; transition:color .2s ease; }
+.svc-index-card:hover .svc-mini-icon{ background:var(--ink); border-color:var(--ink); }
 .svc-index-card:hover .svc-mini-icon svg{ color:var(--paper); }
 .svc-index-num{ font-size:1.1rem; color:var(--line-strong); transition:color .2s ease; }
-.svc-index-card:hover .svc-index-num{ color:rgba(255,255,255,.4); }
+.svc-index-card:hover .svc-index-num{ color:var(--accent-ink); }
 .svc-index-card h3{ font-size:.9rem; line-height:1.3; flex:1; }
 .svc-index-go{ align-self:flex-end; display:flex; }
 .svc-index-go svg{ width:16px; height:16px; color:var(--ink-faint); transition:transform .2s cubic-bezier(.22,.61,.36,1), color .2s ease; }
-.svc-index-card:hover .svc-index-go svg{ transform:translateX(4px); color:var(--paper); }
+.svc-index-card:hover .svc-index-go svg{ transform:translateX(4px); color:var(--accent-ink); }
 @media (max-width:640px){
   .svc-index-head h1{ font-size:1.1rem; }
   .svc-index-card{ padding:14px; }
 }
 
-.svc-compact-crumb{ padding-top:0; padding-bottom:14px; }
+.svc-back-link{ display:inline-flex; align-items:center; gap:8px; font-size:.85rem; font-weight:600; color:var(--ink-muted); margin-bottom:16px; transition:color .15s ease, gap .15s ease; }
+.svc-back-link svg{ width:16px; height:16px; transition:transform .15s ease; }
+.svc-back-link:hover{ color:var(--ink); }
+.svc-back-link:hover svg{ transform:translateX(-3px); }
 .svc-compact-head{ display:flex; align-items:center; gap:18px; padding-bottom:18px; margin-bottom:18px; border-bottom:1px solid var(--line); }
 .svc-mini-icon{ flex:none; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
 .svc-mini-icon svg{ width:22px; height:22px; color:var(--ink-muted); }
@@ -316,17 +325,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-callout-mini{ padding:14px 16px; }
 .svc-callout-mini .svc-callout-label{ font-size:.62rem; margin-bottom:5px; }
 .svc-callout-mini p{ font-size:.85rem; line-height:1.4; }
-.svc-mini-related{ display:flex; flex-direction:column; gap:6px; }
-.svc-mini-related .related-title{ margin-bottom:2px; }
-.svc-mini-related a{ font-size:.82rem; color:var(--ink); border-bottom:1px solid var(--line); padding-bottom:6px; }
-.svc-mini-related a:last-child{ border-bottom:none; padding-bottom:0; }
-.svc-mini-related a:hover{ color:var(--accent-ink); }
 .svc-compact-cta{ margin-top:auto; }
 @media (max-width:900px){
   .svc-compact-grid{ grid-template-columns:1fr 1fr; }
-  .svc-compact-side{ grid-column:1 / -1; flex-direction:row; flex-wrap:wrap; gap:16px; }
-  .svc-callout-mini, .svc-mini-related{ flex:1 1 220px; }
-  .svc-compact-cta{ flex:1 1 100%; }
+  .svc-compact-side{ grid-column:1 / -1; }
 }
 @media (max-width:640px){
   .svc-compact{ padding-top:14px; padding-bottom:20px; }

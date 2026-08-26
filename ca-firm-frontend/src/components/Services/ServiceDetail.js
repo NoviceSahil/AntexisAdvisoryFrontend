@@ -30,19 +30,15 @@ const ServiceDetail = () => {
   }, []);
 
   if (services === null) return null; // brief loading state, avoids a false "not found" flash
-  const index = services.findIndex((s) => s.slug === slug);
-  const service = services[index];
+  const service = services.find((s) => s.slug === slug);
   if (!service) return <Navigate to="/services" replace />;
-
-  const related = service.related
-    .map((relSlug) => services.find((s) => s.slug === relSlug))
-    .filter(Boolean);
 
   return (
     <div className="svc-compact panel">
-      <div className="crumb svc-compact-crumb">
-        <Link to="/services">Schedule {String(index + 1).padStart(2, '0')}</Link> / <strong>{service.title}</strong>
-      </div>
+      <Link to="/services" className="svc-back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
+        Back to services
+      </Link>
 
       <div className="svc-compact-head">
         <span className="svc-mini-icon"><ServiceIcon slug={service.slug} /></span>
@@ -72,15 +68,6 @@ const ServiceDetail = () => {
             <span className="svc-callout-label">Made for</span>
             <p>{service.who_for}</p>
           </div>
-
-          {related.length > 0 && (
-            <div className="svc-mini-related">
-              <span className="related-title">Related</span>
-              {related.map((rel) => (
-                <Link key={rel.slug} to={`/service/${rel.slug}`}>{rel.title}</Link>
-              ))}
-            </div>
-          )}
 
           <Link to="/contact" className="btn btn-primary btn-sm btn-block svc-compact-cta">
             Discuss with a partner
