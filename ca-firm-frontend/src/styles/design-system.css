@@ -1,5 +1,5 @@
 /* ===========================================================================
-   Antexis design system - ported from the approved static preview.
+   Ankita & Associates design system - ported from the approved static preview.
    Same tokens, same class names, same behaviour; adapted here to run across
    real routed pages instead of a single-file tabbed mockup.
 =========================================================================== */
@@ -8,16 +8,31 @@
   --paper:#FFFFFF;
   --surface:#FFFFFF;
   --surface-2:#F1F1F1;
-  --ink:#0A0A0A;
-  --ink-muted:#575757;
-  --ink-faint:#8F8F8F;
+  /* Navy-tinted in place of pure black/gray, so body copy and headings read
+     as part of the brand palette instead of a neutral black-and-white
+     site with blue accents bolted on. Lightness of each step matches the
+     old black/gray ramp closely, so contrast/readability is unchanged. */
+  --ink:#0B2233;
+  --ink-muted:#4C5F6B;
+  --ink-faint:#8A9AA3;
   --line:#E4E4E4;
   --line-strong:#CFCFCF;
-  --accent:#0A0A0A;
-  --accent-strong:#000000;
-  --accent-tint:#EDEDED;
-  --accent-ink:#0A0A0A;
+  /* Brand palette lifted from the firm's logo mark (blue "CA" glyph, saffron
+     and green flag) - accent/interactive colour is the logo blue; ink-brand
+     is a darker navy in the same family, used for the site's dark surface
+     bands (footer, ticker, CTA) so the full-colour logo still reads clearly
+     on top of them instead of nearly matching a same-hue background. */
+  --brand-blue:#175888;
+  --brand-orange:#F47920;
+  --brand-green:#52B947;
+  --ink-brand:#0F2E44;
+  --accent:#175888;
+  --accent-strong:#12466D;
+  --accent-tint:#E7F1F7;
+  --accent-ink:#175888;
   --on-accent:#FFFFFF;
+  --success:#2E7A3E;
+  --success-tint:#E8F5EA;
   --danger:#A23B2E;
   --shadow: 0 1px 2px rgba(21,20,16,0.05), 0 10px 28px -14px rgba(21,20,16,0.18);
   --shadow-lg: 0 24px 56px -20px rgba(21,20,16,0.28);
@@ -56,7 +71,7 @@ html{ overflow-x:hidden; }
 img, video{ max-width:100%; height:auto; }
 body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
 a{ color:inherit; text-decoration:none; }
-h1,h2,h3{ font-family:var(--font-serif); font-weight:500; text-wrap:balance; margin:0; letter-spacing:-.01em; overflow-wrap:break-word; }
+h1,h2,h3{ font-family:var(--font-serif); font-weight:500; text-wrap:balance; margin:0; letter-spacing:-.01em; overflow-wrap:break-word; color:var(--accent); }
 p{ margin:0; }
 button{ font-family:inherit; cursor:pointer; }
 ::selection{ background:var(--accent-tint); color:var(--accent-ink); }
@@ -75,7 +90,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ---------- notice ticker ---------- */
-.notice-ticker{ background:var(--ink); color:var(--paper); display:flex; align-items:center; gap:14px; padding:10px 56px; font-size:.82rem; }
+.notice-ticker{ position:relative; background:var(--ink-brand); color:var(--paper); display:flex; align-items:center; gap:14px; padding:10px 56px; font-size:.82rem; }
+/* Thin tricolour stripe echoing the flag detail in the logo mark - a small,
+   consistent brand touch at the very top of every public page. */
+.notice-ticker::before{ content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--brand-blue) 0 33.33%, var(--brand-orange) 33.33% 66.66%, var(--brand-green) 66.66% 100%); }
 @media (max-width:1100px){ .notice-ticker{ padding:10px 40px; } }
 @media (max-width:640px){ .notice-ticker{ padding:9px 20px; gap:10px; } }
 .notice-ticker .notice-kind{ display:flex; align-items:center; gap:7px; flex:none; font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; opacity:.7; }
@@ -98,7 +116,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 /* ================= TOP NAV + centered content ================= */
 .brand{ display:flex; align-items:center; gap:11px; }
-.brand .mark{ width:36px; height:36px; border-radius:3px; background:var(--ink); color:var(--paper); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-style:italic; font-weight:600; font-size:1.15rem; flex:none; }
+.brand .mark{ height:34px; width:auto; object-fit:contain; flex:none; display:block; }
 .brand .names{ display:flex; flex-direction:column; line-height:1.25; }
 .brand .names strong{ font-family:var(--font-serif); font-size:1.02rem; font-weight:500; }
 .brand .names span{ font-size:.66rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.07em; }
@@ -109,8 +127,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .topnav-links{ display:flex; align-items:center; gap:26px; }
 .topnav-links a{ font-size:.88rem; color:var(--ink-muted); padding:6px 2px; border-bottom:2px solid transparent; transition:color .15s, border-color .15s; }
-.topnav-links a:hover{ color:var(--ink); }
-.topnav-links a.current{ color:var(--ink); border-bottom-color:var(--accent-strong); font-weight:600; }
+.topnav-links a:hover{ color:var(--accent); }
+.topnav-links a.current{ color:var(--accent); border-bottom-color:var(--accent-strong); font-weight:600; }
 
 .topnav-actions{ display:flex; align-items:center; gap:18px; }
 
@@ -135,7 +153,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .topnav-mobile.open{ display:flex; }
 .topnav-mobile-inner{ width:100%; padding:6px 20px 22px; display:flex; flex-direction:column; box-sizing:border-box; }
 .topnav-mobile a{ padding:14px 0; font-size:1rem; color:var(--ink-muted); border-bottom:1px solid var(--line); text-align:left; }
-.topnav-mobile a.current{ color:var(--ink); font-weight:600; }
+.topnav-mobile a.current{ color:var(--accent); font-weight:600; }
 .topnav-mobile a:last-of-type{ border-bottom:none; }
 .topnav-mobile .btn{ margin-top:18px; }
 
@@ -190,7 +208,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Bold upright sans instead of the italic serif oldstyle-numerals used
    for ordinal numbers elsewhere (service listings, calendar days) - these
    are stats, not an index, so a distinct, more solid-feeling treatment. */
-.stat-rule strong{ display:block; font-family:var(--font-sans); font-style:normal; font-weight:800; font-size:1.9rem; font-variant-numeric:normal; letter-spacing:-.01em; line-height:1; margin-bottom:6px; }
+.stat-rule strong{ display:block; font-family:var(--font-sans); font-style:normal; font-weight:800; font-size:1.9rem; font-variant-numeric:normal; letter-spacing:-.01em; line-height:1; margin-bottom:6px; color:var(--accent); }
 .stat-rule span{ font-size:.72rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.04em; }
 
 .section{ padding-top:64px; padding-bottom:64px; }
@@ -205,17 +223,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* note / pull quote */
 .note-mark{ font-family:var(--font-serif); font-size:3.4rem; color:var(--line-strong); line-height:.6; margin-bottom:10px; }
 .note blockquote{ font-family:var(--font-serif); font-size:1.5rem; line-height:1.42; max-width:30ch; margin:0 0 26px; font-weight:500; }
-.note-meta{ font-family:var(--font-mono); font-size:.76rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.04em; margin-bottom:30px; }
-.note-points{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; border-top:1px solid var(--line); padding-top:24px; }
-@media (max-width:700px){ .note-points{ grid-template-columns:1fr; } }
-.note-points li{ font-size:.86rem; color:var(--ink-muted); }
-.note-points strong{ display:block; color:var(--ink); font-family:var(--font-serif); font-style:italic; font-size:1.5rem; font-variant-numeric:oldstyle-nums; margin-bottom:6px; }
+.note-meta{ font-family:var(--font-mono); font-size:.76rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.04em; }
 @media (max-width:640px){
   .note-mark{ font-size:2.6rem; margin-bottom:4px; }
   .note blockquote{ font-size:1.22rem; margin-bottom:20px; }
-  .note-meta{ margin-bottom:22px; }
-  .note-points{ gap:16px; padding-top:20px; }
-  .note-points strong{ font-size:1.25rem; }
 }
 
 /* bulletin (blog) list */
@@ -230,7 +241,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .bull-empty{ padding:32px 0; color:var(--ink-muted); font-size:.92rem; }
 
 /* cta band */
-.cta-band{ background:var(--ink); color:var(--paper); }
+.cta-band{ background:var(--ink-brand); color:var(--paper); }
 .cta-inner{ padding-top:64px; padding-bottom:64px; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
 .cta-inner h2{ font-size:clamp(1.5rem, 5vw, 1.9rem); color:var(--paper); max-width:22ch; }
 .cta-inner .btn-primary:hover{ filter:brightness(1.1); }
@@ -240,12 +251,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    pages, practice areas pulled live from the services API, contact) -
    the conventional pattern most professional-services sites use, instead
    of the previous single editorial-statement-plus-contact-block layout. */
-.site-footer{ background:var(--ink); color:rgba(255,255,255,.7); margin-top:48px; }
+.site-footer{ background:var(--ink-brand); color:rgba(255,255,255,.7); margin-top:48px; }
 .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-top:56px; padding-bottom:40px; }
 @media (max-width:900px){ .foot-grid{ grid-template-columns:1fr 1fr; row-gap:36px; } }
 @media (max-width:560px){ .foot-grid{ grid-template-columns:1fr; padding-top:40px; padding-bottom:28px; } }
 
-.foot-brand-col .brand .mark{ background:var(--paper); color:var(--ink); }
 .foot-brand-col .brand strong{ color:var(--paper); }
 .foot-brand-col .brand span{ color:rgba(255,255,255,.5); }
 .foot-statement{ font-size:.92rem; line-height:1.6; max-width:36ch; color:rgba(255,255,255,.6); margin-top:16px; }
@@ -297,9 +307,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-index-top{ display:flex; align-items:center; justify-content:space-between; }
 .svc-index-card .svc-mini-icon{ width:38px; height:38px; transition:border-color .2s ease, background .2s ease; }
 .svc-index-card .svc-mini-icon svg{ width:16px; height:16px; transition:color .2s ease; }
-.svc-index-card:hover .svc-mini-icon{ background:var(--ink); border-color:var(--ink); }
+.svc-index-card:hover .svc-mini-icon{ background:var(--ink-brand); border-color:var(--ink-brand); }
 .svc-index-card:hover .svc-mini-icon svg{ color:var(--paper); }
-.svc-index-num{ font-size:1.1rem; color:var(--line-strong); transition:color .2s ease; }
+.svc-index-num{ font-size:1.1rem; color:var(--accent); transition:color .2s ease; }
 .svc-index-card:hover .svc-index-num{ color:var(--accent-ink); }
 .svc-index-card h3{ font-size:.9rem; line-height:1.3; flex:1; }
 .svc-index-go{ align-self:flex-end; display:flex; }
@@ -317,7 +327,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-back-link-bottom{ margin-top:20px; }
 .svc-compact-head{ display:flex; align-items:center; gap:18px; padding-bottom:18px; margin-bottom:18px; border-bottom:1px solid var(--line); }
 .svc-mini-icon{ flex:none; width:52px; height:52px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; }
-.svc-mini-icon svg{ width:22px; height:22px; color:var(--ink-muted); }
+.svc-mini-icon svg{ width:22px; height:22px; color:var(--accent); }
 .svc-compact-head h1{ font-size:1.4rem; line-height:1.2; margin-bottom:4px; }
 .svc-compact-head p{ font-size:.86rem; color:var(--ink-muted); line-height:1.4; max-width:60ch; }
 .svc-compact-grid{ display:grid; grid-template-columns:1.1fr 1.1fr .9fr; gap:32px; align-items:start; }
@@ -358,7 +368,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-sec p{ color:var(--ink-muted); font-size:.98rem; max-width:64ch; }
 /* Full ink/paper inversion, same treatment as the hub row hover - makes
    "who this is actually for" impossible to skim past. */
-.svc-callout{ background:var(--ink); color:var(--paper); padding:28px 30px; }
+.svc-callout{ background:var(--ink-brand); color:var(--paper); padding:28px 30px; }
 .svc-callout-label{ display:block; font-family:var(--font-mono); font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:rgba(255,255,255,.55); margin-bottom:10px; }
 .svc-callout p{ color:var(--paper); font-size:1.1rem; font-family:var(--font-serif); line-height:1.5; max-width:64ch; }
 .related-title{ font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:6px; }
@@ -416,7 +426,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Hover tooltip - CSS-only, a quick desktop preview before clicking. Touch
    devices don't get hover, so the click-to-select panel below the grid
    (rendered from the same data) is the primary interaction on mobile. */
-.cal-tooltip{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px); background:var(--ink); color:var(--paper); padding:10px 12px; border-radius:4px; min-width:160px; max-width:220px; text-align:left; font-size:.76rem; line-height:1.4; opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:20; box-shadow:var(--shadow-lg); }
+.cal-tooltip{ position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) translateY(4px); background:var(--ink-brand); color:var(--paper); padding:10px 12px; border-radius:4px; min-width:160px; max-width:220px; text-align:left; font-size:.76rem; line-height:1.4; opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:20; box-shadow:var(--shadow-lg); }
 .cal-cell.has-events:hover .cal-tooltip{ opacity:1; transform:translateX(-50%) translateY(0); }
 .cal-tooltip-row + .cal-tooltip-row{ margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,.2); }
 .cal-tooltip-cat{ display:block; font-family:var(--font-mono); font-size:.62rem; text-transform:uppercase; letter-spacing:.04em; opacity:.7; margin-bottom:2px; }
@@ -456,7 +466,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width:900px){ .team-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:520px){ .team-grid{ grid-template-columns:1fr; } }
 .team-card{ background:var(--surface); padding:28px 24px; display:flex; flex-direction:column; gap:14px; }
-.team-avatar{ width:52px; height:52px; border-radius:50%; background:var(--ink); color:var(--paper); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-style:italic; font-size:1.1rem; }
+.team-avatar{ width:52px; height:52px; border-radius:50%; background:var(--ink-brand); color:var(--paper); display:flex; align-items:center; justify-content:center; font-family:var(--font-serif); font-style:italic; font-size:1.1rem; }
 .team-card h3{ font-size:1.02rem; font-family:var(--font-sans); font-weight:600; }
 .team-role{ font-size:.82rem; color:var(--ink-muted); }
 .team-cred{ display:inline-flex; align-self:flex-start; font-family:var(--font-mono); font-size:.66rem; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--line); padding:3px 8px; }
@@ -517,38 +527,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    not on top of it - these previously sat at almost identical fixed
    coordinates and the WhatsApp widget's z-index:1000 buried this button
    underneath it. */
-.to-top{ position:fixed; right:24px; bottom:94px; width:42px; height:42px; border-radius:50%; background:var(--ink); color:var(--paper); border:none; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-lg); opacity:0; transform:translateY(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:140; }
+.to-top{ position:fixed; right:24px; bottom:94px; width:42px; height:42px; border-radius:50%; background:var(--ink-brand); color:var(--paper); border:none; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-lg); opacity:0; transform:translateY(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:140; }
 .to-top.show{ opacity:1; transform:none; pointer-events:auto; }
 .to-top svg{ width:16px; height:16px; }
 .to-top:hover{ filter:brightness(1.3); }
 @media (max-width:768px){ .to-top{ right:19px; bottom:82px; width:38px; height:38px; } }
 
 /* ================= ADMIN LOGIN ================= */
-.admin-login-shell{ min-height:100vh; background:#0A0A0A; color:#F5F5F5; display:flex; align-items:center; justify-content:center; padding:24px; }
+.admin-login-shell{ min-height:100vh; background:var(--ink-brand); color:#F5F5F5; display:flex; align-items:center; justify-content:center; padding:24px; }
 .admin-login-card{ width:100%; max-width:360px; }
 .admin-login-card .brand{ justify-content:center; margin-bottom:36px; }
-.admin-login-card .brand .mark{ background:#F5F5F5; color:#0A0A0A; }
 .admin-login-card .brand .names strong{ color:#fff; }
-.admin-login-card .brand .names span{ color:#7A7A7A; }
+.admin-login-card .brand .names span{ color:#8FAFC2; }
 .admin-login-card h1{ font-size:1.3rem; color:#fff; text-align:center; margin-bottom:28px; }
-.admin-login-card .field label{ color:#7A7A7A; }
-.admin-login-card .field input{ color:#F5F5F5; border-bottom-color:#3B3B3B; }
-.admin-login-card .field input:focus{ border-bottom-color:#F5F5F5; }
-.admin-login-card .btn-primary{ background:#F5F5F5; color:#0A0A0A; }
+.admin-login-card .field label{ color:#8FAFC2; }
+.admin-login-card .field input{ color:#F5F5F5; border-bottom-color:#2C4C61; }
+.admin-login-card .field input:focus{ border-bottom-color:var(--brand-orange); }
+.admin-login-card .btn-primary{ background:var(--brand-orange); color:#fff; }
 .admin-login-card.error-shake{ animation:shake .4s ease; }
 @keyframes shake{ 0%,100%{ transform:translateX(0); } 25%{ transform:translateX(-8px); } 75%{ transform:translateX(8px); } }
 
 /* ================= ADMIN ================= */
 .admin-shell{ display:grid; grid-template-columns:230px 1fr; min-height:100vh; }
-.admin-side{ background:#0A0A0A; color:#F5F5F5; padding:26px 20px; }
-.admin-side .brand .mark{ background:#F5F5F5; color:#0A0A0A; }
+.admin-side{ background:var(--ink-brand); color:#F5F5F5; padding:26px 20px; }
 .admin-side .brand strong{ color:#fff; }
-.admin-side .brand span{ color:#9B9B9B; }
+.admin-side .brand span{ color:#8FAFC2; }
 .admin-nav{ display:flex; flex-direction:column; gap:3px; margin-top:30px; }
-.admin-nav a{ font-size:.85rem; padding:10px 12px; border-radius:5px; color:#B5B5B5; display:block; }
-.admin-nav a.active{ background:rgba(245,245,245,.14); color:#F5F5F5; }
+.admin-nav a{ font-size:.85rem; padding:10px 12px; border-radius:5px; color:#B7CBD8; display:block; }
+.admin-nav a.active{ background:rgba(244,121,32,.18); color:#fff; }
 .admin-nav a:hover{ color:#fff; }
-.admin-logout{ display:block; width:100%; text-align:left; background:none; border:none; margin-top:30px; padding:10px 12px; font-size:.85rem; color:#7A7A7A; border-top:1px solid #262626; cursor:pointer; }
+.admin-logout{ display:block; width:100%; text-align:left; background:none; border:none; margin-top:30px; padding:10px 12px; font-size:.85rem; color:#8FAFC2; border-top:1px solid #1E4258; cursor:pointer; }
 .admin-logout:hover{ color:#fff; }
 /* Below 760px a full-height vertical sidebar would sit as one tall block
    above the dashboard content (grid falls back to a single column, and
@@ -604,8 +612,8 @@ table.admin tr.inactive-row td{ color:var(--ink-faint); }
 }
 .pill{ display:inline-flex; align-items:center; gap:5px; font-size:.7rem; font-weight:600; padding:3px 10px; border-radius:20px; }
 .pill::before{ content:""; width:6px; height:6px; border-radius:50%; }
-.pill.active{ background:var(--accent-tint); color:var(--accent-ink); }
-.pill.active::before{ background:var(--accent-strong); }
+.pill.active{ background:var(--success-tint); color:var(--success); }
+.pill.active::before{ background:var(--success); }
 .pill.archived, .pill.inactive{ background:var(--surface-2); color:var(--ink-faint); }
 .pill.archived::before, .pill.inactive::before{ background:var(--ink-faint); }
 .role-badge{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.03em; padding:2px 8px; border:1px solid var(--line-strong); }

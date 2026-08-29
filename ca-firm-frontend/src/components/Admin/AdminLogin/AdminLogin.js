@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS, API_CONFIG } from '../../../config/api';
+import logoMark from '../../../assets/logo-mark.png';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -31,9 +32,9 @@ const AdminLogin = () => {
     <div className="admin-login-shell">
       <div className={`admin-login-card${error ? ' error-shake' : ''}`}>
         <div className="brand">
-          <span className="mark">A</span>
+          <img src={logoMark} alt="" className="mark" />
           <span className="names">
-            <strong>Antexis Advisory</strong>
+            <strong>Ankita & Associates</strong>
             <span>Admin</span>
           </span>
         </div>

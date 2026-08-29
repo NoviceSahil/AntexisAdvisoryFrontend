@@ -11,7 +11,6 @@ import Home from './components/Home/Home';
 import Services from './components/Services/Services';
 import ServiceDetail from './components/Services/ServiceDetail';
 import Team from './components/Team/Team';
-import Affiliation from './components/Affiliation/Affiliation';
 import Contact from './components/Contact/Contact';
 import ContactSuccess from './components/Contact/ContactSuccess';
 import ApplyOnline from './components/Career/ApplyOnline';
@@ -40,7 +39,6 @@ function App() {
                         <Route path="/services" element={<Services />} />
                         <Route path="/service/:slug" element={<ServiceDetail />} />
                         <Route path="/team" element={<Team />} />
-                        <Route path="/affiliation" element={<Affiliation />} />
                         <Route path="/blog" element={<BlogIndex />} />
                         <Route path="/blog/:id" element={<BlogPage />} />
                         <Route path="/compliance-calendar" element={<ComplianceCalendar />} />

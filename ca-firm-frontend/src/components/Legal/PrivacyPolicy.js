@@ -9,7 +9,7 @@ const PrivacyPolicy = () => (
     <section className="page-hero panel">
       <span className="eyebrow">Legal</span>
       <h1>Privacy Policy</h1>
-      <p>Last updated 18 August 2026. This explains what information Antexis Advisory LLP collects through this website and how it's used.</p>
+      <p>Last updated 18 August 2026. This explains what information Ankita & Associates collects through this website and how it's used.</p>
     </section>
 
     <div className="panel svc-sec" style={{ borderTop: 'none' }}>
@@ -36,7 +36,7 @@ const PrivacyPolicy = () => (
       <h2>Your options</h2>
       <p>
         To request that we delete information you've submitted, email{' '}
-        <a href="mailto:office@antexisadvisory.com" style={{ textDecoration: 'underline' }}>office@antexisadvisory.com</a>{' '}
+        <a href="mailto:office@ankitaassociates.com" style={{ textDecoration: 'underline' }}>office@ankitaassociates.com</a>{' '}
         with your request and we'll action it within a reasonable time.
       </p>
     </div>

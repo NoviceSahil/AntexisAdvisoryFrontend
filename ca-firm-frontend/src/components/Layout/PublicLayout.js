@@ -5,6 +5,7 @@ import NoticeTicker from '../motion/NoticeTicker';
 import BackToTop from '../motion/BackToTop';
 import Footer from '../Footer/Footer';
 import { API_ENDPOINTS } from '../../config/api';
+import logoMark from '../../assets/logo-mark.png';
 
 const navItems = [
   { to: '/', label: 'Home', end: true },
@@ -56,9 +57,9 @@ const PublicLayout = () => {
       <header className="topnav">
         <div className="topnav-inner">
           <NavLink className="brand" to="/">
-            <span className="mark">A</span>
+            <img src={logoMark} alt="" className="mark" />
             <span className="names">
-              <strong>Antexis Advisory</strong>
+              <strong>Ankita & Associates</strong>
               <span>Chartered Accountants</span>
             </span>
           </NavLink>

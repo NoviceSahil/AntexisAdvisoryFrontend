@@ -1,6 +1,6 @@
 {
-  "short_name": "Antexis Advisory",
-  "name": "Antexis Advisory LLP - Chartered Accountants",
+  "short_name": "Ankita & Associates",
+  "name": "Ankita & Associates - Chartered Accountants",
   "icons": [
     {
       "src": "favicon.ico.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#175888",
   "background_color": "#ffffff"
 }

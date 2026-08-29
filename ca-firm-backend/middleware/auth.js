@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const COOKIE_NAME = 'antexis_session';
+const COOKIE_NAME = 'ankita_session';
 
 function verifyToken(req, res, next) {
     const token = req.cookies ? req.cookies[COOKIE_NAME] : null;

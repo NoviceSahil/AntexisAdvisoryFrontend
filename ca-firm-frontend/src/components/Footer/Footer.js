@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../../config/api';
+import logoMark from '../../assets/logo-mark.png';
 
 const DEFAULTS = {
   contact_phone: '+91 82954 50027',
-  contact_email: 'office@antexisadvisory.com',
+  contact_email: 'office@ankitaassociates.com',
   contact_address: 'DSS No. 21, 1st Floor, Huda Sector 13-17, Panipat-132103, Haryana'
 };
 
@@ -32,18 +33,18 @@ const Footer = () => {
       <div className="panel foot-grid">
         <div className="foot-col foot-brand-col">
           <Link to="/" className="brand">
-            <span className="mark">A</span>
+            <img src={logoMark} alt="" className="mark" />
             <span className="names">
-              <strong>Antexis Advisory</strong>
+              <strong>Ankita & Associates</strong>
               <span>Chartered Accountants</span>
             </span>
           </Link>
           <p className="foot-statement">Audit, tax, GST and corporate advisory for growing Indian businesses - led by senior chartered accountants, start to finish.</p>
           <div className="foot-social">
-            <a href="https://www.linkedin.com/company/antexisadvisory/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/company/ankitaassociates/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg {...iconProps}><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M7.5 10v7M7.5 7.2v.01M12 17v-4.3a2.3 2.3 0 014.5 0V17M12 10.2V17" /></svg>
             </a>
-            <a href="https://www.instagram.com/antexis_advisory/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="https://www.instagram.com/ankita_associates/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg {...iconProps}><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" /></svg>
             </a>
           </div>
@@ -54,7 +55,6 @@ const Footer = () => {
           <Link to="/">Home</Link>
           <Link to="/services">Services</Link>
           <Link to="/team">Team</Link>
-          <Link to="/affiliation">Affiliations</Link>
           <Link to="/blog">Blog</Link>
         </div>
 
@@ -78,7 +78,7 @@ const Footer = () => {
 
       <div className="foot-bottom-outer">
         <div className="panel foot-bottom">
-          <span>© {year} Antexis Advisory LLP - regulated by ICAI</span>
+          <span>© {year} Ankita & Associates - regulated by ICAI</span>
           <div className="foot-legal">
             <Link to="/privacy-policy">Privacy</Link>
             <Link to="/terms">Terms</Link>

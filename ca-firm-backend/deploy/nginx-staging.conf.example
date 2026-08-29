@@ -3,8 +3,8 @@
 # level while costing nothing extra to host.
 #
 # 1. Add a DNS A record: staging.yourdomain.com -> same VPS IP as production
-# 2. Copy this to /etc/nginx/sites-available/antexis-staging
-# 3. sudo ln -s /etc/nginx/sites-available/antexis-staging /etc/nginx/sites-enabled/
+# 2. Copy this to /etc/nginx/sites-available/ankita-associates-staging
+# 3. sudo ln -s /etc/nginx/sites-available/ankita-associates-staging /etc/nginx/sites-enabled/
 # 4. sudo nginx -t && sudo systemctl reload nginx
 # 5. sudo certbot --nginx -d staging.yourdomain.com   (separate free cert)
 

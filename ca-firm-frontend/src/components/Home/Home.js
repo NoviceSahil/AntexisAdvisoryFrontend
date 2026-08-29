@@ -52,12 +52,12 @@ const Home = () => {
           Financial clarity, precisely accounted for.
         </h1>
         <p className="lede load-in" style={{ '--rise-delay': '180ms' }}>
-          Antexis Advisory LLP manages audit, tax, compliance and corporate
+          Ankita & Associates manages audit, tax, compliance and corporate
           finance for growing Indian businesses - led by senior chartered
           accountants, start to finish.
         </p>
         <div className="hero-actions load-in" style={{ '--rise-delay': '270ms' }}>
-          <Link to="/contact" className="btn btn-primary">Book a free consultation</Link>
+          <Link to="/contact" className="btn btn-primary">Book a consultation</Link>
           <Link to="/services" className="btn btn-ghost">View services</Link>
         </div>
       </section>
@@ -77,12 +77,7 @@ const Home = () => {
           Every engagement is led by a senior chartered accountant from day
           one - not handed off to a team you&rsquo;ve never met.
         </blockquote>
-        <div className="note-meta">Why businesses choose Antexis Advisory</div>
-        <ul className="note-points">
-          <li><strong className="num">01</strong>Senior-led teams on every engagement, not delegated to a junior bench.</li>
-          <li><strong className="num">02</strong>Clear, plain-language recommendations - not just compliance paperwork.</li>
-          <li><strong className="num">03</strong>Local office in Panipat, with pan-India service.</li>
-        </ul>
+        <div className="note-meta">Our approach</div>
       </Reveal>
 
       <section className="section panel">
@@ -109,7 +104,7 @@ const Home = () => {
       <section className="cta-band">
         <Reveal as="div" className="panel cta-inner">
           <h2>Ready to bring clarity to your books?</h2>
-          <Link to="/contact" className="btn btn-primary">Book a free consultation</Link>
+          <Link to="/contact" className="btn btn-primary">Book a consultation</Link>
         </Reveal>
       </section>
     </>

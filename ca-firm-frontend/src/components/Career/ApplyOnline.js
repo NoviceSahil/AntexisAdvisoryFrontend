@@ -153,8 +153,8 @@ const ApplyOnline = ({ setIsSubmitted }) => {
           </button>
           <p style={{ fontSize: '.82rem', color: 'var(--ink-muted)', marginTop: '18px' }}>
             For any other inquiries, email{' '}
-            <a href="mailto:office@antexisadvisory.com" style={{ textDecoration: 'underline' }}>
-              office@antexisadvisory.com
+            <a href="mailto:office@ankitaassociates.com" style={{ textDecoration: 'underline' }}>
+              office@ankitaassociates.com
             </a>
             .
           </p>

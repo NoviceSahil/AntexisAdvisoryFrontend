@@ -9,7 +9,7 @@
 module.exports = {
     apps: [
         {
-            name: 'antexis-backend',
+            name: 'ankita-associates-backend',
             script: 'server.js',
             cwd: __dirname,
             env: {
@@ -28,9 +28,9 @@ module.exports = {
         // point it at wherever you clone the staging checkout):
         //
         // {
-        //     name: 'antexis-backend-staging',
+        //     name: 'ankita-associates-backend-staging',
         //     script: 'server.js',
-        //     cwd: '/home/deploy/antexis-staging/ca-firm-backend',
+        //     cwd: '/home/deploy/ankita-associates-staging/ca-firm-backend',
         //     env: { NODE_ENV: 'staging' },
         //     instances: 1,
         //     autorestart: true,

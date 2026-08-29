@@ -110,7 +110,7 @@ SELECT * FROM (VALUES
     ('clients_supported', '500'),
     ('regional_offices', '1'),
     ('contact_phone', '+91 82954 50027'),
-    ('contact_email', 'office@antexisadvisory.com'),
+    ('contact_email', 'office@ankitaassociates.com'),
     ('contact_address', 'DSS No. 21, 1st Floor, Huda Sector 13-17, Panipat-132103, Haryana')
 ) AS seed(key, value)
 WHERE NOT EXISTS (SELECT 1 FROM site_settings);

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINTS, API_CONFIG } from '../../config/api';
+import logoMark from '../../assets/logo-mark.png';
 
 // Shared shell for both admin dashboards - dark sidebar, light table area.
 // Deliberately a different visual language from the public site, since
@@ -23,9 +24,9 @@ const AdminShell = ({ subtitle, navItems, children }) => {
     <div className="admin-shell">
       <div className="admin-side">
         <div className="brand">
-          <span className="mark">A</span>
+          <img src={logoMark} alt="" className="mark" />
           <span className="names">
-            <strong>Antexis Advisory</strong>
+            <strong>Ankita & Associates</strong>
             <span>{subtitle}</span>
           </span>
         </div>

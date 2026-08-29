@@ -1,8 +1,8 @@
 # Nginx reverse proxy in front of the Node app (which listens on PORT,
 # default 5000, per .env). Nginx handles TLS; Node never needs to.
 #
-# 1. Copy this to /etc/nginx/sites-available/antexis, edit the domain name
-# 2. sudo ln -s /etc/nginx/sites-available/antexis /etc/nginx/sites-enabled/
+# 1. Copy this to /etc/nginx/sites-available/ankita-associates, edit the domain name
+# 2. sudo ln -s /etc/nginx/sites-available/ankita-associates /etc/nginx/sites-enabled/
 # 3. sudo nginx -t && sudo systemctl reload nginx
 # 4. sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 #    (certbot rewrites this file to add the HTTPS server block automatically)

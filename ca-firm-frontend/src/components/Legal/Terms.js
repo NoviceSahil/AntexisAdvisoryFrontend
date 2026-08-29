@@ -29,7 +29,7 @@ const Terms = () => (
       <h2>Contact</h2>
       <p>
         Questions about these terms can be sent to{' '}
-        <a href="mailto:office@antexisadvisory.com" style={{ textDecoration: 'underline' }}>office@antexisadvisory.com</a>.
+        <a href="mailto:office@ankitaassociates.com" style={{ textDecoration: 'underline' }}>office@ankitaassociates.com</a>.
       </p>
     </div>
   </>
